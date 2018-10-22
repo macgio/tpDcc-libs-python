@@ -1,20 +1,9 @@
-#! /usr/bin/env python
-
-"""
-Utility methods related to names and strings
-"""
-
-from __future__ import print_function, division, absolute_import, unicode_literals
-
-# region Imports
 import os
 import re
 import sys
 import string
-# endregion
 
 
-# region Classes
 class FindUniqueString(object):
     """
     Utility class to get unique strings
@@ -81,11 +70,19 @@ class FindUniqueString(object):
                 continue
 
         return self.increment_string
-    # endregion
-# endregion
 
 
-# region Functions
+def strip_name(name):
+    """
+    Method that strips any |Path and :Namespaces: from a given object DAG path
+    Ns:Rig|Ns:Leg|Ns:Test == Test
+    :param name: str
+    :return: str
+    """
+
+    return name.split('|')[-1].split(':')[-1]
+
+
 def remove_suffix(name):
     """
     Remove suffix from given name string
@@ -422,4 +419,43 @@ def add_unique_postfix(fn):
             return uni_fn
 
     return None
-# endregion
+
+
+def find_unique_name(name, names, inc_format='{name}{count:03}', sanity_count=9999999):
+    """
+    Finds a unique name in a given set of names
+    :param name: str, name to search for in the scene
+    :param names: list<str>, set of strings to check for a unique name
+    :param inc_format: str, used to increment the name
+    :param sanity_count: int, used to prevent infinite search loop. Increment if needed (default=9999999)
+    """
+
+    count = 0
+    ret = name
+    while ret in names:
+        count += 1
+        ret = inc_format.format(name=name, count=count)
+        if sanity_count and count > sanity_count:
+            raise Exception('Unable to find a unique name in {} tries, try a different format.'.format(sanity_count))
+
+    return ret
+
+
+def pad_number(name):
+    """
+    Add a number to a name
+    :param name: str, name to pad
+    :return: str
+    """
+
+    number = get_last_number(name)
+    if number is None:
+        number = 0
+    number_string = str(number)
+    index = name.rfind(number_string)
+    if number < 10:
+        number_string = number_string.zfill(2)
+
+    new_name = name[0:index] + number_string + name[index+1:]
+
+    return new_name

@@ -1,19 +1,6 @@
-#! /usr/bin/env python
-
-"""
-Math library for RigToolkit
-"""
-
-
-from __future__ import print_function, division, absolute_import, unicode_literals
-
-
-# region Imports
 import math
-# endregion
 
 
-# region Classes
 class BaseVector(object):
     pass
 
@@ -42,10 +29,8 @@ class Vector2D(object):
 
         if type(value) == list:
             return Vector2D(self.x+value[0], self.y+value[1])
-# endregion
 
 
-# region Functions
 def is_equal(x, y, tolerance=0.000001):
     """
     Checks if 2 float values are equal withing a given tolerance
@@ -112,4 +97,3 @@ def bounding_box_half_values(bbox_min, bbox_max):
 
 def snap_value(input, snap_value):
     return round((float(input)/snap_value)) * snap_value
-# endregion
