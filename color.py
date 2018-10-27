@@ -79,6 +79,16 @@ class Color(QColor, object):
         return format(rgb[0] << 16 | rgb[1] << 8 | rgb[2], '06' + lettercase)
 
     @classmethod
+    def rgb_to_hex(cls, rgb):
+        """
+        Returns RGB color from hexadecimal
+        :param rgb:
+        :return: str
+        """
+
+        return '#%02x%02x%02x' % rgb
+
+    @classmethod
     def get_random_hex(cls, return_sign=True):
         """
         Returns a random HEX value
@@ -154,9 +164,15 @@ class Color(QColor, object):
         if option:
             color.ann = option + ' Color'
         return color
-    # endregion
 
-    # region Public Functions
+    @classmethod
+    def expand_normalized_rgb(cls, normalized_rgb):
+        return tuple([float(normalized_rgb[0]) * 255, float(normalized_rgb[1]) * 255, float(normalized_rgb[2]) * 255])
+
+    @classmethod
+    def normalized_rgb(cls, rgb):
+        return tuple([float(rgb[0]) / 255, float(rgb[1]) / 255, float(rgb[2]) / 255])
+
     def to_string(self):
         """
         Returns the color with string format
@@ -172,10 +188,7 @@ class Color(QColor, object):
         """
 
         return self.red() < 125 and self.green() < 125 and self.blue() < 125
-    # endregion
 
 
-# region Colors
 DEFAULT_DARK_COLOR = Color(50, 50, 50, 255)
 DEFAULT_LIGHT_COLOR = Color(180, 180, 180, 255)
-# endregion

@@ -686,3 +686,14 @@ def get_column_layout(parent, *widgets):
             layout.addLayout(w)
 
     return layout
+
+
+def get_top_level_widget(w):
+    widget = w
+    while True:
+        parent = widget.parent()
+        if not parent:
+            break
+        widget = parent
+
+        return widget
