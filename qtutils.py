@@ -697,3 +697,43 @@ def get_top_level_widget(w):
         widget = parent
 
         return widget
+
+
+def is_modifier():
+    """
+    Returns True if either the Alt key or Control key is down
+    :return: bool
+    """
+
+    return is_alt_modifier() or is_control_modifier()
+
+
+def is_alt_modifier():
+    """
+    Return True if the Alt key is down
+    :return: bool
+    """
+
+    modifiers = QApplication.keyboardModifiers()
+    return modifiers == Qt.AltModifier
+
+
+def is_control_modifier():
+    """
+    Returns True if the Control key is down
+    :return: bool
+    """
+
+    modifiers = QApplication.keyboardModifiers()
+    return modifiers == Qt.ControlModifier
+
+
+def to_qt_object(long_ptr, qobj=None):
+    """
+    Returns an instance of the Maya UI element as a QWidget
+    """
+
+    if not qobj:
+        qobj = QWidget
+
+    return wrapinstance(long_ptr, qobj)
