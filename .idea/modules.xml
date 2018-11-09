@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/tpPyUtils.iml" filepath="$PROJECT_DIR$/.idea/tpPyUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tpRigToolkit/.idea/tpRigToolkit.iml" filepath="$PROJECT_DIR$/../tpRigToolkit/.idea/tpRigToolkit.iml" />
     </modules>
   </component>
 </project>
