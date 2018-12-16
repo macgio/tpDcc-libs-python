@@ -1,8 +1,349 @@
 import os
 import sys
+import ast
+import time
+from collections import OrderedDict
+
+if sys.version_info[:2] > (2, 7):
+    from importlib import configparser as ConfigParser
+else:
+    import ConfigParser
 
 from Qt.QtCore import *
 from Qt.QtWidgets import *
+
+import tpRigToolkit as tp
+from tpPyUtils import fileio, path
+
+
+class FilseSettings(object):
+    def __init__(self):
+        self.directory = None
+        self.filepath = None
+
+        self.settings_dict = OrderedDict()
+        self.write = None
+
+    # region Public Functions
+    def get(self, name):
+        if name in self.settings_dict:
+            return self.settings_dict[name]
+
+    def set(self, name, value):
+        self.settings_dict[name] = value
+        self._write()
+
+    def get_settings(self):
+        found = list()
+        for setting in self.settings_dict.keys():
+            found.append([setting, self.settings_dict[setting]])
+
+        return found
+
+    def get_file(self):
+        return self.filepath
+
+    def set_directory(self, directory, filename='settings.cfg'):
+        self.directory = directory
+        self.filepath = fileio.create_file(filename=filename, directory=directory)
+        self._read()
+
+        return self.filepath
+
+    def has_setting(self, name):
+        return name in self.settings_dict
+
+    def has_settings(self):
+        if self.settings_dict:
+            return True
+        return False
+
+    def clear(self):
+        self.settings_dict = OrderedDict()
+        self.write()
+    # endregion
+
+    # region Private Functions
+    def _read(self):
+        if not self.filepath:
+            return
+
+        lines = fileio.get_file_lines(self.filepath)
+        if not lines:
+            return
+
+        self.settings_dict = OrderedDict()
+
+        for line in lines:
+            if not line:
+                continue
+            split_line = line.split('=')
+            name = split_line[0].strip()
+            value = split_line[-1].strip()
+            if not value:
+                continue
+            value = path.clean_path(value)
+            try:
+                value = eval(str(value))
+            except Exception:
+                value = str(value)
+
+            self.settings_dict[name] = value
+
+    def _write(self):
+        lines = list()
+        for key in self.settings_dict.keys():
+            value = self.settings_dict[key]
+            if type(value) == str or type(value) == unicode:
+                value = '"{}"'.format(value)
+            if value is None:
+                value = 'None'
+            line = '{0} = {1}'.format(key, str(value))
+            lines.append(line)
+
+        write = fileio.FileWriter(file_path=self.filepath)
+        try:
+            write.write(lines)
+        except Exception:
+            tp.logger.debug('Impossible to write in {}'.format(self.filepath))
+            time.sleep(.1)
+            write.write(lines)
+
+
+class INISettings(object):
+    def __init__(self, filename):
+        """
+        Constructor
+        :param filename: str, INI filename
+        """
+
+        self._file = filename
+        self._parser = ConfigParser.RawConfigParser()
+        self._is_dirty = False
+        try:
+            self._parser.read(self._file)
+        except Exception:
+            tp.logger.warning('Impossible to read INI config file "{}"'.format(filename))
+        self._section = list()
+
+    def __enter__(self):
+        """
+        Utility function to be used with Python 'with' functino
+        """
+
+        return self
+
+    def __exit__(self, type_, value, tb):
+        """
+        Utility function bo be used with Python 'with' function. Release the raw file and parser
+        """
+
+        self.close()
+        return False
+
+    def get_section(self):
+        """
+        Returns the current stack's section
+        """
+
+        return self._section[len(self._section) - 1].upper() if self._section else None
+
+    section = property(get_section)
+
+    def save(self):
+        """
+        Writes INI file to disk
+        """
+
+        if self._is_dirty:
+            if not os.path.exists(os.path.dirname(self._file)):
+                os.makedirs(os.path.dirname(self._file))
+
+            with open(self._file, 'w') as f:
+                self._parser.write(f)
+
+        self._is_dirty = False
+
+    def show_in_explorer(self):
+        """
+        Displays the INI file explorer
+        """
+
+        import subprocess
+        subprocess.Popen(r'explorer /select, {0}'.format(self._file))
+
+    def get(self, section, option, default, eval_=False):
+        """
+        Returns the value associated with a key in a section
+        :param section: str, section containing the key
+        :param option: str, key to use in retrieval
+        :param default: object, value to use if the key is not defined
+        :param eval_: bool, if True, will attempt to evaluate the string returned into a Python type
+        :return: variant, associated value if successful; value passed in as default otherwise
+        """
+
+        if self._parser.has_section(section) and self._parser.has_option(section, option):
+            if isinstance(default, bool):
+                return self._parser.getboolean(section, option)
+            if isinstance(default, float):
+                return self._parser.getfloat(section, option)
+            if isinstance(default, (int, long)):
+                return self._parser.getint(section, option)
+            if eval_:
+                return ast.literal_eval(self._parser.get(section, option))
+            return self._parser.get(section, option)
+        return default
+
+    def set(self, section, option, value):
+        """
+        Sets the value with an associated key in the respective section
+        :param section: str, section containing the key
+        :param option: str, key to use in storing the value
+        :param value: object, value to store
+        """
+
+        if section:
+            if not self._parser.has_section(section):
+                self._parser.add_section(section)
+            self._parser.set(section, option, str(value))
+            self._is_dirty = True
+
+    def remove(self, section, option):
+        """
+        Removes a key in a section
+        :param section: str, section containing the key
+        :param option: str, key to remove
+        :return: bool, True if successful or False, otherwise
+        """
+
+        success = False
+        if section:
+            if self._parser.has_section(section):
+                success = self._parser.remove_option(section, option)
+
+        if success:
+            self._is_dirty = True
+
+        return success
+
+    def push_section(self, section):
+        """
+        Pushes a new section onto the section stack
+        :param section: str, INI section to push
+        :return: str
+        """
+
+        self._section.append(section)
+
+    def pop_section(self):
+        """
+        Removes the current section from the section stack
+        :return: str
+        """
+
+        self._section.pop()
+
+    def import_option(self, option, default, eval_=False):
+        """
+        Returns the value associated with a key in the section at the top of the section stack
+        :param option: str, key to use in retrieval
+        :param default: str, value to use if the key is not defined
+        :param eval_: bool, if True, will attempt to evaluate the string returned into a Python type
+        :return: associated value if successful or the value passed in as default otherwise
+        """
+
+        return self.get(self.section, option, default, eval_)
+
+    def delete_option(self, option):
+        """
+        Removes the associated key in the section at the top of the section stack
+        :param option: key to use in storing the value
+        """
+
+        return self.remove(self.section, option)
+
+    def export_option(self, option, value):
+        """
+        Sets the value with an associated key in the section at the top of the stack's section
+        :param option: str, key to use in storing the value
+        :param value: value to store
+        """
+
+        self.set(self.section, option, value)
+
+    def export_widget(self, option, widget):
+        """
+        Serializes a widget's state to an option, value pair Sets the value with an associated key in the section at the top of the section stack.
+
+        :param str option:   The key to use in storing the value.
+        :param str widget:   The QWidget to extractvalue to store.
+        """
+
+        if isinstance(widget, QComboBox):
+            self.export_option(option, widget.currentIndex())
+        elif isinstance(widget, QCheckBox):
+            self.export_option(option, widget.isChecked())
+        elif isinstance(widget, QToolButton):
+            if widget.isCheckable():
+                self.export_option(option, widget.isChecked())
+        elif isinstance(widget, (QSpinBox, QDoubleSpinBox)):
+            self.export_option(option, widget.value())
+        elif isinstance(widget, QLineEdit):
+            self.export_option(option, widget.text())
+        elif isinstance(widget, (QSize, QPoint)):
+            self.export_option(option, widget.toTuple())
+        else:
+            assert False, "Unknown control type"
+
+    def import_widget(self, option, widget):
+        """
+        Serializes a widget's state to an option, value pair Sets the value with an associated key in the section at the top of the section stack.
+
+        :param str option:   The key to use in storing the value.
+        :param str widget:   The QWidget to extractvalue to store.
+        """
+
+        if isinstance(widget, QComboBox):
+            d = 0 if (widget.currentIndex() < 0) else widget.currentIndex()
+            v = self.import_option(option, d)
+            widget.setCurrentIndex(v)
+        elif isinstance(widget, QCheckBox):
+            d = widget.isChecked()
+            v = self.import_option(option, d)
+            widget.setChecked(v)
+        elif isinstance(widget, QToolButton):
+            if widget.isCheckable():
+                d = widget.isChecked()
+                v = self.import_option(option, d)
+                widget.setChecked(v)
+        elif isinstance(widget, (QSpinBox, QDoubleSpinBox)):
+            d = widget.value()
+            v = self.import_option(option, d)
+            widget.setValue(v)
+        elif isinstance(widget, QLineEdit):
+            d = widget.text()
+            v = self.import_option(option, d)
+            widget.setText(v)
+        elif isinstance(widget, QSize):
+            d = widget.toTuple()
+            v = self.import_option(option, d, True)
+            widget.setWidth(v[0])
+            widget.setHeight(v[1])
+        elif isinstance(widget, QPoint):
+            d = widget.toTuple()
+            v = self.import_option(option, d, True)
+            widget.setX(v[0])
+            widget.setY(v[1])
+        else:
+            assert False, "Unknown control type"
+
+    def close(self):
+        """
+        Closes INI file
+        """
+
+        self.save()
+        self._parser = None
 
 
 class QtIniSettings(QSettings, object):

@@ -40,7 +40,7 @@ class Worker(QThread, object):
 
         with self._queue_mutex:
             self._execute_tasks = False
-            self._wait_condition.notifyAll()
+            self._wait_condition.notify_all()
 
         if wait_for_completion:
             self.wait()
@@ -70,7 +70,7 @@ class Worker(QThread, object):
             else:
                 self._queue.append(work)
 
-            self._wait_condition.notifyAll()
+            self._wait_condition.notify_all()
 
         return uid
 

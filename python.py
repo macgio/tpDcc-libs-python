@@ -79,7 +79,7 @@ def load_python_module(module_name, directory):
     :return: mod, loaded module
     """
 
-    from DccBox.dccutils import path, fileio
+    from tpPyUtils import path, fileio
 
     if path.is_dir(directory):
         full_path = path.join_path(directory, module_name)
@@ -108,7 +108,7 @@ def import_python_module(module_name, directory):
     :return: mod, imported module
     """
 
-    from DccBox.dccutils import path, fileio
+    from tpPyUtils import path, fileio
 
     if not path.is_dir(directory=directory):
         return
@@ -182,8 +182,14 @@ def force_list(var):
     :return: list
     """
 
+    if var is None:
+        return []
+
     if type(var) is not list:
-        var = [var]
+        if type(var) in [tuple]:
+            var = list(var)
+        else:
+            var = [var]
 
     return var
 
@@ -490,7 +496,7 @@ def delete_pyc_file(python_script):
     :param python_script: str
     """
 
-    from DccBox.dccutils import path, fileio
+    from tpPyUtils import path, fileio
 
     script_name = path.get_basename(python_script)
     if not python_script.endswith('.py'):

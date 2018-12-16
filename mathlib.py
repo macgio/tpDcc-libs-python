@@ -213,6 +213,65 @@ class Vector(object):
         return self.get_vector()
 
 
+class BoundingBox(object):
+    """
+    Util class to work with bounding box
+    """
+
+    def __init__(self, bottom_corner_list=None, top_corner_list=None):
+        """
+        Constructor
+        :param bottom_corner_list: list<float, float, float>, vector of bounding box bottom corner
+        :param top_corner_list: list<float, float, float>, vector of bounding box top corner
+        """
+
+        self._create_bounding_box(bottom_corner_list, top_corner_list)
+
+    def _create_bounding_box(self, bottom_corner_list, top_corner_list):
+        """
+        Initializes bounding box
+        :param bottom_corner_list: list<float, float, float>, vector of bounding box bottom corner
+        :param top_corner_list: list<float, float, float>, vector of bounding box top corner
+        """
+
+        self.min_vector = [bottom_corner_list[0], bottom_corner_list[1], bottom_corner_list[2]]
+        self.max_vector = [top_corner_list[0], top_corner_list[1], top_corner_list[2]]
+        self.opposite_min_vector = [top_corner_list[0], bottom_corner_list[1], top_corner_list[2]]
+        self.opposite_max_vector = [bottom_corner_list[0], top_corner_list[1], bottom_corner_list[2]]
+
+    def get_center(self):
+        """
+        Returns the center of the bounding box in a list
+        :return: list<float, float, float>
+        """
+
+        return get_mid_point(self.min_vector, self.max_vector)
+
+    def get_ymax_center(self):
+        """
+        Returns the top center of the bounding box in a list
+        :return: list<float, float, float>
+        """
+
+        return get_mid_point(self.max_vector, self.opposite_max_vector)
+
+    def get_ymin_center(self):
+        """
+        Returns the bottom center of the bounding box in a list
+        :return: list<float, float, float>
+        """
+
+        return get_mid_point(self.min_vector, self.opposite_min_vector)
+
+    def get_size(self):
+        """
+        Returns the size of the bounding box
+        :return: float
+        """
+
+        return get_distance(self.min_vector, self.max_vector)
+
+
 def is_equal(x, y, tolerance=0.000001):
     """
     Checks if 2 float values are equal withing a given tolerance
@@ -281,6 +340,32 @@ def snap_value(input, snap_value):
     return round((float(input)/snap_value)) * snap_value
 
 
+def check_vector(vector):
+    """
+    Returns new Vector object from the given vector
+    :param vector: variant, list<float, float, float> || Vector
+    :return: Vector
+    """
+
+    if isinstance(vector, Vector):
+        return vector
+
+    return Vector(vector[0], vector[1], vector[2])
+
+
+def check_vector_2d(vector):
+    """
+    Returns new Vector2D object from the given vector
+    :param vector: variant, list<float, float> || Vector
+    :return: Vector
+    """
+
+    if isinstance(vector, Vector2D):
+        return vector
+
+    return Vector(vector[0], vector[1])
+
+
 def get_distance(vector1, vector2):
     """
     Returns the distance between two vectors
@@ -289,9 +374,82 @@ def get_distance(vector1, vector2):
     :return: float
     """
 
-    v1 = Vector(vector1)
-    v2 = Vector(vector2)
+    v1 = check_vector(vector1)
+    v2 = check_vector(vector2)
     v = v1 - v2
     dst = v()
 
     return math.sqrt(dst[0] * dst[0]) + (dst[1] * dst[1]) + (dst[2] * dst[2])
+
+
+def get_distance_2d(vector1_2d, vector2_2d):
+    """
+    Returns the distance between two 2D vectors
+    :param vector1_2d: Vector2D
+    :param vector2_2d: Vector2D
+    :return: float, distance between the two 2D vectors
+    """
+
+    v1 = check_vector_2d(vector1_2d)
+    v2 = check_vector_2d(vector2_2d)
+
+    v = v1 - v2
+    dst = v()
+
+    return math.sqrt(dst[0] * dst[0]) + (dst[1] * dst[1])
+
+
+def get_dot_product(vector1, vector2):
+    """
+    Returns the dot product of the two vectors
+    :param vector1: Vector
+    :param vector2: Vector
+    :return: float, dot product between the two vectors
+    """
+
+    v1 = check_vector(vector1)
+    v2 = check_vector(vector2)
+    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z)
+
+
+def get_dot_product_2d(vector1_2d, vector2_2d):
+    """
+    Returns the dot product of the two vectors
+    :param vector1_2d: Vector2D
+    :param vector2_2d: Vector2D
+    :return: float, dot product between the two vectors
+    """
+
+    v1 = check_vector(vector1_2d)
+    v2 = check_vector(vector2_2d)
+
+    return (v1.x * v2.x) + (v1.y * v2.y)
+
+
+def get_mid_point(vector1, vector2):
+    """
+    Get the mid vector between 2 vectors
+    :param vector1: list<float, float, float>
+    :param vector2: list<float, float, float>
+    :return: list<float, float, float>, midpoint vector between vector1 and vector2
+    """
+
+    values = list()
+    for i in range(0, 3):
+        values.append(get_average([vector1[i], vector2[i]]))
+
+    return values
+
+
+def get_average(numbers):
+    """
+    Returns the average value of the given numbers list
+    :param numbers: list<float>, list of the floats to get average from
+    :return: float, average of the floats in numbers list
+    """
+
+    total = 0.0
+    for num in numbers:
+        total += num
+
+    return total / len(numbers)

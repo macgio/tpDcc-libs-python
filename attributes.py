@@ -14,7 +14,7 @@ def attr_type(attr_value):
     :return: str, attribute type
     """
 
-    from DccBox.dccutils import python
+    from tpPyUtils import python
 
     if python.is_none(attr_value):
         return 'null'
@@ -38,7 +38,7 @@ def list_attr_types(s):
     Return a string type for the value
     """
 
-    from DccBox.dccutils import python
+    from tpPyUtils import python
 
     if not python.is_list(s):
         return 'unknown'

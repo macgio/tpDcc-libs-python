@@ -28,7 +28,7 @@ def create_folder(name, directory=None, make_unique=False):
     :return: variant, str || bool, folder name with path or False if the folder creation failed
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     full_path = False
 
@@ -68,7 +68,7 @@ def rename_folder(directory, name, make_unique=False):
     :return: str, path of the renamed folder
     """
 
-    from DccBox.dccutils import path, fileio
+    from tpPyUtils import path, fileio
 
     base_name = path.get_basename(directory=directory)
     if base_name == name:
@@ -105,7 +105,7 @@ def copy_folder(directory, directory_destination, ignore_patterns=[]):
     :return: str, destination directory
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     if not path.is_dir(directory=directory):
         return
@@ -142,7 +142,7 @@ def delete_folder(folder_name, directory):
     :return: str, folder that was deleted with path
     """
 
-    from DccBox.dccutils import path, fileio
+    from tpPyUtils import path, fileio
 
     def delete_read_only_error(action, name, exc):
         """
@@ -167,7 +167,7 @@ def clean_folder(directory):
     :param directory: str
     """
 
-    from DccBox.dccutils import path, fileio, folder
+    from tpPyUtils import path, fileio, folder
 
     base_name = path.get_basename(directory=directory)
     dir_name = path.get_dirname(directory=directory)
@@ -191,7 +191,7 @@ def get_folder_size(directory, round_value=2):
     :return: str
     """
 
-    from DccBox.dccutils import path, fileio
+    from tpPyUtils import path, fileio
 
     size = 0
     for root, dirs, files in os.walk(directory):
@@ -209,7 +209,7 @@ def get_size(file_path, round_value=2):
     :return: int
     """
 
-    from DccBox.dccutils import fileio, path
+    from tpPyUtils import fileio, path
 
     size = 0
     if path.is_dir(file_path):
@@ -249,7 +249,7 @@ def get_folders(root_folder, recursive=False):
     :return: list<str>
     """
 
-    from DccBox.dccutils import path, fileio
+    from tpPyUtils import path, fileio
 
     found_folders = list()
     if not recursive:
@@ -288,7 +288,7 @@ def get_files(root_folder, full_path=False, recursive=False, pattern="*"):
     :return: list<str>
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     if not path.is_dir(root_folder):
         return []
@@ -324,7 +324,7 @@ def get_files_and_folders(directory):
     :return: list<str>
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     if not path.is_dir(directory=directory):
         return
@@ -359,7 +359,7 @@ def get_user_folder(absolute=True):
     :return: str, path to the user folder
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     if absolute:
         return path.clean_path(os.path.abspath(os.path.expanduser('~')))
@@ -373,7 +373,7 @@ def get_temp_folder():
     :return: str, path to the temp folder
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     return path.clean_path(tempfile.gettempdir())
 

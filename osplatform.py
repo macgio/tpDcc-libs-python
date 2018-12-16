@@ -118,7 +118,7 @@ def set_env_var(name, value):
     if name not in os.environ:
         init_env_var(name)
 
-    os.environ[name] = value
+    os.environ[name] = str(value)
 
 
 def get_env_var(name):

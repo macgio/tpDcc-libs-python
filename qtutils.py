@@ -670,10 +670,9 @@ def get_line_layout(title, parent, *widgets):
     return layout
 
 
-def get_column_layout(parent, *widgets):
+def get_column_layout(*widgets):
     """
     Returns a QVBoxLayout with all given widgets added to it
-    :param parent: QWidget
     :param widgets: list<QWidget>
     :return: QVBoxLayout
     """

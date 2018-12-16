@@ -276,7 +276,7 @@ def get_basename(directory, with_extension=True):
     :return: variant, str || bool (if fails)
     """
 
-    from DccBox.dccutils import fileio
+    from tpPyUtils import fileio
 
     try:
         base_name = os.path.basename(directory)

@@ -106,7 +106,7 @@ def remove_suffix(name):
 
 def get_numeric_name(text, names):
 
-    from DccBox.dccutils import python as utils
+    from tpPyUtils import python as utils
 
     if text in names:
         text = re.sub('\\d*$', '', text)
