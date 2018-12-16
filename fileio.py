@@ -88,7 +88,7 @@ class FileManager(object):
         :return: bool
         """
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         if not path.is_dir(self.file_path):
             if warning_text is not None:
@@ -104,7 +104,7 @@ class FileManager(object):
         :return: bool
         """
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         dir_name = path.get_dirname(self.file_path)
 
@@ -122,7 +122,7 @@ class FileManager(object):
         :return: bool
         """
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         if not path.is_file(self.file_path):
             if warning_text is not None:
@@ -239,7 +239,7 @@ class FileVersion(object):
 
     def __init__(self, file_path):
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         self.file_path = file_path
         if file_path:
@@ -283,7 +283,7 @@ class FileVersion(object):
         :return: bool
         """
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         version_folder = self._get_version_folder()
         if path.is_dir(version_folder):
@@ -295,7 +295,7 @@ class FileVersion(object):
         :return: str
         """
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         versions = self.get_versions()
         latest_version = versions[-1]
@@ -309,7 +309,7 @@ class FileVersion(object):
         :return: list
         """
 
-        from DccBox.dccutils import folder, sort
+        from tpPyUtils import folder, sort
 
         version_folder = self._get_version_folder()
         files = folder.get_files_and_folders(directory=version_folder)
@@ -352,7 +352,7 @@ class FileVersion(object):
         :return: list<int>, list of version numbers
         """
 
-        from DccBox.dccutils import folder
+        from tpPyUtils import folder
 
         version_folder = self._get_version_folder()
         files = folder.get_files_and_folders(directory=version_folder)
@@ -400,7 +400,7 @@ class FileVersion(object):
         :return: str, new version file name
         """
 
-        from DccBox.dccutils import folder, path
+        from tpPyUtils import folder, path
 
         if not comment:
             comment = '-'
@@ -428,7 +428,7 @@ class FileVersion(object):
         :return: list<str, str>, tuple with comment and user of the given version
         """
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         file_path = self._get_comment_path()
         if not file_path:
@@ -466,7 +466,7 @@ class FileVersion(object):
         :return: list<str, str, str, str, str, str>, tuple with version, comment, user, file_size, modified, version_file
         """
 
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         versions = self.get_versions(return_version_numbers_also=True)
         if not versions:
@@ -553,7 +553,7 @@ class FileVersion(object):
 
     # region Private Functions
     def _get_version_folder(self):
-        from DccBox.dccutils import path
+        from tpPyUtils import path
 
         if path.is_file(self.file_path):
             dir_name = path.get_dirname(self.file_path)
@@ -564,16 +564,16 @@ class FileVersion(object):
         return version_path
 
     def _get_version_path(self, version_number):
-        from DccBox.dccutils import path
+        from tpPyUtils import path
         return path.join_path(self._get_version_folder(), self._version_name + '.' + str(version_number))
 
     def _get_version_number(self, file_path):
-        from DccBox.dccutils import name
+        from tpPyUtils import name
         version_number = name.get_last_number(input_string=file_path)
         return version_number
 
     def _get_comment_path(self):
-        from DccBox.dccutils import path
+        from tpPyUtils import path
         version_folder = self._get_version_folder()
         file_path = None
         if version_folder:
@@ -582,14 +582,14 @@ class FileVersion(object):
         return file_path
 
     def _create_version_folder(self):
-        from DccBox.dccutils import folder
+        from tpPyUtils import folder
         self._version_folder = folder.create_folder(name=self._version_folder_name, directory=self._path)
 
     def _create_comment_file(self):
         self.comment_file = create_file(filename='comments.txt', directory=self._version_folder)
 
     def _increment_version_file_name(self):
-        from DccBox.dccutils import path
+        from tpPyUtils import path
         version_path = path.join_path(self._version_folder, self._version_name + '.1')
         return path.unique_path_name(directory=version_path)
     # endregion
@@ -606,12 +606,11 @@ def open_browser(file_path):
 
     # TODO: Only work on Windows, make it cross platform
 
-    from DccBox.dccutils import platform
+    from tpPyUtils import osplatform
 
-
-    if platform.is_windows():
+    if osplatform.is_windows():
         os.startfile(file_path)
-    elif platform.is_linux():
+    elif osplatform.is_linux():
         try:
             opener = 'open' if sys.platform == 'darwin' else 'xdg-open'
             subprocess.call([opener, file_path])
@@ -628,7 +627,7 @@ def create_file(filename, directory, make_unique=False):
     :return: variant, str || bool, filename with path or False if create file failed
     """
 
-    from DccBox.dccutils import name, path
+    from tpPyUtils import name, path
 
     filename = name.clean_file_string(filename)
     full_path = path.join_path(directory, filename)
@@ -682,7 +681,7 @@ def delete_file(name, directory):
     :return: str, file path that was deleted
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     full_path = path.join_path(directory, name)
     if not path.is_file(full_path):
@@ -704,7 +703,7 @@ def rename_file(name, directory, new_name, new_version=False):
     :return:
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     full_path = path.join_path(directory, name)
     if not path.is_file(full_path):
@@ -813,7 +812,7 @@ def is_file_in_dir(filename, directory):
     :return: bool
     """
 
-    from DccBox.dccutils import path
+    from tpPyUtils import path
 
     file_path = path.join_path(directory, filename)
     return os.path.isfile(file_path)
@@ -877,7 +876,7 @@ def get_size(file_path, round_value=2):
     :return: int
     """
 
-    from DccBox.dccutils import folder, path
+    from tpPyUtils import folder, path
 
     size = 0
     if path.is_dir(file_path):
