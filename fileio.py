@@ -12,6 +12,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import os
 import sys
 import stat
+import json
 import string
 import shutil
 import getpass
@@ -173,6 +174,9 @@ class FileWriter(FileManager, object):
     def __init__(self, file_path):
         super(FileWriter, self).__init__(file_path=file_path)
 
+        from tpPyUtils import osplatform
+
+        osplatform.get_permission(file_path)
         self.append = False
 
     # region Override Functions
@@ -205,7 +209,23 @@ class FileWriter(FileManager, object):
         """
 
         self.write_file()
-        self.open_file.write('%s\n' % line)
+        try:
+            self.open_file.write('%s\n' % line)
+        except Exception:
+            pass
+        self.close_file()
+
+    def write_json(self, dict_data):
+        """
+        Writes given JSON data (dict) into file
+        :param dict_data: dict
+        """
+
+        self.write_file()
+        try:
+            json.dump(dict_data, self.open_file, indent=4, sort_keys=True)
+        except Exception:
+            pass
         self.close_file()
 
     def write(self, lines, last_line_empty=True):
@@ -606,7 +626,10 @@ def open_browser(file_path):
 
     # TODO: Only work on Windows, make it cross platform
 
-    from tpPyUtils import osplatform
+    from tpPyUtils import osplatform, path
+
+    if not path.is_file(file_path) and not path.is_dir(file_path):
+        return
 
     if osplatform.is_windows():
         os.startfile(file_path)
@@ -768,6 +791,7 @@ def replace(file_path, pattern, subst):
                     pass
     #Remove original file
     os.remove(file_path)
+
     #Move new file
     move(abs_path, file_path)
 

@@ -26,7 +26,7 @@ try:
 except ImportError:
     from shiboken2 import wrapInstance
 
-from tpPyUtils import fileio, string, path, python
+from tpPyUtils import fileio, strings, path, python
 
 def is_pyqt():
     """
@@ -199,8 +199,8 @@ def create_qrc_file(src_paths, dst_file):
             assert root != dirs
 
             if max_level is not None:
-                cur_dir = string.strips(root, top_fullpath)
-                path_levels = string.strips(cur_dir, "/").count("/")
+                cur_dir = strings.strips(root, top_fullpath)
+                path_levels = strings.strips(cur_dir, "/").count("/")
                 if path_levels > max_level:
                     continue
 
@@ -220,7 +220,7 @@ def create_qrc_file(src_paths, dst_file):
                     if output_prefix is None:
                         cur_file_fullpath = os.path.join(top_par_fullpath_prefix, root, filename)
                     else:
-                        buf = string.strips(os.path.join(root, filename), top_fullpath)
+                        buf = strings.strips(os.path.join(root, filename), top_fullpath)
                         if output_prefix != "''":
                             cur_file_fullpath = os.path.join(output_prefix, buf.strip('/'))
                         else:

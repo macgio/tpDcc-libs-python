@@ -13,27 +13,45 @@ from Qt.QtCore import *
 from Qt.QtWidgets import *
 
 import tpRigToolkit as tp
-from tpPyUtils import fileio, path
+from tpPyUtils import fileio, path, jsonio
 
 
-class FilseSettings(object):
+class FileSettings(object):
     def __init__(self):
         self.directory = None
-        self.filepath = None
+        self.file_path = None
 
         self.settings_dict = OrderedDict()
         self.write = None
 
     # region Public Functions
     def get(self, name):
+        """
+        Get a stored setting
+        :param name: str, name of the setting to retrieve. Returns None, if setting is not found
+        :return: variant, None || str
+        """
+
         if name in self.settings_dict:
             return self.settings_dict[name]
 
     def set(self, name, value):
+        """
+        Set the value of a specific setting. If the setting does not exists, the setting is created with the
+        given value
+        :param name: str, name of the setting
+        :param value: varinat, value of the setting
+        """
+
         self.settings_dict[name] = value
         self._write()
 
     def get_settings(self):
+        """
+        Returns a list with all the settings stored
+        :return: list<list<str, variant>>
+        """
+
         found = list()
         for setting in self.settings_dict.keys():
             found.append([setting, self.settings_dict[setting]])
@@ -41,34 +59,71 @@ class FilseSettings(object):
         return found
 
     def get_file(self):
-        return self.filepath
+        """
+        Retuns the file path of the settings file
+        :return: str
+        """
+
+        return self.file_path
 
     def set_directory(self, directory, filename='settings.cfg'):
+        """
+        Set the file that is used to stred settins on file
+        :param directory: str
+        :param filename: str
+        :return: str
+        """
+
         self.directory = directory
-        self.filepath = fileio.create_file(filename=filename, directory=directory)
+        self.file_path = fileio.create_file(filename=filename, directory=directory)
         self._read()
 
-        return self.filepath
+        return self.file_path
 
     def has_setting(self, name):
+        """
+        Retturns if a specific name is stored
+        :param name: str, name of the setting
+        :return: bool
+        """
+
         return name in self.settings_dict
 
     def has_settings(self):
+        """
+        Returns if there are settings stored or not
+        :return: bool
+        """
+
         if self.settings_dict:
             return True
         return False
 
+    def reload(self):
+        """
+        Forces the reading of the settings
+        """
+
+        self._read()
+
     def clear(self):
+        """
+        Cleans the stored settings
+        """
+
         self.settings_dict = OrderedDict()
         self.write()
     # endregion
 
     # region Private Functions
     def _read(self):
-        if not self.filepath:
+        """
+        Internal function used to read settings from file
+        """
+        if not self.file_path:
             return
 
-        lines = fileio.get_file_lines(self.filepath)
+        lines = fileio.get_file_lines(self.file_path)
         if not lines:
             return
 
@@ -79,7 +134,7 @@ class FilseSettings(object):
                 continue
             split_line = line.split('=')
             name = split_line[0].strip()
-            value = split_line[-1].strip()
+            value = split_line[-1]
             if not value:
                 continue
             value = path.clean_path(value)
@@ -91,6 +146,10 @@ class FilseSettings(object):
             self.settings_dict[name] = value
 
     def _write(self):
+        """
+        Internal function that writes stored settings into text file
+        """
+
         lines = list()
         for key in self.settings_dict.keys():
             value = self.settings_dict[key]
@@ -101,13 +160,109 @@ class FilseSettings(object):
             line = '{0} = {1}'.format(key, str(value))
             lines.append(line)
 
-        write = fileio.FileWriter(file_path=self.filepath)
+        write = fileio.FileWriter(file_path=self.file_path)
         try:
             write.write(lines)
         except Exception:
-            tp.logger.debug('Impossible to write in {}'.format(self.filepath))
+            tp.logger.debug('Impossible to write in {}'.format(self.file_path))
             time.sleep(.1)
             write.write(lines)
+
+
+class JSONSettings(FileSettings, object):
+    def __init__(self):
+        super(JSONSettings, self).__init__()
+
+    # region Override Functions
+    def set_directory(self, directory, filename='settings.json'):
+        self.directory = directory
+
+        # Check that given file name is a valid JSON file
+        if not filename.endswith('.json'):
+            old = path.join_path(directory, filename)
+            if path.is_file(old):
+                self.file_path = old
+                self._read()
+                return
+
+        self.file_path = fileio.create_file(filename=filename, directory=directory)
+
+        self._read()
+
+        return self.file_path
+
+    def _write(self):
+        """
+        Override function to add support to write JSON files
+        """
+
+        file_path = self._get_json_file()
+        if not file_path:
+            return
+
+        writer = fileio.FileWriter(file_path)
+        writer.write_json(self.settings_dict.items())
+
+    def _read(self):
+        """
+        Override function to add support to read JSON files
+        """
+
+        if not self._has_json_file():
+            self.settings_dict = OrderedDict()
+            return
+
+        file_path = self._get_json_file()
+        if not file_path:
+            return
+        self.file_path = file_path
+
+        try:
+            data = OrderedDict(jsonio.read_file(file_path))
+        except Exception:
+            self.settings_dict = OrderedDict()
+            return
+
+        self.settings_dict = data
+    # endregion
+
+    # region Private Functions
+    def _get_json_file(self):
+        """
+        Internal function that returns JSON file where settings are stored
+        :return: str
+        """
+
+        if not self.file_path:
+            return
+
+        settings_directory = path.get_dirname(self.file_path)
+        name = path.get_basename(self.file_path, with_extension=False)
+        file_path = fileio.create_file(name+'.json', settings_directory)
+        if not file_path:
+            test_path = path.join_path(settings_directory, name+'.json')
+            if path.is_file(test_path):
+                file_path = test_path
+
+        return file_path
+
+    def _has_json_file(self):
+        """
+        Checks if the JSON file where settings should be stored exists or not
+        :return: bool
+        """
+
+        if not self.file_path:
+            return False
+
+        settings_directory = path.get_dirname(self.file_path)
+        name = path.get_basename(self.file_path, with_extension=False)
+        file_path = path.join_path(settings_directory, name+'.json')
+        if path.is_file(file_path):
+            return True
+
+        return False
+    # endregion
 
 
 class INISettings(object):

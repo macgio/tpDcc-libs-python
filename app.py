@@ -8,7 +8,7 @@ Module that contains utility functions related with apps
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 
-def is_in_nuke():
+def is_nuke():
     """
     Checks if Nuke is available or not
     :return: bool

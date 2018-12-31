@@ -532,7 +532,7 @@ def convert_list_to_string(*args):
         args = new_args
         if not args:
             return  ''
-        string_value = string.join(args)
+        string_value = strings.join(args)
         string_value = string_value.replace('\n', '\t\n')
         if string_value.endswith('\t\n'):
             string_value = string_value[:-2]

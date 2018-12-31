@@ -91,10 +91,14 @@ def get_permission(filepath):
     :param filepath: str
     """
 
+    if os.access(filepath, os.R_OK | os.W_OK | os.X_OK):
+        return True
+
     try:
         os.chmod(filepath, 0777)
-    except:
-        return
+        return True
+    except Exception:
+        return False
 
 
 def init_env_var(name):
@@ -139,7 +143,12 @@ def append_env_var(name, value):
     """
 
     env_value = get_env_var(name=name)
-    env_value += str(value)
+
+    try:
+        env_value += str(value)
+    except Exception:
+        pass
+
     set_env_var(name=name, value=env_value)
 
 
