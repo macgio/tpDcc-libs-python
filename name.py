@@ -36,7 +36,7 @@ class FindUniqueString(object):
             number = str(number).zfill(self.padding)
 
         if exp:
-            self.increment_string = '{0}{1}{2}'.fomat(self.test_string[:exp.start()], number, self.test_string[exp.end():])
+            self.increment_string = '{0}{1}{2}'.format(self.test_string[:exp.start()], number, self.test_string[exp.end():])
         else:
             split_dot = self.test_string.split('.')
             if len(split_dot) > 1:

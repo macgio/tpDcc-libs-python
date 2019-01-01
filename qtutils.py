@@ -28,6 +28,13 @@ except ImportError:
 
 from tpPyUtils import fileio, strings, path, python
 
+
+# ==============================================================================
+
+QWIDGET_SIZE_MAX = (1 << 24) - 1
+
+# ==============================================================================
+
 def is_pyqt():
     """
     Returns True if the current Qt binding is PyQt
@@ -613,6 +620,8 @@ def get_permission(message=None, cancel=True, title='Permission', parent=None):
         return True
     elif result == QMessageBox.No:
         return False
+    elif result == QMessageBox.Cancel:
+        return None
 
     return None
 
@@ -643,6 +652,8 @@ def get_save_permission(message, file_path=None, title='Permission', parent=None
         return True
     elif message_box.clickedButton() == no_save:
         return False
+    elif message_box.clickedButton() == cancel:
+        return None
 
     return None
 
@@ -736,3 +747,60 @@ def to_qt_object(long_ptr, qobj=None):
         qobj = QWidget
 
     return wrapinstance(long_ptr, qobj)
+
+
+def critical_message(message, parent=None):
+    """
+    Shows a critical message
+    :param message: str
+    :param parent: QWidget
+    """
+
+    parent = None
+    message_box = QMessageBox(parent)
+    flags = message_box.windowFlags() ^ Qt.WindowContextHelpButtonHint | Qt.WindowStaysOnTopHint
+    message_box.setWindowFlags(flags)
+    message_box.critical(parent, 'Critical Error', message)
+
+
+def warning_message(message, parent=None):
+    """
+    Shows a warning message
+    :param message: str
+    :param parent: QWidget
+    """
+
+    parent = None
+    message_box = QMessageBox(parent)
+    flags = message_box.windowFlags() ^ Qt.WindowContextHelpButtonHint | Qt.WindowStaysOnTopHint
+    message_box.setWindowFlags(flags)
+    message_box.warning(parent, 'Warning', message)
+
+
+def info_message(message, parent=None):
+    """
+    Shows a warning message
+    :param message: str
+    :param parent: QWidget
+    """
+
+    parent = None
+    message_box = QMessageBox(parent)
+    flags = message_box.windowFlags() ^ Qt.WindowContextHelpButtonHint | Qt.WindowStaysOnTopHint
+    message_box.setWindowFlags(flags)
+    message_box.setText(message)
+    message_box.exec_()
+
+
+def about_message(message, parent=None):
+    """
+    Shows an about message
+    :param message: str
+    :param parent: QWidget
+    """
+
+    parent = None
+    message_box = QMessageBox(parent)
+    flags = message_box.windowFlags() ^ Qt.WindowContextHelpButtonHint | Qt.WindowStaysOnTopHint
+    message_box.setWindowFlags(flags)
+    message_box.about(parent, 'About', message)

@@ -68,7 +68,7 @@ class FileSettings(object):
 
     def set_directory(self, directory, filename='settings.cfg'):
         """
-        Set the file that is used to stred settins on file
+        Set the file that is used to stored settins on file
         :param directory: str
         :param filename: str
         :return: str
@@ -82,7 +82,7 @@ class FileSettings(object):
 
     def has_setting(self, name):
         """
-        Retturns if a specific name is stored
+        Returns if a specific name is stored
         :param name: str, name of the setting
         :return: bool
         """
