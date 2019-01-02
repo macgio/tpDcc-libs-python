@@ -14,7 +14,6 @@ import subprocess
 
 import maya.cmds as cmds
 import maya.OpenMayaUI as OpenMayaUI
-import shiboken2 as shiboken
 
 from Qt.QtCore import *
 from Qt.QtWidgets import *
