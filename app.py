@@ -45,3 +45,16 @@ def is_max():
         return True
     except ImportError:
         return False
+
+
+def is_houdini():
+    """
+    Checks if Houdini is available or not
+    :return: bool
+    """
+
+    try:
+        import hou
+        return True
+    except ImportError:
+        return False
