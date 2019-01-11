@@ -112,7 +112,7 @@ class FileSettings(object):
         """
 
         self.settings_dict = OrderedDict()
-        self.write()
+        self._write()
     # endregion
 
     # region Private Functions

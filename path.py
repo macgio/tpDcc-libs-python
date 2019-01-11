@@ -371,7 +371,7 @@ def remove_common_path(path1, path2):
                     skip = False
             if (len(split_path1) - 1) < i:
                 skip = False
-        else:
+        if not skip:
             new_path.append(split_path2[i])
 
     new_path = string.join(new_path, '/')

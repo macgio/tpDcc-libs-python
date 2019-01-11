@@ -157,7 +157,7 @@ def get_first_number(input_string, as_string=False):
 def get_last_number(input_string, as_string=False):
     """
     Returns the last number of the given string
-    :param input_string: str
+    :param input_string: str, string to search for a number
     :param as_string: bool, Whether the found number should be returned as integer or as string
     :return: variant, str || int
     """
@@ -180,7 +180,7 @@ def get_last_number(input_string, as_string=False):
 def get_end_number(input_string, as_string=False):
     """
     Get the number at the end of a string
-    :param input_string: bool, Whether the found number should be returned as integer or as string
+    :param input_string: bool, string to search for a number
     :param as_string: bool, Whether the found number should be returned as integer or as string
     :return: variant, str || int,  number at the end of te string
     """
@@ -196,6 +196,48 @@ def get_end_number(input_string, as_string=False):
         return found
     else:
         return int(found)
+
+
+def get_trailing_number(input_string, as_string=False, number_count=-1):
+    """
+    Returns the number at the very end of a string. If number not at the end of the string, returns None
+    :param input_string: str, string to get trailing number of
+    :param as_string: bool, Whether to return the trailing number as an string or an integer
+    :param number_count: int, padding trailing count
+    :return: variant, str || int
+    """
+
+    if not input_string:
+        return None
+
+    number = '\d+'
+    if number_count > 0:
+        number = '\d' * number_count
+
+    group = re.match('([a-zA-Z_0-9]+)(%s$)' % number, input_string)
+    if group:
+        number = group.group(2)
+        if as_string:
+            return number
+        else:
+            return int(number)
+
+    return None
+
+
+def get_last_letter(input_string):
+    """
+    Returns the last letter of the given string
+    :param input_string: str, string to search for a letter
+    :return: str, last letter in the string
+    """
+
+    search = search_last_letter(input_string)
+    if not search:
+        return None
+
+    found_str = search.group()
+    return found_str
 
 
 def convert_side_name(name):
@@ -304,9 +346,9 @@ def clean_file_string(string):
     return string
 
 
-def clean_name_string(string_value, clean_chars='_', remove_char='_'):
+def clean_name_string(string_value, clean_chars='_', remove_chars='_'):
     """
-    Clean given string by cleaning given clean_char and removeing remove_chars
+    Clean given string by cleaning given clean_char and removing given remove_chars
     :param string_value: str
     :param clean_chars: str
     :param remove_chars: str
@@ -315,10 +357,10 @@ def clean_name_string(string_value, clean_chars='_', remove_char='_'):
 
     string_value = re.sub('^[^A-Za-z0-9%s]+' % clean_chars, '', string_value)
     string_value = re.sub('[^A-Za-z0-9%s]+$' % clean_chars, '', string_value)
-    string_value = re.sub('[^A-Za-z0-9]', remove_char, string_value)
+    string_value = re.sub('[^A-Za-z0-9]', remove_chars, string_value)
 
     if not string_value:
-        string_value = remove_char
+        string_value = remove_chars
 
     return string_value
 
@@ -358,8 +400,8 @@ def replace_last_number(input_string, replace_string):
     search = regex.search(input_string)
     if not search:
         return input_string + replace_string
-    else:
-        return input_string[:search.start()] + replace_string + input_string[search.end():]
+
+    return input_string[:search.start()] + replace_string + input_string[search.end():]
 
 
 def increment_first_number(input_string, value=1):
@@ -392,6 +434,18 @@ def increment_last_number(input_string, value=1):
         new_string = input_string + '{}'.format(value)
 
     return new_string
+
+
+def search_last_letter(input_string):
+    """
+    Returns the last letter in a string
+    :param input_string: str, string to search for a letter
+    :return: str, last letter in the string
+    """
+
+    match = re.findall('[_a-zA-Z]+', input_string)
+    if match:
+        return match[-1][-1]
 
 
 def format_path(path):
@@ -439,6 +493,71 @@ def find_unique_name(name, names, inc_format='{name}{count:03}', sanity_count=99
             raise Exception('Unable to find a unique name in {} tries, try a different format.'.format(sanity_count))
 
     return ret
+
+
+def find_special(pattern, string_value, position_string):
+    """
+    Searchs given regular expressin pattern in the given string
+    :param pattern: str, regular expression pattern to search for
+    :param string_value: str, string to search in
+    :param position_string: str, 'start', 'end', 'first', 'last', 'inside', where the pattern should search
+    :return: tuple(int, int): start and end indexes of the found pattern. Returns (None, None) if pattern is not found
+    """
+
+    char_count = len(string_value)
+    found_iter = re.finditer(pattern, string_value)
+    found = list()
+    index_start = None
+    index_end = None
+
+    for item in found_iter:
+        found.append(item)
+    if not found:
+        return None, None
+
+    if position_string == 'end':
+        index_start = found[-1].start()
+        index_end = found[-1].end()
+
+        if index_end > char_count or index_end < char_count:
+            return None, None
+
+        return index_start, index_end
+    elif position_string == 'start':
+        index_start = found[0].start()
+        index_end = found[0].end()
+
+        if index_start != 0:
+            return None, None
+        return index_start, index_end
+    elif position_string == 'first':
+        index_start = found[0].start()
+        index_end = found[0].end()
+
+        return index_start, index_end
+    elif position_string == 'last':
+        index_start = found[-1].start()
+        index_end = found[-1].end()
+
+        return index_start, index_end
+    elif position_string == 'inside':
+        start_index = None
+        end_index = None
+        for match in found:
+            start_index = match.start()
+            end_index = match.end()
+
+            if start_index == 0:
+                continue
+            if end_index > char_count:
+                continue
+
+            break
+
+        index_start = start_index
+        index_end = end_index
+
+    return index_start, index_end
 
 
 def pad_number(name):

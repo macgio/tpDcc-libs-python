@@ -68,7 +68,7 @@ def rename_folder(directory, name, make_unique=False):
     :return: str, path of the renamed folder
     """
 
-    from tpPyUtils import path, fileio
+    from tpPyUtils import path
 
     base_name = path.get_basename(directory=directory)
     if base_name == name:

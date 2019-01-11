@@ -11,6 +11,8 @@
 import os
 import logging
 
+from tpPyUtils import osplatform
+
 
 class LoggerLevel:
     def __init__(self):
@@ -100,3 +102,40 @@ class Logger(object):
         return os.path.join(osplatform.get_system_config_directory(), root_folder, '{}.{}'.format(self._name, log_extension))
 
     # endregion
+
+
+def start_temp_log(log_name):
+    """
+    Initializes a new temp and stores its results in environment variable
+    :param log_name: str, name of the log
+    """
+
+    osplatform.set_env_var('{}_KEEP_TEMP_LOG'.format(log_name.upper()), 'True')
+    osplatform.set_env_var('{}_TEMP_LOG'.format(log_name.upper()), '')
+
+
+def record_temp_log(log_name, value):
+    """
+    Adds a new value to the temp log with the given name (if exists)
+    :param log_name: str, name of the log we want to add value into
+    :param value: str
+    """
+
+    if osplatform.get_env_var('{}_KEEP_TEMP_LOG'.format(log_name.upper())) == 'True':
+        value = value.replace('\t', '  ')
+        osplatform.append_env_var('{}_TEMP_LOG'.format(log_name.upper()), value)
+
+
+def end_temp_log(log_name):
+    """
+    Removes temp log with given name and returns its contents
+    :param log_name: str, nam of the temp log we want to remove
+    :return: str
+    """
+
+    osplatform.set_env_var('{}_KEEP_TEMP_LOG'.format(log_name.upper()), 'False')
+    value = osplatform.get_env_var('{}_TEMP_LOG'.format(log_name.upper()))
+    osplatform.set_env_var('{}_TEMP_LOG'.format(log_name.upper()), '')
+    osplatform.set_env_var('{}_LAST_TEMP_LOG'.format(log_name.upper()), value)
+
+    return value

@@ -11,6 +11,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 # region Imports
 import re
 import os
+import string
 # endregion
 
 # region Constants
@@ -182,6 +183,7 @@ def strip_prefix(name, split='_'):
         return name
 
     return split.join(name.split(split)[1:])
+
 
 def strip_suffix(name, split='_'):
     """

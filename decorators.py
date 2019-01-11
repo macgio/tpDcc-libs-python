@@ -193,3 +193,15 @@ def try_pass(fn):
             print(traceback.format_exc())
         return return_value
     return wrapper
+
+
+def empty_decorator(f):
+    """
+    Empty decorator
+    :param f: fn
+    """
+
+    def wrapper(*args, **kwargs):
+        r = f(*args, **kwargs)
+        return r
+    return wrapper

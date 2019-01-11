@@ -60,7 +60,7 @@ def get_current_time(date_and_time=True, reverse_date=False):
     if len(minute) == 1:
         minute = '0'+minute
     if len(second) == 1:
-        second = second + '0'
+        second += '0'
 
     time_value = '{}:{}:{}'.format(hour, minute, second)
 

@@ -190,5 +190,47 @@ class Color(QColor, object):
         return self.red() < 125 and self.green() < 125 and self.blue() < 125
 
 
+class RubberRectColors(object):
+    """
+    Class that store predefined colors for rubber rects
+    """
+
+    BaseColor = QColor(255, 255, 255, 50)
+
+
+class GridColors(object):
+    """
+    Class that store predefined colors for grids
+    """
+
+    BaseColor = QColor(60, 60, 60, 100)
+    DarkerColor = QColor(20, 20, 20, 100)
+
+# =================================================================================================================
+
+
 DEFAULT_DARK_COLOR = Color(50, 50, 50, 255)
 DEFAULT_LIGHT_COLOR = Color(180, 180, 180, 255)
+BLACK = QColor(0.0, 0.0, 0.0)
+GRAY = QColor(0.5, 0.5, 0.5)
+RED = QColor(1.0, 0.0, 0.0)
+GREEN = QColor(0.0, 1.0, 0.0)
+BLUE = QColor(0.0, 0.0, 1.0)
+YELLOW = QColor(1.0, 1.0, 0.0)
+MAGENTA = QColor(1.0, 0.0, 1.0)
+CYAN = QColor(0.0, 1.0, 1.0)
+WHITE = QColor(1.0, 1.0, 1.0)
+DARK_GRAY = QColor(0.25, 0.25, 0.25)
+DARK_RED = QColor(0.75, 0.0, 0.0)
+DARK_GREEN = QColor(0.0, 0.75, 0.0)
+DARK_BLUE = QColor(0.0, 0.0, 0.75)
+DARK_YELLOW = QColor(0.75, 0.75, 0.0)
+DARK_MAGENTA = QColor(0.75, 0.0, 0.75)
+DARK_CYAN = QColor(0.0, 0.75, 0.75)
+LIGHT_GRAY = QColor(0.75, 0.75, 0.75)
+LIGHT_RED = QColor(1.0, 0.25, 0.25)
+LIGHT_GREEN = QColor(0.25, 1.0, 0.25)
+LIGHT_BLUE = QColor(0.25, 0.25, 1.0)
+LIGHT_YELLOW = QColor(1.0, 1.0, 0.25)
+LIGHT_MAGENTA = QColor(1.0, 0.25, 1.0)
+LIGHT_CYAN = QColor(0.25, 1.0, 1.0)
