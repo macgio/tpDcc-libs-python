@@ -379,7 +379,7 @@ def get_distance(vector1, vector2):
     v = v1 - v2
     dst = v()
 
-    return math.sqrt(dst[0] * dst[0]) + (dst[1] * dst[1]) + (dst[2] * dst[2])
+    return math.sqrt((dst[0] * dst[0]) + (dst[1] * dst[1]) + (dst[2] * dst[2]))
 
 
 def get_distance_2d(vector1_2d, vector2_2d):
@@ -453,3 +453,47 @@ def get_average(numbers):
         total += num
 
     return total / len(numbers)
+
+
+def get_axis_vector(axis_name, offset=1):
+    """
+    Returns axis vector from its name
+    :param axis_name: name of the axis ('X', 'Y' or 'Z')
+    :param offset: float, offset to the axis, by default is 1
+    :return: list (1, 0, 0) = X | (0, 1, 0) = Y | (0, 0, 1) = Z
+    """
+
+    if axis_name in ['X', 'x']:
+        return offset, 0, 0
+    elif axis_name in ['Y', 'y']:
+        return 0, offset, 0
+    elif axis_name in ['Z', 'z']:
+        return 0, 0, 1
+
+
+def fade_sine(percent_value):
+    input_value = math.pi * percent_value
+
+    return math.sin(input_value)
+
+
+def ade_cosine(percent_value):
+    percent_value = math.pi * percent_value
+
+    return (1 - math.cos(percent_value)) * 0.5
+
+
+def fade_smoothstep(percent_value):
+    return percent_value * percent_value * (3 - 2 * percent_value)
+
+
+def fade_sigmoid(percent_value):
+    if percent_value == 0:
+        return 0
+
+    if percent_value == 1:
+        return 1
+
+    input_value = percent_value * 10 + 1
+
+    return (2 / (1 + (math.e**(-0.70258 * input_value)))) - 1

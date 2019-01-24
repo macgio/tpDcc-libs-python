@@ -21,14 +21,16 @@ class LoggerLevel:
     INFO = logging.INFO
     WARNING = logging.WARNING
     DEBUG = logging.DEBUG
-
+    ERROR = logging.ERROR
+    CRITICAL = logging.CRITICAL
 
 class Logger(object):
-    def __init__(self, name, level=LoggerLevel.INFO):
+    def __init__(self, name, level=LoggerLevel.INFO, record_temp_log=False):
         self._name = name
         self._level = level
         self._logger = None
         self._initialized = False
+        self._record_temp_log = record_temp_log
         self.create()
 
     def create(self):
@@ -73,21 +75,33 @@ class Logger(object):
 
     def debug(self, msg, *args, **kwargs):
         self._logger.debug(msg, *args, **kwargs)
+        if self._record_temp_log:
+            record_temp_log(self._name, 'DEBUG: {}'.format(msg))
 
     def info(self, msg, *args, **kwargs):
         self._logger.info(msg, *args, **kwargs)
+        if self._record_temp_log:
+            record_temp_log(self._name, 'INFO: {}'.format(msg))
 
     def warning(self, msg, *args, **kwargs):
         self._logger.warning(msg, *args, **kwargs)
+        if self._record_temp_log:
+            record_temp_log(self._name, 'WARNING: {}'.format(msg))
 
     def error(self, msg, *args, **kwargs):
         self._logger.error(msg, *args, **kwargs)
+        if self._record_temp_log:
+            record_temp_log(self._name, 'ERROR: {}'.format(msg))
 
     def log(self, lvl, msg, *args, **kwargs):
         self._logger.log(lvl, msg, *args, **kwargs)
+        if self._record_temp_log:
+            record_temp_log(self._name, 'LOG: {}'.format(msg))
 
     def exception(self, msg, *args, **kwargs):
         self._logger.exception(msg, *args, **kwargs)
+        if self._record_temp_log:
+            record_temp_log(self._name, 'EXCEPTION: {}'.format(msg))
     # endregion
 
     # region Private Functions
@@ -122,7 +136,7 @@ def record_temp_log(log_name, value):
     """
 
     if osplatform.get_env_var('{}_KEEP_TEMP_LOG'.format(log_name.upper())) == 'True':
-        value = value.replace('\t', '  ')
+        value = value.replace('\t', '  ') + '\n'
         osplatform.append_env_var('{}_TEMP_LOG'.format(log_name.upper()), value)
 
 
