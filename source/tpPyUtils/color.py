@@ -234,3 +234,17 @@ LIGHT_BLUE = QColor(0.25, 0.25, 1.0)
 LIGHT_YELLOW = QColor(1.0, 1.0, 0.25)
 LIGHT_MAGENTA = QColor(1.0, 0.25, 1.0)
 LIGHT_CYAN = QColor(0.25, 1.0, 1.0)
+
+# =================================================================================================================
+
+
+def convert_2_hex(color):
+    hex = '#'
+    for var in color:
+        var = format(var, 'x')
+        if len(var) == 1:
+            hex += '0' + str(var)
+        else:
+            hex += str(var)
+
+    return hex

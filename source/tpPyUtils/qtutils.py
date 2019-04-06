@@ -14,6 +14,7 @@ import subprocess
 
 from Qt.QtCore import *
 from Qt.QtWidgets import *
+from Qt.QtGui import *
 from Qt import QtGui
 from Qt import QtCompat
 from Qt import __binding__
@@ -29,7 +30,7 @@ except ImportError:
         from Shiboken import wrapInstance
 
 
-from tpPyUtils import fileio, strings, path, python
+from tpPyUtils import fileio, strings, path, python, color
 
 
 # ==============================================================================
@@ -789,3 +790,115 @@ def about_message(message, parent=None):
     flags = message_box.windowFlags() ^ Qt.WindowContextHelpButtonHint | Qt.WindowStaysOnTopHint
     message_box.setWindowFlags(flags)
     message_box.about(parent, 'About', message)
+
+
+def change_button_color(
+        button,
+        text_color=200, bg_color=68, hi_color=68,
+        hi_text=255, hi_background=[97, 132, 167],
+        ds_color=[255, 128, 128],
+        mode='common',
+        toggle=False, hover=True, destroy=False,
+        ds_width=1):
+
+    text_color = python.to_3_list(text_color)
+    bg_color = python.to_3_list(bg_color)
+    hi_color = python.to_3_list(hi_color)
+    hi_text = python.to_3_list(hi_text)
+    ds_color = python.to_3_list(ds_color)
+
+    if toggle and button.isChecked():
+        bg_color = hi_color
+    if hover:
+        hv_color = map(lambda a: a+20, bg_color)
+    else:
+        hv_color = bg_color
+
+    text_hex = color.convert_2_hex(text_color)
+    bg_hex = color.convert_2_hex(bg_color)
+    hv_hex = color.convert_2_hex(hv_color)
+    hi_hex = color.convert_2_hex(hi_color)
+    ht_hex = color.convert_2_hex(hi_text)
+    hb_hex = color.convert_2_hex(hi_background)
+    ds_hex = color.convert_2_hex(ds_color)
+
+    if mode == 'common':
+        button.setStyleSheet('color: ' + text_hex + ' ; background-color: ' + bg_hex)
+    elif mode == 'button':
+        if not destroy:
+            button.setStyleSheet(
+                'QPushButton{background-color: ' + bg_hex + '; color:  ' + text_hex + '; border-style:solid; border-width: ' + str(
+                    ds_width) + 'px; border-color:' + ds_hex + '; border-radius: 0px;}' + \
+                'QPushButton:hover{background-color: ' + hv_hex + '; color:  ' + text_hex + '; border-style:solid; border-width: ' + str(
+                    ds_width) + 'px; border-color:' + ds_hex + '; border-radius: 0px;}' + \
+                'QPushButton:pressed{background-color: ' + hi_hex + '; color: ' + text_hex + '; border-style:solid; border-width: ' + str(
+                    ds_width) + 'px; border-color:' + ds_hex + '; border-radius: 0px;}')
+        else:
+            button.setStyleSheet(
+                'QPushButton{background-color: ' + bg_hex + '; color:  ' + text_hex + ' ; border: black 0px}' + \
+                'QPushButton:hover{background-color: ' + hv_hex + '; color:  ' + text_hex + ' ; border: black 0px}' + \
+                'QPushButton:pressed{background-color: ' + hi_hex + '; color: ' + text_hex + '; border: black 2px}')
+    elif mode == 'window':
+        button.setStyleSheet('color: ' + text_hex + ';' + \
+                             'background-color: ' + bg_hex + ';' + \
+                             'selection-color: ' + ht_hex + ';' + \
+                             'selection-background-color: ' + hb_hex + ';')
+
+
+def change_border_style(btn):
+    btn.setStyleSheet('QPushButton{border-style:solid; border-width: 2px; border-color: red ; border-radius: 1px;}' + \
+                         'QPushButton:hover{border-style:solid; border-width: 2px; border-color: red ; border-radius: 1px;}' + \
+                         'QPushButton:pressed{border-style:solid; border-width: 2px; border-color: red ; border-radius: 1px;}')
+
+
+def create_flat_button(
+        icon=None, icon_size=None,
+        name='', text=200,
+        background_color=[54, 51, 51],
+        ui_color=68,
+        border_color=180,
+        push_col=120,
+        checkable=True,
+        w_max=None, w_min=None,
+        h_max=None, h_min=None,
+        policy=None,
+        tip=None, flat=True,
+        hover=True,
+        destroy_flag=False,
+        context=None
+):
+
+    btn = QPushButton()
+    btn.setText(name)
+    btn.setCheckable(checkable)
+    if icon:
+        btn.setIcon(QIcon(icon))
+    btn.setFlat(flat)
+    if flat:
+        change_button_color(button=btn, text_color=text, bg_color=ui_color, hi_color=background_color, mode='button', hover=hover, destroy=destroy_flag, ds_color=border_color)
+        btn.toggled.connect(lambda: change_button_color(button=btn, text_color=text, bg_color=ui_color, hi_color=background_color, mode='button', toggle=True, hover=hover, destroy=destroy_flag, ds_color=border_color))
+    else:
+        change_button_color(button=btn, text_color=text, bg_color=background_color, hi_color=push_col, mode='button', hover=hover, destroy=destroy_flag, ds_color=border_color)
+
+    if w_max:
+        btn.setMaximumWidth(w_max)
+    if w_min:
+        btn.setMinimumWidth(w_min)
+    if h_max:
+        btn.setMaximumHeight(h_max)
+    if h_min:
+        btn.setMinimumHeight(h_min)
+    if icon_size:
+        btn.setIconSize(QSize(*icon_size))
+    if policy:
+        btn.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Expanding)
+    if tip:
+        btn.setToolTip(tip)
+    if context:
+        btn.setContextMenuPolicy(Qt.CustomContextMenu)
+        btn.customContextMenuRequested.connect(context)
+
+    return btn
+
+
+

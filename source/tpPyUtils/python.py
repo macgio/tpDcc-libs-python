@@ -622,4 +622,16 @@ def path_to_dictionary(path):
         d['type'] = 'file'
 
     return d
-# endregion
+
+
+def to_3_list(item):
+    """
+    Converts item into a 3 item list
+    :param item: var
+    :return: list<var, var, var>
+    """
+
+    if not isinstance(item, list):
+        item = [item] * 3
+
+    return item

@@ -122,7 +122,11 @@ def set_env_var(name, value):
     if name not in os.environ:
         init_env_var(name)
 
-    os.environ[name] = str(value)
+    try:
+        os.environ[name] = str(value)
+    except Exception as e:
+        import traceback
+        print('{} | {} | name: {} | value: {}'.format(str(e), traceback.format_exc(), name, value))
 
 
 def get_env_var(name):
