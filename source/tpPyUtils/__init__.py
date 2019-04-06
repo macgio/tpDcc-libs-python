@@ -1,3 +1,12 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Initialization module for tpPyUtils
+"""
+
+from __future__ import print_function, division, absolute_import
+
 import os
 import sys
 
