@@ -12,12 +12,12 @@ import os
 import re
 import subprocess
 
-from Qt.QtCore import *
-from Qt.QtWidgets import *
-from Qt.QtGui import *
-from Qt import QtGui
-from Qt import QtCompat
-from Qt import __binding__
+from tpQtLib.Qt.QtCore import *
+from tpQtLib.Qt.QtWidgets import *
+from tpQtLib.Qt.QtGui import *
+from tpQtLib.Qt import QtGui
+from tpQtLib.Qt import QtCompat
+from tpQtLib.Qt import __binding__
 try:
     import shiboken
     from shiboken import wrapInstance

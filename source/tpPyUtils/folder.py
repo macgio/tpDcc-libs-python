@@ -1,14 +1,14 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Utility methods related to folders
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
-# region Imports
 import os
 import sys
 import shutil
@@ -16,7 +16,6 @@ import tempfile
 import traceback
 import subprocess
 import fnmatch
-# endregion
 
 
 def create_folder(name, directory=None, make_unique=False):

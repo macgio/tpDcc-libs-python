@@ -1,7 +1,15 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Module that contains classes and functions related with names
+"""
+
+from __future__ import print_function, division, absolute_import
+
 import os
 import re
 import sys
-import string
 
 
 class FindUniqueString(object):

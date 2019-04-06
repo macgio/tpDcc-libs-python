@@ -1,15 +1,15 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
 
 """
 Implementation of an octree data structure
 """
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
-# region Imports
 from tpPyUtils import mathlib
-# endregion
 
 
 class Octree(object):

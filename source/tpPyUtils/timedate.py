@@ -1,17 +1,14 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains utility functions related with time and date
 """
 
+from __future__ import print_function, division, absolute_import
 
-from __future__ import print_function, division, absolute_import, unicode_literals
-
-
-# region Imports
 import time
 import datetime
-# endregion
 
 
 def convert_number_to_month(month_int):

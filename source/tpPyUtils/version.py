@@ -1,3 +1,10 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Module that contains classes to handle version files
+"""
+
 import getpass
 
 from tpPyUtils import folder, path, fileio, sort

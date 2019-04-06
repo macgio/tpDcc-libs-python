@@ -1,12 +1,11 @@
-#!/usr/bin/env python
-# # -*- coding: utf-8 -*-
-#
-# """ ==================================================================
-# Script Name: config.py
-# by Tomas Poveda
-# Module that contains Config definition
-# ______________________________________________________________________
-# ==================================================================="""
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Module that contains Config definition
+"""
+
+from __future__ import print_function, division, absolute_import
 
 import os
 import subprocess

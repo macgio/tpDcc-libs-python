@@ -1,18 +1,16 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Utility methods related to write/read json files
 """
 
 
-from __future__  import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
-
-# region Imports
 import json
 import sys
 import os
-# endregion
 
 
 # region Functions

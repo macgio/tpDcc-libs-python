@@ -1,14 +1,13 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Utility methods related to string paths
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
-
-# region Imports
 import os
 import sys
 import stat
@@ -17,7 +16,6 @@ import shutil
 import traceback
 
 from tpPyUtils import name, folder
-# endregion
 
 # region Constants
 SEPARATOR = '/'

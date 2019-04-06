@@ -9,8 +9,8 @@ if sys.version_info[:2] > (2, 7):
 else:
     import ConfigParser
 
-from Qt.QtCore import *
-from Qt.QtWidgets import *
+from tpQtLib.Qt.QtCore import *
+from tpQtLib.Qt.QtWidgets import *
 
 import tpRigToolkit as tp
 from tpPyUtils import fileio, path, jsonio

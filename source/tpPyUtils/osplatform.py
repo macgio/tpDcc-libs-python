@@ -1,15 +1,16 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Utility methods related to cross-platform functionality
 """
 
-# region Imports
+from __future__ import print_function, division, absolute_import
+
 import os
 import sys
 import getpass
 import subprocess
-# endregion
 
 
 class Platforms(object):

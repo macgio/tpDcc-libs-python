@@ -1,10 +1,11 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains utility functions related with attributes
 """
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
 def attr_type(attr_value):

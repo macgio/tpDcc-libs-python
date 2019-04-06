@@ -1,3 +1,12 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Module that contains functions and class related with maths
+"""
+
+from __future__ import print_function, division, absolute_import
+
 import math
 
 

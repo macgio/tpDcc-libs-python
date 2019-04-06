@@ -1,19 +1,19 @@
 #! /usr/bin/env python
-
-from __future__ import print_function, division, absolute_import, unicode_literals
+# -*- coding: utf-8 -*-
 
 """
 Module that contains functionality related with SVG operations
 """
 
+from __future__ import print_function, division, absolute_import
 
 import math
 import os
 import re
 from xml.dom import minidom
 
-from Qt.QtCore import *
-from Qt.QtGui import *
+from tpQtLib.Qt.QtCore import *
+from tpQtLib.Qt.QtGui import *
 
 
 _COMMANDS = set('MmZzLlHhVvCcSsQqTtAa')

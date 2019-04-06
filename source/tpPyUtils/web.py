@@ -1,13 +1,12 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains utility functions related with email
 """
 
-# region Imports
 import email
 import smtplib
-# endregion
 
 
 class Email(object):

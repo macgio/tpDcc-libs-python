@@ -1,11 +1,12 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains utility functions related with apps
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
 def is_nuke():

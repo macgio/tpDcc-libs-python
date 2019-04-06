@@ -1,17 +1,15 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Base class for QColor colors
 """
 
+from __future__ import print_function, division, absolute_import
 
-from __future__ import print_function, division, absolute_import, unicode_literals
-
-# region Imports
 import random
 
-from Qt.QtGui import *
-# endregion
+from tpQtLib.Qt.QtGui import *
 
 # region Constants
 _NUMERALS = '0123456789abcdefABCDEF'

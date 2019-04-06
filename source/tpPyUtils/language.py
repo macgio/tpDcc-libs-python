@@ -1,8 +1,11 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Utility methods related to languages
 """
+
+from __future__ import print_function, division, absolute_import
 
 import re
 import os

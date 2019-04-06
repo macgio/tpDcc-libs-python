@@ -1,19 +1,14 @@
-#!/usr/bin/env python
-# # -*- coding: utf-8 -*-
-#
-# """ ==================================================================
-# Script Name: worker.py
-# by Tomas Poveda
-# Module to define background workers
-# ______________________________________________________________________
-# ==================================================================="""
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# region Imports
+"""
+Module to define background workers
+"""
+
 import uuid
 from threading import Lock, Condition
 
-from Qt.QtCore import *
-# endregion
+from tpQtLib.Qt.QtCore import *
 
 
 class Worker(QThread, object):

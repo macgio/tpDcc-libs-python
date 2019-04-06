@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-# # -*- coding: utf-8 -*-
-#
-# """ ==================================================================
-# Script Name: download.py
-# by Tomas Poveda
-# Utilities functions for downloading files
-# ______________________________________________________________________
-# ==================================================================="""
+# -*- coding: utf-8 -*-
+
+"""
+Utilities functions for downloading files
+"""
+
+from __future__ import print_function, division, absolute_import
 
 import os
 import re

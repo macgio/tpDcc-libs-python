@@ -1,21 +1,19 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Modules that contains utility functions related with Python
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
-# region Imports
 import sys
 import imp
 import uuid
-import string
 import types
 import traceback
-# endregion
 
 
 # region Classes

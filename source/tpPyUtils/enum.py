@@ -1,19 +1,18 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Enum class for Python
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
-# region Imports
 import abc
 import re
 import sys
 from numbers import Number
-# endregion
 
 
 # region Classes

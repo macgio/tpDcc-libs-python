@@ -1,17 +1,15 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains different types of timers
 """
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
-
-# region Imports
 import sys
 import time
-from Qt.QtCore import *
-# endregion
+from tpQtLib.Qt.QtCore import *
 
 
 class ClickTimer(QObject, object):

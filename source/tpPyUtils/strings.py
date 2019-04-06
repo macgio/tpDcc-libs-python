@@ -1,18 +1,17 @@
-#! /usr/bin/env python
+#!#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains utility functions related with strings
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
-# region Imports
 import re
 import os
-import string
-# endregion
+
 
 # region Constants
 iters = [list, tuple, set, frozenset]

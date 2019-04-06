@@ -1,11 +1,12 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
-Module thata contains interfaces class for different purposes
+Module that contains interfaces class for different purposes
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
 class ISerializable(object):

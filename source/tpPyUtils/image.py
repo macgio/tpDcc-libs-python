@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-
+# -*- coding: utf-8 -*-
 """
 Module that contains utility functions related with images
 """
@@ -7,13 +7,11 @@ Module that contains utility functions related with images
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 
-# region Imports
 import os
 import base64
 
 from Qt.QtCore import *
 from Qt.QtGui import *
-# endregion
 
 
 # region Public Functions

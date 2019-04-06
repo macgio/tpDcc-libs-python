@@ -1,15 +1,14 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains different functions related with security
 """
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
-# region Imports
 import base64
-# endregion
 
 
 def encodeBase64(key, clear):

@@ -1,12 +1,12 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Module that contains utility functions decorators for Maya
 """
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
-# region Imports
 from functools import wraps
 import os
 import sys
@@ -15,7 +15,6 @@ import inspect
 import traceback
 
 from tpPyUtils import debug
-# endregion
 
 
 def abstractmethod(fn):

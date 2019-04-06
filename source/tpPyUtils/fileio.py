@@ -1,14 +1,14 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Utility methods related to write/read (IO) text files
 """
 
 
-from __future__ import print_function, division, absolute_import, unicode_literals
+from __future__ import print_function, division, absolute_import
 
 
-# region Imports
 import os
 import sys
 import stat
@@ -20,7 +20,6 @@ import datetime
 import subprocess
 from tempfile import mkstemp
 from shutil import move
-# endregion
 
 
 # region Classes

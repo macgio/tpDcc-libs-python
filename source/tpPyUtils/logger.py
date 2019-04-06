@@ -1,12 +1,11 @@
-#!/usr/bin/env python
-# # -*- coding: utf-8 -*-
-#
-# """ ==================================================================
-# Script Name: logger.py
-# by Tomas Poveda
-# Module that contains logger functionality
-# ______________________________________________________________________
-# ==================================================================="""
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Module that contains logger functionality
+"""
+
+from __future__ import print_function, division, absolute_import
 
 import os
 import logging
