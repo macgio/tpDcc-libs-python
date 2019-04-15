@@ -25,7 +25,7 @@ class tpPyUtils(object):
         """
 
         from tpPyUtils import logger as logger_utils
-        utils_log = logger_utils.Logger(name=tpPyUtils.__name__, level=logger_utils.LoggerLevel.DEBUG)
+        utils_log = logger_utils.Logger(name=tpPyUtils.__name__, level=logger_utils.LoggerLevel.DEBUG).logger
         utils_log.debug('Initializing tpPyUtils Logger ...')
         return utils_log
 

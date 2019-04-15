@@ -12,7 +12,6 @@ else:
 from tpQtLib.Qt.QtCore import *
 from tpQtLib.Qt.QtWidgets import *
 
-import tpRigToolkit as tp
 from tpPyUtils import fileio, path, jsonio
 
 
@@ -164,7 +163,7 @@ class FileSettings(object):
         try:
             write.write(lines)
         except Exception:
-            tp.logger.debug('Impossible to write in {}'.format(self.file_path))
+            sys.utils_log.debug('Impossible to write in {}'.format(self.file_path))
             time.sleep(.1)
             write.write(lines)
 
@@ -278,7 +277,7 @@ class INISettings(object):
         try:
             self._parser.read(self._file)
         except Exception:
-            tp.logger.warning('Impossible to read INI config file "{}"'.format(filename))
+            sys.utils_log.warning('Impossible to read INI config file "{}"'.format(filename))
         self._section = list()
 
     def __enter__(self):
