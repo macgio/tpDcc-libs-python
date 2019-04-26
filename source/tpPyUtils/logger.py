@@ -18,6 +18,8 @@ except ImportError:
 
 loggers = []
 
+from tpPyUtils import osplatform
+
 
 class LoggerLevel:
     def __init__(self):

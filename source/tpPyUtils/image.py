@@ -10,8 +10,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import os
 import base64
 
-from Qt.QtCore import *
-from Qt.QtGui import *
+from tpQtLib.Qt.QtCore import *
+from tpQtLib.Qt.QtGui import *
 
 
 # region Public Functions
