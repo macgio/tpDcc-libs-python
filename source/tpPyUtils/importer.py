@@ -64,7 +64,7 @@ class Importer(object):
 
     def create_logger(self):
         """
-        Creates and initializes tpDccLib logger
+        Creates and initializes importer logger
         """
 
         log_path = self.get_data_path()

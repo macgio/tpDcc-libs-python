@@ -30,6 +30,14 @@ class FileSettings(object):
         self.write = None
 
     # region Public Functions
+    def data(self):
+        """
+        Return data dictonary contained in the settings
+        :return: dict
+        """
+
+        return self.settings_dict
+
     def get(self, name):
         """
         Get a stored setting
