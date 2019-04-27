@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-Initialization module for tpPyUtils
+Module that contains basic class for Python importers
 """
+
 
 from __future__ import print_function, division, absolute_import
 
@@ -11,54 +12,43 @@ import os
 import sys
 import types
 import pkgutil
-import inspect
 import traceback
 import importlib
 from collections import OrderedDict
 
-logger = None
+from tpPyUtils import decorators, log
 
 
-class tpPyUtils(object):
-    def __init__(self):
-        super(tpPyUtils, self).__init__()
+class Importer(object):
+    """
+    Base class that allows to import/reload all the modules in a given package and in a given order
+    """
+
+    def __init__(self, module_name, module_dir=None, logger=None):
+        super(Importer, self).__init__()
+
+        if module_dir is None:
+            module_dir = self.get_module_path()
+
+        self._module_name = module_name
+        self._module_dir = module_dir
 
         self.loaded_modules = OrderedDict()
         self.reload_modules = list()
-        self._module_name = 'tpPyUtils'
-        self._module_dir = self.get_module_path()
-        self.logger = self.create_logger()
 
+        if logger is None:
+            self.logger = self.create_logger()
+        else:
+            self.logger = logger
+
+    @decorators.abstractmethod
     def get_module_path(self):
         """
-        Returns path where dccutils module is stored
-        :return: str
+        Returns path where importer is located
+        Must be override in class
         """
 
-        try:
-            mod_dir = os.path.dirname(inspect.getframeinfo(inspect.currentframe()).filename)
-        except Exception:
-            try:
-                mod_dir = os.path.dirname(__file__)
-            except Exception:
-                try:
-                    import tpPyUtils
-                    mod_dir = tpPyUtils.__path__[0]
-                except Exception:
-                    return None
-
-        return mod_dir
-
-    def update_paths(self):
-        """
-        Adds path to system paths at startup
-        """
-
-        paths_to_update = [self.externals_path()]
-
-        for p in paths_to_update:
-            if os.path.exists(p) and p not in sys.path:
-                sys.path.append(p)
+        raise NotImplementedError('get_module_path() is not implemented!')
 
     def get_data_path(self):
         """
@@ -74,10 +64,8 @@ class tpPyUtils(object):
 
     def create_logger(self):
         """
-        Creates and initializes tpPyUtils logger
+        Creates and initializes tpDccLib logger
         """
-
-        from tpPyUtils import log
 
         log_path = self.get_data_path()
         if not os.path.exists(log_path):
@@ -91,14 +79,6 @@ class tpPyUtils(object):
 
         return logger
 
-    def externals_path(self):
-        """
-        Returns the paths where dccutils externals packages are stored
-        :return: str
-        """
-
-        return os.path.join(self.get_module_path(), 'externals')
-
     def import_module(self, module_name):
         """
         Static function used to import a function given its complete name
@@ -106,8 +86,6 @@ class tpPyUtils(object):
         """
 
         try:
-            if '{}.externals'.format(self._module_name) in module_name:
-                return
             mod = importlib.import_module(module_name)
             self.logger.debug('Imported: {}'.format(mod))
             if mod and isinstance(mod, types.ModuleType):
@@ -243,22 +221,21 @@ class tpPyUtils(object):
                     del sys.modules[mod]
 
 
-def init(do_reload=True):
+def init_importer(importer_class, do_import=False, do_reload=True):
     """
-    Initializes tpPyUtils package
-    :param do_reload: bool, Whether to reload imported dccutils modules or not
-    :return: bool
+    Initializes importer
+    :param importer_class:
+    :param do_import: bool
+    :param do_reload: bool
+    :return:
     """
 
-    new_importer = tpPyUtils()
+    new_importer = importer_class()
     if do_reload:
         new_importer.reload_all()
 
-    global logger
-    logger = new_importer.logger
+    if do_import:
+        new_importer.import_modules()
+        new_importer.import_packages(only_packages=True)
 
-    new_importer.import_modules()
-    new_importer.import_packages(only_packages=True)
-
-
-sys.utils_log = logger
+    return new_importer
