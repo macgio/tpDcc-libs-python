@@ -200,6 +200,29 @@ class Logger(object):
 
         return sys_log_handler
 
+    def start_temp_log(self):
+        """
+        Initializes a new temp and stores its results in environment variable
+        """
+
+        start_temp_log(self.name)
+
+    def record_temp_log(self, value):
+        """
+        Adds a new value to the temp log with the given name (if exists)
+        :param value: str
+        """
+
+        record_temp_log(self.name, value)
+
+    def end_temp_log(self):
+        """
+        Removes temp log with given name and returns its contents
+        :return: str
+        """
+
+        return end_temp_log(self.name)
+
     def _remove_internal_loggers(self, enable_stderr_logger=False):
         """
         Removes the internal logger handlers of the internal logger
@@ -218,7 +241,7 @@ class Logger(object):
 
 def create_logger(logger_name, logger_path):
     """
-    Funtion to create standard logger for modules and apps
+    Function to create standard logger for modules and apps
     :param logger_name: str, name of the logger
     :return: Logger
     """

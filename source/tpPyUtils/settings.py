@@ -38,15 +38,19 @@ class FileSettings(object):
 
         return self.settings_dict
 
-    def get(self, name):
+    def get(self, name, default=None):
         """
         Get a stored setting
         :param name: str, name of the setting to retrieve. Returns None, if setting is not found
+        :param name: default, variant, default value to return if setting is not found
         :return: variant, None || str
         """
 
         if name in self.settings_dict:
             return self.settings_dict[name]
+
+        if default is not None:
+            return default
 
     def set(self, name, value):
         """
@@ -183,10 +187,11 @@ class FileSettings(object):
 
 
 class JSONSettings(FileSettings, object):
-    def __init__(self):
+    def __init__(self, directory=None, filename='settings.json'):
         super(JSONSettings, self).__init__()
+        if directory:
+            self.set_directory(directory, filename if filename and filename.endswith('.json') else 'settings.json')
 
-    # region Override Functions
     def set_directory(self, directory, filename='settings.json'):
         self.directory = directory
 
@@ -237,9 +242,7 @@ class JSONSettings(FileSettings, object):
             return
 
         self.settings_dict = data
-    # endregion
 
-    # region Private Functions
     def _get_json_file(self):
         """
         Internal function that returns JSON file where settings are stored
@@ -275,7 +278,6 @@ class JSONSettings(FileSettings, object):
             return True
 
         return False
-    # endregion
 
 
 class INISettings(object):
@@ -446,5 +448,3 @@ class INISettings(object):
 
         self.save()
         self._parser = None
-
-

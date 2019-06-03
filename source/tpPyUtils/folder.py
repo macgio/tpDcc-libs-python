@@ -17,6 +17,8 @@ import traceback
 import subprocess
 import fnmatch
 
+import tpPyUtils
+
 
 def create_folder(name, directory=None, make_unique=False):
     """
@@ -85,10 +87,10 @@ def rename_folder(directory, name, make_unique=False):
     try:
         os.chmod(directory, 0777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
-        sys.utils_log.info(message)
+        tpPyUtils.logger.info(message)
         os.rename(directory, rename_path)
     except Exception:
-        sys.utils_log.error('{}'.format(traceback.format_exc()))
+        tpPyUtils.logger.error('{}'.format(traceback.format_exc()))
         return False
 
     return rename_path
@@ -127,7 +129,7 @@ def move_folder(path1, path2):
     try:
         shutil.move(path1, path2)
     except:
-        sys.utils_log.warning('Failed to move {0} to {1}'.format(path1, path2))
+        tpPyUtils.logger.warning('Failed to move {0} to {1}'.format(path1, path2))
         return False
 
     return True
@@ -248,7 +250,7 @@ def get_folders(root_folder, recursive=False):
     :return: list<str>
     """
 
-    from tpPyUtils import path, fileio
+    from tpPyUtils import path
 
     found_folders = list()
     if not recursive:
@@ -331,6 +333,47 @@ def get_files_and_folders(directory):
     return os.listdir(directory)
 
 
+def get_files_with_extension(extension, root_directory, full_path=False):
+    """
+    Returns file in given directory with given extensions
+    :param extension: str, extension to find (.py, .data, etc)
+    :param root_directory: str, directory path
+    :param full_path: bool, Whether to return the file path or just the file names
+    :return: list(str)
+    """
+
+    found = list()
+
+    objs = os.listdir(root_directory)
+    for filename_and_extension in objs:
+        filename, found_extension = os.path.splitext(filename_and_extension)
+        if found_extension == '.{}'.format(extension):
+            if not full_path:
+                found.append(filename_and_extension)
+            else:
+                found.append(os.path.join(root_directory, filename_and_extension))
+
+    return found
+
+
+def get_files_date_sorted(root_directory, extension=None):
+    """
+    Returns files date sorted found in the given directory
+    :param root_directory: str, directory path
+    :param extension: str, optional extension to find
+    :return: list(str), list of files date sorted in the directory
+    """
+
+    if not extension:
+        files = get_files(root_folder=root_directory)
+    else:
+        files = get_files_with_extension(extension=extension, root_directory=root_directory)
+
+    mtime = lambda f: os.stat(os.path.join(root_directory, f)).st_mtime
+
+    return list(sorted(files, key=mtime))
+
+
 def open_folder(path=None):
     """
     Opens a folder in the explorer in a independent platform way
@@ -405,3 +448,14 @@ def get_folders_from_path(path):
     folders.reverse()
 
     return folders
+
+
+def get_folders_date_sorted(root_folder):
+    """
+    Returns folder dates sorted found in the given root directory
+    :param root_folder: str, directory path
+    :return: list(str): list of folder date sorted in the directory
+    """
+
+    mtime = lambda f: os.stat(os.path.join(root_folder, f)).st_mtime
+    return list(sorted(os.listdir(root_folder), key=mtime))

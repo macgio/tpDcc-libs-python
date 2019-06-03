@@ -45,6 +45,16 @@ class Config(ConfigParser.RawConfigParser, object):
     def app_name(self):
         return self._app_name
 
+    @staticmethod
+    def create_config(app_name, root_folder=None):
+        """
+        Construct the configuration object from necessary elements
+        """
+
+        config = Config(app_name=app_name, root_folder=root_folder, allow_no_value=True)
+
+        return config
+
     def _create(self):
         """
         If configuration file is not already created we create it
@@ -107,13 +117,3 @@ class Config(ConfigParser.RawConfigParser, object):
             else:
                 call = 'xdg-open'
             subprocess.call(call, self.config_file)
-
-
-def create_config(app_name, root_folder=None):
-    """
-    Construct the configuration object from necessary elements
-    """
-
-    config = Config(app_name=app_name, root_folder=root_folder, allow_no_value=True)
-
-    return config

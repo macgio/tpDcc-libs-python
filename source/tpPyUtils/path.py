@@ -9,15 +9,17 @@ Utility methods related to string paths
 from __future__ import print_function, division, absolute_import
 
 import os
-import sys
 import stat
 import string
 import shutil
+import tempfile
 import traceback
+import contextlib
 
+import tpPyUtils
 from tpPyUtils import name, folder
+from tpPyUtils.externals import six
 
-# region Constants
 SEPARATOR = '/'
 BAD_SEPARATOR = '\\'
 PATH_SEPARATOR = '//'
@@ -28,10 +30,8 @@ WEB_PREFIX = 'https://'
 
 # We use one separator depending if we are working on Windows (nt) or other operative system
 NATIVE_SEPARATOR = (SEPARATOR, BAD_SEPARATOR)[os.name == 'nt']
-# endregion
 
 
-# region Classes
 class FindUniquePath(name.FindUniqueString, object):
     def __init__(self, directory):
         if not directory:
@@ -42,30 +42,57 @@ class FindUniquePath(name.FindUniqueString, object):
 
         super(FindUniquePath, self).__init__(basename)
 
-    # region Override Functions
     def _get_scope_list(self):
         return folder.get_files_and_folders(directory=self.parent_path)
 
     def _search(self):
         name = super(FindUniquePath, self)._search()
         return join_path(self.parent_path, name)
-    # endregion
 
-    # region Private Functions
     def _get_parent_path(self, directory):
         return get_dirname(directory)
-    # endregion
-# endregion
 
-# region Functions
+
+@contextlib.contextmanager
+def cd(new_dir, cleanup=lambda: True):
+    prev_dir = os.getcwd()
+    os.chdir(os.path.expanduser(new_dir))
+    try:
+        yield
+    finally:
+        os.chdir(prev_dir)
+        cleanup()
+
+
+@contextlib.contextmanager
+def temp_dir():
+    dir_path = tempfile.mkdtemp()
+    def cleanup():
+        shutil.rmtree(dir_path)
+    with cd(dir_path, cleanup):
+        yield dir_path
+
+
 def normalize_path(path):
     """
-    Normalizes a path to solve problems with \\ and // on paths
+    Normalizes a path to make sure that path only contains forward slashes
     :param path: str, path to normalize
     :return: str, normalized path
     """
 
-    return path.replace(BAD_SEPARATOR, SEPARATOR).replace(PATH_SEPARATOR, SEPARATOR)
+    path = path.replace(BAD_SEPARATOR, SEPARATOR).replace(PATH_SEPARATOR, SEPARATOR)
+    path = six.u(str(path))
+    return path.rstrip('/')
+
+
+def normalize_paths(paths):
+    """
+    Normalize all the given paths into a consistent format
+    :param paths: list(str)
+    :return: list(str)
+    """
+
+    return [normalize_path(path) for path in paths]
 
 
 def clean_path(path):
@@ -95,6 +122,19 @@ def clean_path(path):
     return path
 
 
+def real_path(path):
+    """
+    Returns the given path removing any symbolic link
+    :param path: str
+    :return: str
+    """
+
+    path = os.path.realpath(path)
+    path = os.path.expanduser(path)
+
+    return normalize_path(path)
+
+
 def join_path(dir1, dir2):
     """
     Appends dir2 to the end of dir1
@@ -115,6 +155,19 @@ def join_path(dir1, dir2):
     return dir_path
 
 
+def split_path(path):
+    """
+    Split the given path into directory, basename and extension
+    :param path:
+    :return: list(str)
+    """
+
+    path = normalize_path(path)
+    filename, extension = os.path.splitext(path)
+
+    return os.path.dirname(filename), os.path.basename(filename), extension
+
+
 def get_relative_path(path, start):
     """
     Gets a relative path from a start path
@@ -122,15 +175,32 @@ def get_relative_path(path, start):
     :param start: str, Start path to calculate the relative path from
     """
 
-    if os.path.splitext(start)[-1]:
-        start = clean_path(os.path.dirname(start))
-    rel_path = clean_path(os.path.relpath(path, start))
+    # if os.path.splitext(start)[-1]:
+    #     start = clean_path(os.path.dirname(start))
+    # rel_path = clean_path(os.path.relpath(path, start))
+    #
+    # # TODO: Check if this is correct
+    # if not rel_path.startswith('../'):
+    #     rel_path = './' + rel_path
+    #
+    # return rel_path
 
-    # TODO: Check if this is correct
-    if not rel_path.startswith('../'):
-        rel_path = './' + rel_path
+    rpath = start
 
-    return rel_path
+    for i in range(0, 3):
+
+        rpath = os.path.dirname(rpath)
+        token = os.path.relpath(rpath, start)
+
+        rpath = normalize_path(rpath)
+        token = normalize_path(token)
+
+        if rpath.endswith("/"):
+            rpath = rpath[:-1]
+
+        path = path.replace(rpath, token)
+
+    return path
 
 
 def get_absolute_path(path, start):
@@ -454,7 +524,7 @@ def move(path1, path2):
     try:
         shutil.move(path1, path2)
     except:
-        sys.utils_log.warning('Failed to move {0} to {1}'.format(path1, path2))
+        tpPyUtils.warning('Failed to move {0} to {1}'.format(path1, path2))
         return False
 
     return True
@@ -485,11 +555,10 @@ def rename(directory, name, make_unique=False):
     try:
         os.chmod(directory, 0777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
-        sys.utils_log.info(message)
+        tpPyUtils.logger.info(message)
         os.rename(directory, rename_path)
     except Exception:
-        sys.utils_log.error('{}'.format(traceback.format_exc()))
+        tpPyUtils.logger.error('{}'.format(traceback.format_exc()))
         return False
 
     return rename_path
-# endregion

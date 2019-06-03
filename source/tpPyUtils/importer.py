@@ -72,6 +72,7 @@ class Importer(object):
             raise RuntimeError('{} Log Path {} does not exists!'.format(self._module_name, log_path))
 
         logger = log.create_logger(logger_name=self._module_name, logger_path=log_path).logger
+
         if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(self._module_name.upper())) in ['True', 'true']:
             logger.setLevel(log.LoggerLevel.DEBUG)
         else:
@@ -90,7 +91,7 @@ class Importer(object):
             self.logger.debug('Imported: {}'.format(mod))
             if mod and isinstance(mod, types.ModuleType):
                 return mod
-        except (ImportError, AttributeError) as e:
+        except Exception as e:
             try:
                 self.logger.warning('FAILED IMPORT: {} -> {}'.format(str(module_name), str(e)))
             except Exception:

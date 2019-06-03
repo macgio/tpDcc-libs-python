@@ -992,6 +992,24 @@ def is_same_text_content(file1, file2):
     return False
 
 
+def get_files(root_directory):
+    """
+    Returns files found in the given directorys
+    :param root_directory: str
+    :return: list(str)
+    """
+
+    found = list()
+
+    files = os.listdir(root_directory)
+    for filename in files:
+        file_path = os.path.join(root_directory, filename)
+        if os.path.isfile(file_path):
+            found.append(filename)
+
+    return found
+
+
 def file_has_info(file_path):
     """
     Check if the given file size is bigger than 1.0 byte
@@ -1004,4 +1022,3 @@ def file_has_info(file_path):
         return False
 
     return True
-# endregion

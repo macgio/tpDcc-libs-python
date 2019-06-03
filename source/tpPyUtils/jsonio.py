@@ -13,7 +13,6 @@ import sys
 import os
 
 
-# region Functions
 def write_to_file(data, filename):
 
     """
@@ -44,4 +43,3 @@ def read_file(filename):
         except Exception as e:
             sys.utils_log.warning('Could not read {0}'.format(filename))
             sys.utils_log.warning(str(e))
-# endregion

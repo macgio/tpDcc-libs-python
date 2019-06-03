@@ -8,12 +8,15 @@ Modules that contains utility functions related with Python
 
 from __future__ import print_function, division, absolute_import
 
-
+import os
 import sys
 import imp
+import ast
 import uuid
 import types
 import traceback
+
+from tpPyUtils import strings
 
 
 # region Classes
@@ -171,6 +174,38 @@ def list_diff(list1, list2):
     """
 
     return [i for i in list1 if not i in list2]
+
+
+def list_to_string(list_):
+    """
+    Returns a string from the given list
+    >>> list_to_string(['1,', '2', '3'])
+    >>> # 1, 2, 3
+    :param list_: list
+    :return:str
+    """
+
+    list_ = [str(item) for item in list_]
+    list_ = str(list_).replace("[", "").replace("]", "")
+    list_ = list_.replace("'", "").replace('"', "")
+
+    return list_
+
+
+def string_to_list(str_):
+    """
+    Returns a list from the given string
+    >>> string_to_list(['1', '2', '3'])
+    >>> # ['1', '2', '3']
+    :param str_:
+    :return: list
+    """
+
+    str_ = '["' + str(str_) + '"]'
+    str_ = str_.replace(' ', '')
+    str_ = str_.replace(',', '","')
+
+    return eval(str_)
 
 
 def force_list(var):
