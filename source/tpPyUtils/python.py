@@ -262,6 +262,19 @@ def force_sequence(var, sequence_type=list):
     return var
 
 
+def rotate_sequence(seq, current):
+    """
+    Rotates sequence in given index
+    :param seq: list
+    :param current: int
+    :return: list
+    """
+
+    n = len(seq)
+    for i in range(n):
+        yield seq[(i + current) % n]
+
+
 def index_of(obj, seq):
     """
     Returns the index of the first occurrence of obj in seq

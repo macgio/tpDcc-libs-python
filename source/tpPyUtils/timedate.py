@@ -8,7 +8,7 @@ Module that contains utility functions related with time and date
 from __future__ import print_function, division, absolute_import
 
 import time
-import datetime
+from datetime import datetime
 
 
 def convert_number_to_month(month_int):
@@ -82,7 +82,7 @@ def get_current_date(reverse_date=False):
     """
 
     mtime = time.time()
-    date_value = datetime.datetime.fromtimestamp(mtime)
+    date_value = datetime.fromtimestamp(mtime)
     year = date_value.year
     month = date_value.month
     day = date_value.day
@@ -91,3 +91,63 @@ def get_current_date(reverse_date=False):
         return '{}-{}-{}'.format(year, month, day)
     else:
         return '{}-{}-{}'.format(day, month, year)
+
+
+def time_ago(timestamp):
+    """
+    Returns a pretty string for how long ago the given timestamp was
+    Example:
+        print timeAgo("2017-06-06 01:56:00"
+        # 2 years ago
+    :param timestamp: str
+    :return:str
+    """
+
+    t1 = int(timestamp)
+    t1 = datetime.fromtimestamp(t1)
+
+    t2 = datetime.now()
+    diff = t2 - t1
+
+    day_diff = diff.days
+    seconds_diff = diff.seconds
+
+    if day_diff < 0:
+        return ''
+
+    if day_diff == 0:
+        if seconds_diff < 10:
+            return 'just now'
+        if seconds_diff < 60:
+            return str(seconds_diff) + ' seconds ago'
+        if seconds_diff < 120:
+            return 'a minute ago'
+        if seconds_diff < 3600:
+            return str(seconds_diff / 60) + " minutes ago"
+        if seconds_diff < 7200:
+            return 'an hour ago'
+        if seconds_diff < 86400:
+            return str(seconds_diff / 3600) + ' hours ago'
+
+    if day_diff == 1:
+        return 'yesterday'
+
+    if day_diff < 7:
+        return str(day_diff) + ' days ago'
+
+    if day_diff < 31:
+        v = day_diff / 7
+        if v == 1:
+            return str(v) + ' week ago'
+        return str(day_diff / 7) + ' weeks ago'
+
+    if day_diff < 365:
+        v = day_diff / 30
+        if v == 1:
+            return str(v) + ' month ago'
+        return str(v) + ' months ago'
+
+    v = day_diff / 365
+    if v == 1:
+        return str(v) + ' year ago'
+    return str(v) + ' years ago'
