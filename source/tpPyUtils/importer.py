@@ -16,7 +16,7 @@ import traceback
 import importlib
 from collections import OrderedDict
 
-from tpPyUtils import decorators, log
+from tpPyUtils import decorators, log as log_utils
 
 
 class Importer(object):
@@ -37,8 +37,9 @@ class Importer(object):
         self.reload_modules = list()
 
         if logger is None:
-            self.logger = self.create_logger()
+            self.log, self.logger = self.create_logger()
         else:
+            self.log = None
             self.logger = logger
 
     @decorators.abstractmethod
@@ -71,14 +72,15 @@ class Importer(object):
         if not os.path.exists(log_path):
             raise RuntimeError('{} Log Path {} does not exists!'.format(self._module_name, log_path))
 
-        logger = log.create_logger(logger_name=self._module_name, logger_path=log_path).logger
+        log = log_utils.create_logger(logger_name=self._module_name, logger_path=log_path)
+        logger = log.logger
 
         if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(self._module_name.upper())) in ['True', 'true']:
-            logger.setLevel(log.LoggerLevel.DEBUG)
+            logger.setLevel(log_utils.LoggerLevel.DEBUG)
         else:
-            logger.setLevel(log.LoggerLevel.WARNING)
+            logger.setLevel(log_utils.LoggerLevel.WARNING)
 
-        return logger
+        return log, logger
 
     def import_module(self, module_name):
         """

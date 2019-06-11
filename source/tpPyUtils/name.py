@@ -10,6 +10,7 @@ from __future__ import print_function, division, absolute_import
 import os
 import re
 import sys
+import string
 
 
 class FindUniqueString(object):
@@ -49,7 +50,7 @@ class FindUniqueString(object):
             split_dot = self.test_string.split('.')
             if len(split_dot) > 1:
                 split_dot[-2] += str(number)
-                self.increment_string = strings.join(split_dot, '.')
+                self.increment_string = string.join(split_dot, '.')
             elif len(split_dot) == 1:
                 self.increment_string = '{0}{1}'.format(self.test_string, number)
 
