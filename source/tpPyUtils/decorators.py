@@ -14,6 +14,7 @@ import time
 import inspect
 import traceback
 
+import tpPyUtils
 from tpPyUtils import debug
 
 
@@ -122,7 +123,7 @@ def timer(fn):
 
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if sys.utils.logger.get_effective_level() == 20:
+        if tpPyUtils.logger.getEffectiveLevel() == 20:
             # If we are in info mode we disable timers
             res = fn(*args, **kwargs)
         else:
@@ -135,16 +136,16 @@ def timer(fn):
                 mod = inspect.getmodule(args[0])
                 trace += '{0} >>'.format(mod.__name__.split('.')[-1])
             except:
-                sys.utils_log.debug('function module inspect failure')
+                tpPyUtils.logger.debug('function module inspect failure')
 
             try:
                 cls = args[0].__clas__
                 trace += '{0}.'.format(args[0].__clas__.__name__)
             except:
-                sys.utils_log.debug('function class inspect failure')
+                tpPyUtils.logger.debug('function class inspect failure')
 
             trace += fn.__name__
-            sys.utils_log.debug('Timer : %s: took %0.3f ms' % (trace, (t2 - t1) * 1000.0))
+            tpPyUtils.logger.debug('Timer : %s: took %0.3f ms' % (trace, (t2 - t1) * 1000.0))
         return res
     return wrapper
 

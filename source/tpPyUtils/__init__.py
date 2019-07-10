@@ -259,6 +259,3 @@ def init(do_reload=True):
 
     new_importer.import_modules()
     new_importer.import_packages(only_packages=True)
-
-
-sys.utils_log = logger
