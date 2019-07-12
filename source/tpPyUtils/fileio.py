@@ -264,7 +264,7 @@ class FileVersion(object):
         if file_path:
             self.filename = path.get_basename(directory=self.file_path)
             self._path = path.get_dirname(file_path)
-            self._version_folder_name = '.version'
+            self._version_folder_name = '__version__'
             self._version_name = 'version'
             self._version_folder = None
             self.comment_file = None
@@ -433,7 +433,7 @@ class FileVersion(object):
 
         if path.is_dir(self.file_path):
             folder.copy_folder(directory=self.file_path, directory_destination=unique_file_name)
-        if path.is_file(self.file_path):
+        elif path.is_file(self.file_path):
             copy_file(file_path=self.file_path, file_path_destination=unique_file_name)
 
         self.save_comment(comment=comment, version_file=unique_file_name)
