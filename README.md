@@ -1,3 +1,8 @@
+<p align="center">
+    <a href="https://github.com/tpoveda/tpPyUtils/blob/master/LICENSE" alt="License">
+        <img src="https://img.shields.io/github/license/tpoveda/tpPyUtils.svg" /></a>
+</p>
+
 # tpPyUtils
 
 Collection of Python modules to make your life easier when working with Python, specially
