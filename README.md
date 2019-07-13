@@ -22,8 +22,8 @@ tpPyUtils.init()
 ```
 
 ### Reloading
-For development purposes, you can enable the reloading, so 
-you can reload your Python without the necessity of restarting
+For development purposes, you can enable reloading system, so 
+you can reload tpPyUtils sources without the necessity of restarting
 your Python session. Useful when working with DCCs
 ```python
 import tpPyUtils
