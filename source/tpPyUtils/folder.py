@@ -52,7 +52,6 @@ def create_folder(name, directory=None, make_unique=False):
         return full_path
 
     try:
-        # dccutils.debug('Creating folder: {}'.format(full_path))
         os.makedirs(full_path)
     except Exception as e:
         return False

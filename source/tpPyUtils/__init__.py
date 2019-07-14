@@ -31,7 +31,7 @@ class tpPyUtils(object):
 
     def get_module_path(self):
         """
-        Returns path where dccutils module is stored
+        Returns path where tpPyUtils module is stored
         :return: str
         """
 
@@ -93,7 +93,7 @@ class tpPyUtils(object):
 
     def externals_path(self):
         """
-        Returns the paths where dccutils externals packages are stored
+        Returns the paths where tpPyUtils externals packages are stored
         :return: str
         """
 
@@ -246,7 +246,7 @@ class tpPyUtils(object):
 def init(do_reload=True):
     """
     Initializes tpPyUtils package
-    :param do_reload: bool, Whether to reload imported dccutils modules or not
+    :param do_reload: bool, Whether to reload imported tpPyUtils modules or not
     :return: bool
     """
 
