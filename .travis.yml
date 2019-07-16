@@ -7,6 +7,6 @@ deploy:
   user: tpoveda
   password:
     secure: g/8OZy2RF72lxAackf//A0N3VdKKLWnsGMV26XXplZO1vmaOmU6qxJ9N57QBl0bt2db17/1S2SNF4QPzSon5sNZe19eZ75RniMTem7nPNcQFffqOeonJLQUaB2jKbzQl3UhmqaBcvpuRgMB9l5OQC7rta6T5KnkbbDd+5VH0ZTnnhAXvZxcASCBk7mzmMLTZMJAWrgGyHcYSKMnffts0NcnFbAzP0mGeI+HstZgS/3ILFoKqndSkQog2cEPNbTFS9nXrNNU0GiqP3jlt/hYvT8slFtjpH6SJrjn6I87tLvdUoC+TTEy++r1RrryUQxxqL2KFtn/QYW3gnWqaXoSCazx1rzsISofsMGN5ohQfq/uEy6dH5lEf0id4C9/7tHn55nCDLrAnA5ypdgduaJcIGGPT5JYHwdhm7E3Z3AaEN3uRMCxMb/zrVmlw1GLPoIuWog7Ur8xkWd7Q+yOPbHsS7llCSReOwJDfs9f6Xeo12KBte7FzWMylKj7IIWc4mgJUD/+nn/u8y1Fd0p5UcXiwFQYn5eVuQhleaIgs7qbabdbcClnJNo3gkCaP2sdJrYrIUYiaDY1DXdj2EkQY9wdubTgN4leECZY6WULRKdg/tPOhkiPKjvVf2kg8QtkiBfpm4b+j1Ab/k4trT8FGFNbGjA7wrPVJsH8HkdzIT7rrWiI=
+  skip_cleanup: true
   on:
     tags: true
-    branch: master
