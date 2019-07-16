@@ -2,6 +2,7 @@ tpPyUtils
 ============================================================
 
 .. image:: https://img.shields.io/github/license/tpoveda/tpPyUtils.svg
+    :target: https://github.com/tpoveda/tpPyUtils/blob/master/LICENSE
 
 Collection of Python modules to make your life easier when working with Python, specially for DCC tool development.
 
