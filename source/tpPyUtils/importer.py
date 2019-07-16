@@ -224,6 +224,93 @@ class Importer(object):
                     del sys.modules[mod]
 
 
+class SimpleImporter(object):
+    """
+    Simple importer in which module order cannot be defined useful in some scenarios
+    """
+
+    def __init__(self, module_name, logger=None):
+        super(SimpleImporter, self).__init__()
+
+        self._module_name = module_name
+
+        if logger is None:
+            self.log, self.logger = self.create_logger()
+        else:
+            self.log = None
+            self.logger = logger
+
+    @decorators.abstractmethod
+    def get_module_path(self):
+        """
+        Returns path where importer is located
+        Must be override in class
+        """
+
+        raise NotImplementedError('get_module_path() is not implemented!')
+
+    def get_data_path(self):
+        """
+        Returns path where user data should be located
+        :return: str
+        """
+
+        data_path = os.path.join(os.getenv('APPDATA'), self._module_name)
+        if not os.path.isdir(data_path):
+            os.makedirs(data_path)
+
+        return data_path
+
+    def create_logger(self):
+        """
+        Creates and initializes importer logger
+        """
+
+        log_path = self.get_data_path()
+        if not os.path.exists(log_path):
+            raise RuntimeError('{} Log Path {} does not exists!'.format(self._module_name, log_path))
+
+        log = log_utils.create_logger(logger_name=self._module_name, logger_path=log_path)
+        logger = log.logger
+
+        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(self._module_name.upper())) in ['True', 'true']:
+            logger.setLevel(log_utils.LoggerLevel.DEBUG)
+        else:
+            logger.setLevel(log_utils.LoggerLevel.WARNING)
+
+        return log, logger
+
+    def import_modules(self):
+        """
+        This function imports all the modules located in the given importer directory
+        """
+
+        import inspect
+        scripts_dir = self.get_module_path()
+        for key, module in sys.modules.items():
+            try:
+                module_path = inspect.getfile(module)
+            except TypeError:
+                continue
+            if module_path == scripts_dir:
+                continue
+            if module_path.startswith(scripts_dir):
+                try:
+                    importlib.import_module(module.__name__)
+                except Exception as e:
+                    self.logger.error('{} | {}'.format(e, traceback.format_exc()))
+
+    def reload_all(self):
+        """
+        Reloads all the modules of the given importer module name
+        """
+
+        for mod in sys.modules.keys():
+            if mod in sys.modules and mod.startswith(self._module_name):
+                del sys.modules[mod]
+        self.import_modules()
+
+
 def init_importer(importer_class, do_import=False, do_reload=True):
     """
     Initializes importer
@@ -239,6 +326,7 @@ def init_importer(importer_class, do_import=False, do_reload=True):
 
     if do_import:
         new_importer.import_modules()
-        new_importer.import_packages(only_packages=True)
+        if hasattr(importer_class, 'import_packages'):
+            new_importer.import_packages(only_packages=True)
 
     return new_importer
