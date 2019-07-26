@@ -553,7 +553,7 @@ def rename(directory, name, make_unique=False):
         return False
 
     try:
-        os.chmod(directory, 0777)
+        os.chmod(directory, 0o777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
         tpPyUtils.logger.info(message)
         os.rename(directory, rename_path)

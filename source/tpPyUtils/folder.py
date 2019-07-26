@@ -84,7 +84,7 @@ def rename_folder(directory, name, make_unique=False):
         return False
 
     try:
-        os.chmod(directory, 0777)
+        os.chmod(directory, 0o777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
         tpPyUtils.logger.info(message)
         os.rename(directory, rename_path)
@@ -149,7 +149,7 @@ def delete_folder(folder_name, directory):
         Helper to delete read only files
         """
 
-        os.chmod(name, 0777)
+        os.chmod(name, 0o777)
         action(name)
 
     full_path = path.join_path(directory, folder_name)

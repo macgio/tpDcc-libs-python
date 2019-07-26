@@ -709,7 +709,7 @@ def delete_file(name, directory):
     if not path.is_file(full_path):
         return full_path
 
-    os.chmod(full_path, 0777)
+    os.chmod(full_path, 0o777)
     os.remove(full_path)
 
     return full_path
@@ -736,7 +736,7 @@ def rename_file(name, directory, new_name, new_version=False):
         print('A file named {} already exists in the directory: {}'.format(new_name, directory))
         return full_path
 
-    os.chmod(full_path, 0777)
+    os.chmod(full_path, 0o777)
     os.rename(full_path, new_full_path)
 
     return new_full_path
