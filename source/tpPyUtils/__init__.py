@@ -234,7 +234,7 @@ class tpPyUtils(object):
         Reload all current loaded modules
         """
 
-        for mod in sys.modules.keys():
+        for mod in list(sys.modules.keys()):
             if mod in sys.modules:
                 if mod == self._module_name:
                     continue

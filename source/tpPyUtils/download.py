@@ -10,8 +10,12 @@ from __future__ import print_function, division, absolute_import
 import os
 import re
 import shutil
-import urllib2
 import zipfile
+try:
+    from urllib.request import urlopen, Request
+except ImportError:
+    from urllib2 import urlopen, Request
+
 
 numbers = re.compile('\d+')
 
@@ -56,8 +60,8 @@ def download_file(filename, destination):
             'Accept-Encoding': 'none',
             'Accept-Language': 'en-US,en;q=0.8',
             'Connection': 'keep-alive'}
-        req = urllib2.Request(filename, headers=hdr)
-        data = urllib2.urlopen(req)
+        req = Request(filename, headers=hdr)
+        data = urlopen(req)
         chunk_read(response=data, destination=destination, report_hook=chunk_report)
     except Exception as e:
         raise e

@@ -10,12 +10,12 @@ from __future__ import print_function, division, absolute_import
 import os
 import subprocess
 import platform
-import ConfigParser
+import configparser
 
 from tpPyUtils import osplatform
 
 
-class Config(ConfigParser.RawConfigParser, object):
+class Config(configparser.RawConfigParser, object):
     """
     Configuration file
     """
@@ -68,7 +68,7 @@ class Config(ConfigParser.RawConfigParser, object):
             try:
                 print('Creating Settings Folder: {}'.format(os.path.dirname(self.config_file)))
                 original_umask = os.umask(0)
-                os.makedirs(os.path.dirname(self.config_file), 0770)
+                os.makedirs(os.path.dirname(self.config_file), 0o770)
             finally:
                 os.umask(original_umask)
         f = open(self.config_file, 'w')
@@ -87,8 +87,8 @@ class Config(ConfigParser.RawConfigParser, object):
             section = self._app_name
 
         try:
-            return ConfigParser.RawConfigParser.get(self, section, option)
-        except ConfigParser.NoOptionError:
+            return configparser.RawConfigParser.get(self, section, option)
+        except configparser.NoOptionError:
             return ''
 
     def get_list(self, option, section=None):

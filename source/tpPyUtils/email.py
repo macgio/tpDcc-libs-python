@@ -9,7 +9,11 @@ from __future__ import print_function, division, absolute_import
 
 import email
 import smtplib
-from email.MIMEText import MIMEText
+
+try:
+    from email.mime.text import MIMEText
+except Exception:
+    from email.MIMEText import MIMEText
 
 
 class Email(object):

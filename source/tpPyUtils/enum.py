@@ -596,7 +596,11 @@ class enum(object):
         >>> Color.labelByValue(Color.Blue)
         'Blue'
     """
-    INDICES = xrange(sys.maxint)  # indices constant to use for looping
+
+    try:
+        INDICES = range(sys.maxsize)
+    except Exception:
+        INDICES = range(sys.maxint)  # indices constant to use for looping
 
     def __call__(self, key):
         return self.value(key)
@@ -605,7 +609,7 @@ class enum(object):
         if key == '__name__':
             return 'enum'
         else:
-            raise AttributeError, key
+            raise AttributeError(key)
 
     def __init__(self, *args, **kwds):
         """ Takes the provided arguments adds them as properties of this object. For each argument you
@@ -625,15 +629,15 @@ class enum(object):
             7
         """
         super(enum, self).__init__()
-        self._keys = list(args) + kwds.keys()
-        self._compound = kwds.keys()
+        self._keys = list(args) + list(kwds.keys())
+        self._compound = list(kwds.keys())
         self._descr = {}
         key = 1
         for i in range(len(args)):
             self.__dict__[args[i]] = key
             key *= 2
 
-        for kwd, value in kwds.items():
+        for kwd, value in list(kwds.items()):
             self.__dict__[kwd] = value
 
         if not ('All' in args or 'All' in kwds):

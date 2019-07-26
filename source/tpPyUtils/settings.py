@@ -11,12 +11,9 @@ import os
 import sys
 import ast
 import time
+import configparser
 from collections import OrderedDict
 
-if sys.version_info[:2] > (2, 7):
-    from importlib import configparser as ConfigParser
-else:
-    import ConfigParser
 
 from tpPyUtils import fileio, path, jsonio
 
@@ -288,7 +285,7 @@ class INISettings(object):
         """
 
         self._file = filename
-        self._parser = ConfigParser.RawConfigParser()
+        self._parser = configparser.RawConfigParser()
         self._is_dirty = False
         try:
             self._parser.read(self._file)

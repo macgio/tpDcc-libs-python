@@ -613,7 +613,7 @@ def get_dict_ordered_keys_from_values(d):
     :return: list<variant>
     """
 
-    return [i[0] for i in sorted(d.items(), key=lambda (k, v): v)]
+    return [i[0] for i in sorted(list(d.items()), key=lambda k, v: v)]
 
 
 def get_dict_ordered_values_from_keys(d):
@@ -623,7 +623,7 @@ def get_dict_ordered_values_from_keys(d):
     :return: list<variant>
     """
 
-    return [d[key] for key in sorted(d.keys())]
+    return [d[key] for key in sorted(list(d.keys()))]
 
 
 def flatten_list(list_to_flatten):
