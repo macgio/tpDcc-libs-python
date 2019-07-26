@@ -349,8 +349,8 @@ def safe_code_exec(cmd, env=dict()):
     """
 
     try:
-        exec cmd in env
-    except:
+        exec(cmd in env)
+    except Exception:
         raise (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2])
 
 
