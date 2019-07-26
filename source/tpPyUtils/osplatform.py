@@ -96,7 +96,7 @@ def get_permission(filepath):
         return True
 
     try:
-        os.chmod(filepath, 0775)
+        os.chmod(filepath, 0o775)
         return True
     except Exception:
         return False
