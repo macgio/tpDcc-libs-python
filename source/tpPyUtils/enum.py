@@ -600,7 +600,7 @@ class enum(object):
     try:
         INDICES = range(sys.maxsize)
     except Exception:
-        INDICES = range(sys.maxint)  # indices constant to use for looping
+        INDICES = xrange(sys.maxint)  # indices constant to use for looping
 
     def __call__(self, key):
         return self.value(key)
