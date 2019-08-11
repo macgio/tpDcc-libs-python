@@ -2,17 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-Module that contains utility functions decorators for Maya
+Module that contains utility functions decorators
 """
 
 from __future__ import print_function, division, absolute_import
 
 from functools import wraps
 import os
-import sys
 import time
 import inspect
 import traceback
+import threading
 
 import tpPyUtils
 from tpPyUtils import debug
@@ -157,9 +157,9 @@ def print_elapsed_time(f):
     """
 
     def decorator(f):
-        def newf(*args):
+        def newf(*args, **kwargs):
             t = time.time()
-            f(*args)
+            f(*args, **kwargs)
             print(f.__name__, time.time() - t)
         newf.__name__ = f.__name__
         return newf
@@ -204,4 +204,94 @@ def empty_decorator(f):
     def wrapper(*args, **kwargs):
         r = f(*args, **kwargs)
         return r
+    return wrapper
+
+
+def repeater(interval, limit=-1):
+    """!
+    A function interval decorator based on http://stackoverflow.com/questions/5179467/equivalent-of-setinterval-in-python
+
+    Inifinite Example Usage:
+        @repeater(.05)
+        def infinite():
+            print "Executing infinity."
+
+        import time
+        print "Starting Infinite Repeating Function"
+        token = infinite()
+        time.sleep(1)
+        print "Stopping: infinite"
+        token.stop()
+
+    Limited Example Usage:
+        @repeater(.05, 5)
+        def x5():
+            print "Executing x5"
+
+        import time
+        print "Starting Limited Repeating Function"
+        token = x5()
+        while not token.isSet():
+            time.sleep(1)
+        print "Expired: x5"
+
+    @param interval      The interval (in seconds) between function invocations.
+    @param limit         The limit to the number of function invocations; -1 represents infinity.
+    @return              A new decorator with a closure around the original function and the Python threading.Thread used to invoke it.
+    """
+
+    def actual_decorator(fn):
+
+        def wrapper(*args, **kwargs):
+
+            class RepeaterTimerThread(threading.Thread):
+                def __init__(self):
+                    threading.Thread.__init__(self)
+                    self._event = threading.Event()
+
+                def run(self):
+                    i = 0
+                    while i != limit and not self._event.is_set():
+                        self._event.wait(interval)
+                        fn(*args, **kwargs)
+                        i += 1
+                    else:
+                        if self._event:
+                            self._event.set()
+
+                def stopped(self):
+                    return not self._event or self._event.is_set()
+
+                def pause(self):
+                    self._event.set()
+
+                def resume(self):
+                    self._event.clear()
+
+                def stop(self):
+                    self._event.set()
+                    self.join()
+
+            token = RepeaterTimerThread()
+            token.daemon = True
+            token.start()
+            return token
+
+        return wrapper
+
+    return actual_decorator
+
+
+def cached(fn):
+    cache = {}
+
+    @wraps(fn)
+    def wrapper(*args):
+        try:
+            return cache[args]
+        except KeyError:
+            rv = fn(*args)
+            cache[args] = rv
+            return rv
+
     return wrapper
