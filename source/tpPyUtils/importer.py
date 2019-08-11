@@ -126,12 +126,16 @@ class Importer(object):
 
         return module_names, module_paths
 
-    def import_modules(self, module_path=None):
+    def import_modules(self, module_path=None, skip_modules=None):
         """
         Import all the modules of the package
         :param module_path: str, base module name we want to import
+        :param skip_modules: list(str)
         :return:
         """
+
+        if skip_modules is None:
+            skip_modules = list()
 
         if not module_path:
             module_path = self.get_module_path()
@@ -139,6 +143,8 @@ class Importer(object):
         mod_names, mod_paths = self.explore_package(module_path=module_path, only_packages=False)
         for name, _ in zip(mod_names, mod_paths):
             if name not in self.loaded_modules.keys():
+                if name in skip_modules:
+                    continue
                 mod = self.import_module(name)
                 if mod:
                     if isinstance(mod, types.ModuleType):
@@ -215,13 +221,13 @@ class Importer(object):
         Reload all current loaded modules
         """
 
-        for mod in sys.modules.keys():
-            if mod in sys.modules:
-                if mod == self._module_name:
-                    continue
-                elif mod.startswith(self._module_name):
-                    self.logger.info('Removing module: {}'.format(mod))
-                    del sys.modules[mod]
+        for mod in self.reload_modules:
+            if not hasattr(mod, 'no_reload'):
+                self.logger.info('Reloading: {}'.format(mod.__name__))
+                reload(mod)
+            else:
+                self.logger.info('Avoiding reload of: {}'.format(mod.__name__))
+        self.logger.debug('{} reloaded successfully!'.format(self._module_name))
 
 
 class SimpleImporter(object):
