@@ -156,14 +156,13 @@ def print_elapsed_time(f):
     :param f: fn, function
     """
 
-    def decorator(f):
-        def newf(*args, **kwargs):
-            t = time.time()
-            f(*args, **kwargs)
-            print(f.__name__, time.time() - t)
-        newf.__name__ = f.__name__
-        return newf
-    return decorator(f)
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        t = time.time()
+        res = f(*args, **kwargs)
+        print(f.__name__, time.time() - t)
+        return res
+    return wrapper
 
 
 def timestamp(f):
@@ -172,10 +171,12 @@ def timestamp(f):
     :param f: fn, function
     """
 
+    @wraps(f)
     def wrapper(*args, **kwargs):
         start_time = time.time()
-        f(*args, **kwargs)
+        res = f(*args, **kwargs)
         print('<' + f.func_name + '> Elapsed time :', time.time() - start_time)
+        return res
     return wrapper
 
 
