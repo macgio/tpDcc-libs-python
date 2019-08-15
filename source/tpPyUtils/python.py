@@ -16,6 +16,8 @@ import uuid
 import types
 import traceback
 
+from six import text_type
+
 from tpPyUtils import strings
 
 
@@ -681,3 +683,24 @@ def to_3_list(item):
         item = [item] * 3
 
     return item
+
+
+def u_print(msg, **kwargs):
+    """
+    `print` with encoded unicode.
+    `print` unicode may cause UnicodeEncodeError
+    or non-readable result when `PYTHONIOENCODING` is not set.
+    this will fix it.
+    :param msg: unicode, message to print
+    :param kwargs: dict
+    """
+
+    if isinstance(msg, text_type):
+        encoding = None
+        try:
+            encoding = os.getenv('PYTHONIOENCODING', sys.stdout.encoding)
+        except AttributeError:
+            # `sys.stdout.encoding` may not exists.
+            pass
+        msg = msg.encode(encoding or 'utf-8', 'replace')
+    print(msg, **kwargs)
