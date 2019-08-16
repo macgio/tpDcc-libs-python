@@ -151,13 +151,16 @@ class Importer(object):
                         self.loaded_modules[mod.__name__] = [os.path.dirname(mod.__file__), mod]
                         self.reload_modules.append(mod)
 
-    def import_packages(self, module_path=None, only_packages=False, order=None):
+    def import_packages(self, module_path=None, only_packages=False, order=None, skip_modules=None):
         """
         Import all packages of a given omdule
         :param module_path: str, module name
         :param only_packages: bool, Whether to import only packages or not
         :param order: list<str>, list specifying an order for import/reload
         """
+
+        if skip_modules is None:
+            skip_modules = list()
 
         if not module_path:
             module_path = self.get_module_path()
@@ -202,6 +205,8 @@ class Importer(object):
 
         for name, _ in zip(module_names, module_paths):
             if name not in self.loaded_modules.keys():
+                if name in skip_modules:
+                    continue
                 mod = self.import_module(name)
                 if mod:
                     if isinstance(mod, types.ModuleType):
