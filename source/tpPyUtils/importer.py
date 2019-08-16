@@ -205,7 +205,12 @@ class Importer(object):
 
         for name, _ in zip(module_names, module_paths):
             if name not in self.loaded_modules.keys():
-                if name in skip_modules:
+                skip = False
+                for skip_module in skip_modules:
+                    if skip_module == name or name.startswith(skip_module):
+                        skip = True
+                        break
+                if skip:
                     continue
                 mod = self.import_module(name)
                 if mod:
@@ -219,7 +224,7 @@ class Importer(object):
                 mod = self.loaded_modules[name][1]
                 if hasattr(mod, 'order'):
                     order = mod.order
-            self.import_packages(module_path=path, only_packages=False, order=order)
+            self.import_packages(module_path=path, only_packages=False, order=order, skip_modules=skip_modules)
 
     def reload_all(self):
         """
