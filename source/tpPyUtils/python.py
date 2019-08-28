@@ -46,6 +46,7 @@ class RollbackImporter(object):
             if mod_name not in self._prev_modules:
                 del sys.modules[mod_name]
 
+
 class classproperty(object):
     """
     Simplified way of creating getter and setters in Python

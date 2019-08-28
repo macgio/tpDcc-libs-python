@@ -7,12 +7,13 @@ Module that contains utility functions decorators
 
 from __future__ import print_function, division, absolute_import
 
-from functools import wraps
 import os
 import time
 import inspect
 import traceback
 import threading
+import contextlib
+from functools import wraps
 
 import tpPyUtils
 from tpPyUtils import debug
@@ -206,6 +207,15 @@ def empty_decorator(f):
         r = f(*args, **kwargs)
         return r
     return wrapper
+
+@contextlib.contextmanager
+def empty_decorator_context():
+    """
+    Empty decorator
+    :param f: fn
+    """
+
+    pass
 
 
 def repeater(interval, limit=-1):
