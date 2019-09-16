@@ -11,6 +11,76 @@ from tpPyUtils import folder, path, fileio, sort
 from tpPyUtils import name as name_utils
 
 
+class SemanticVersion(object):
+    """
+    Class that defines Semantic version following: <https://semver.org>
+    """
+
+    def __init__(self, major, minor, patch):
+        super(SemanticVersion, self).__init__()
+
+        assert(isinstance(major, int))
+        assert(isinstance(minor, int))
+        assert(isinstance(patch, int))
+        self._major = major
+        self._minor = minor
+        self._patch = patch
+
+    @staticmethod
+    def from_string(version_string):
+        """
+        Returns semantic version instance from given string
+        :param version_string: str
+        :return: SemanticVersion
+        """
+
+        major, minor, patch = version_string.split('.')
+        return SemanticVersion(int(major), int(minor), int(patch))
+
+    def __str__(self):
+        return '{}.{}.{}'.format(self._major, self._minor, self._patch)
+
+    def __eq__(self, other):
+        return all([self.major == other.major, self.minor == other.minor, self.patch == other.patch])
+
+    def __ge__(self, other):
+        lhs = int(''.join([str(self.major), str(self.minor), str(self.patch)]))
+        rhs = int(''.join([str(other.major), str(other.minor), str(other.patch)]))
+        return lhs >= rhs
+
+    def __gt__(self, other):
+        lhs = int(''.join([str(self.major), str(self.minor), str(self.patch)]))
+        rhs = int(''.join([str(other.major), str(other.minor), str(other.patch)]))
+        return lhs > rhs
+
+    @property
+    def major(self):
+        """
+        Returns major field of the semantic version
+        :return: int
+        """
+
+        return self._major
+
+    @property
+    def minor(self):
+        """
+        Returns minor field of the semantic version
+        :return: int
+        """
+
+        return self._minor
+
+    @property
+    def patch(self):
+        """
+        Returns patch field of the semantic version
+        :return: int
+        """
+
+        return self._patch
+
+
 class VersionFile(object):
     """
     Utility class to hold version for files and folders
