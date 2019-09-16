@@ -2,3 +2,4 @@
 # tpPyUtils requirements file
 # ===================================================================
 configparser
+pyyaml
