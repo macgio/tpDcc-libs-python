@@ -306,3 +306,27 @@ def cached(fn):
             return rv
 
     return wrapper
+
+
+class Singleton(object):
+    all_instances = list()
+
+    @staticmethod
+    def destroy_all():
+        for instance in Singleton.all_instances:
+            instance.destroy()
+
+    def __init__(self, cls):
+        self.cls = cls
+        self.instance = None
+        self.all_instances.append(self)
+
+    def destroy(self):
+        del self.instance
+        self.instance = None
+
+    def __call__(self, *args, **kwargs):
+        if self.instance is None:
+            self.instance = self.cls(*args, **kwargs)
+
+        return self.instance
