@@ -354,3 +354,25 @@ def get_alpha(value, capital=False):
         return ''.join(alphas).upper()
 
     return ''.join(alphas)
+
+
+def extract_digits_from_end_of_string(input_string):
+    """
+    Gets digits at the end of a string
+    :param input_string: str
+    :return: int
+    """
+
+    result = re.search('(\d+)$', input_string)
+    if result is not None:
+        return int(result.group(0))
+
+
+def remove_digits_from_end_of_string(input_string):
+    """
+    Deletes the numbers at the end of a string
+    :param input_string: str
+    :return: str
+    """
+
+    return re.sub(r'\d+$', '', input_string)

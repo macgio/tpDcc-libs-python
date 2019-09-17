@@ -587,3 +587,53 @@ def pad_number(name):
     new_name = name[0:index] + number_string + name[index+1:]
 
     return new_name
+
+
+def find_unique_id(ids):
+    """
+    Returns a unique int ID from given ids iterable, starting from 1
+    :param ids: iterable (list, set, tuple)
+    :return: int
+    """
+
+    if not ids or len(ids) == 0:
+        return 1
+
+    ids = sorted(set(ids))
+    last_id = min(ids)
+
+    if last_id > 1:
+        return 1
+
+    for uid in ids:
+        diff = uid - last_id
+        if diff > 1:
+            return last_id + 1
+        last_id = uid
+    else:
+        return uid + 1
+
+
+def get_unique_name_from_list(existing_names, name):
+    """
+    Creates a unique name by iterating over existing_names and extracts the end digits to find a new unique name
+    :param existing_names: list(str), list of strings where to search for existing indexes
+    :param name: str, name to obtain a unique version from
+    :return: str
+    """
+
+    from tpPyUtils import strings
+
+    if name not in existing_names:
+        return name
+
+    ids = set()
+
+    for existing_name in existing_names:
+        digits = strings.extract_digits_from_end_of_string(existing_name)
+        if digits:
+            ids.add(digits)
+    idx = find_unique_id(ids)
+    name_no_digits = strings.remove_digits_from_end_of_string(name)
+
+    return name_no_digits + str(idx)
