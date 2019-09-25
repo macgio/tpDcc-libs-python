@@ -34,9 +34,9 @@ class LoggerLevel:
 
 class Logger(object):
 
-    _LOGGER_IDENTIFIER = '_is_dcc_hub_logger'
-    _LOGGER_DEFAULT_NAME = 'dcchub_logger'
-    _LOGGER_INTERNAL_HANDLER_IS_CUSTOM_LOG_LEVEL = '_is_dcc_hub_logger_internal_handler_custom_log_level'
+    _LOGGER_IDENTIFIER = '_is_tppyutils_logger'
+    _LOGGER_DEFAULT_NAME = 'tppyutils_logger'
+    _LOGGER_INTERNAL_HANDLER_IS_CUSTOM_LOG_LEVEL = '_is_tppyutils_hub_logger_internal_handler_custom_log_level'
     _LOGGER_DEFAULT_FORMAT = '[%(levelname)1.1s %(asctime)s | %(name)s | %(module)s:%(lineno)d]: %(message)s'
     _LOGGER_DEFAULT_DATE_FORMAT = '%d/%m/%y %H:%M:%S'
 
