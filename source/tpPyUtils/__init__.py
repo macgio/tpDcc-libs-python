@@ -251,11 +251,11 @@ def init(do_reload=True):
     """
 
     new_importer = tpPyUtils()
-    if do_reload:
-        new_importer.reload_all()
 
     global logger
     logger = new_importer.logger
 
     new_importer.import_modules()
     new_importer.import_packages(only_packages=True)
+    if do_reload:
+        new_importer.reload_all()
