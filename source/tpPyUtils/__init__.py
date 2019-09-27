@@ -164,13 +164,16 @@ class tpPyUtils(object):
                         self.loaded_modules[mod.__name__] = [os.path.dirname(mod.__file__), mod]
                         self.reload_modules.append(mod)
 
-    def import_packages(self, module_path=None, only_packages=False, order=None):
+    def import_packages(self, module_path=None, only_packages=False, order=None, skip_packages=None):
         """
         Import all packages of a given omdule
         :param module_path: str, module name
         :param only_packages: bool, Whether to import only packages or not
         :param order: list<str>, list specifying an order for import/reload
         """
+
+        if not skip_packages:
+            skip_packages = list()
 
         if not module_path:
             module_path = self.get_module_path()
@@ -223,6 +226,13 @@ class tpPyUtils(object):
 
         for name, path in zip(module_names, module_paths):
             order = list()
+            can_import = True
+            for skip_pkg in skip_packages:
+                if name.startswith(skip_pkg):
+                    can_import = False
+                    break
+            if not can_import:
+                continue
             if name in self.loaded_modules.keys():
                 mod = self.loaded_modules[name][1]
                 if hasattr(mod, 'order'):
