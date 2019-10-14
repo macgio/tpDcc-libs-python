@@ -95,7 +95,7 @@ class Importer(object):
                 return mod
         except Exception as e:
             try:
-                self.logger.warning('FAILED IMPORT: {} -> {}'.format(str(module_name), str(e)))
+                self.logger.warning('FAILED IMPORT: {} -> {}'.format(str(module_name), str(traceback.format_exc())))
             except Exception:
                 self.logger.warning('FAILED IMPORT: {}'.format(module_name))
             self.logger.debug('\t>>>{}'.format(traceback.format_exc()))

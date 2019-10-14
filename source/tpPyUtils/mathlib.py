@@ -328,6 +328,60 @@ def roundup(number, to):
     return int(math.ceil(number / to)) * to
 
 
+def sign(value):
+    """
+    Returns the sign of the given value
+    :param value: float
+    :return: -1 of the value is negative; 1 if the value is positive; 0 if the value is zero
+    """
+
+    return value and (1, -1)[value < 0]
+
+
+def get_range_percentage(min_value, max_value, value):
+    """
+    Returns the percentage value along a line from min_vlaue to max_value that value is
+    :param min_value: float, minimum value
+    :param max_value: float, maximum value
+    :param value: float, input value
+    :return: Percentage (from 0.0 to 1.0) between the two values where input value is
+    """
+
+    return (value - min_value) / (max_value - min_value)
+
+
+def map_range_clamped(value, in_range_a, in_range_b, out_range_a, out_range_b):
+    """
+    Returns value mapped from one range into another where the value is clamped to the input range
+    For example, 0.5 normalized from the range 0:1 to 0:50 would result in 25
+    :param value: float
+    :param in_range_a: float
+    :param in_range_b: float
+    :param out_range_a: float
+    :param out_range_b: float
+    :return: float
+    """
+
+    clamped_percentage = clamp(get_range_percentage(in_range_a, in_range_b, value), 0.0, 1.0)
+    return lerp(out_range_a, out_range_b, clamped_percentage)
+
+
+def map_range_unclamped(value, in_range_a, in_range_b, out_range_a, out_range_b):
+    """
+    Returns value mapped from one range into another where the value
+    For example, 0.5 normalized from the range 0:1 to 0:50 would result in 25
+    :param value: float
+    :param in_range_a: float
+    :param in_range_b: float
+    :param out_range_a: float
+    :param out_range_b: float
+    :return: float
+    """
+
+    clamped_percentage = get_range_percentage(in_range_a, in_range_b, value)
+    return lerp(out_range_a, out_range_b, clamped_percentage)
+
+
 def bounding_box_half_values(bbox_min, bbox_max):
     """
     Returns the values half way between max and min XYZ given tuples
@@ -346,6 +400,13 @@ def bounding_box_half_values(bbox_min, bbox_max):
 
 
 def snap_value(input, snap_value):
+    """
+    Returns snap value given an input and a base snap value
+    :param input: float
+    :param snap_value: float
+    :return: float
+    """
+
     return round((float(input)/snap_value)) * snap_value
 
 

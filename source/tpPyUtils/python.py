@@ -13,11 +13,10 @@ import sys
 import imp
 import ast
 import uuid
+import time
 import types
 import traceback
 import collections
-
-from six import text_type
 
 from tpPyUtils import strings
 
@@ -163,10 +162,49 @@ def source_python_module(module_file):
 def get_version():
     """
     Return current Python version used
-    :return: float, python version
+    :return: SemanticVersion, python version
     """
 
-    return float(sys.version[0:3])
+    from tpPyUtils import version
+    py_version = sys.version_info
+    current_version = version.SemanticVersion(
+        major=py_version.major,
+        minor=py_version.minor,
+        patch=py_version.micro
+    )
+
+    return current_version
+
+
+def is_python2():
+    """
+    Returns whether or not current version is Python 2
+    :return: bool
+    """
+
+    return get_version().major == 2
+
+
+def is_python3():
+    """
+    Returns whether or not current version is Python 3
+    :return: bool
+    """
+
+    return get_version().major == 3
+
+
+def clear_list(list_to_clear):
+    """
+    Clears given Python list
+    :param list_to_clear: list
+    """
+
+    from tpPyUtils import version
+    if get_version() < version.SemanticVersion(3, 2, 0):
+        del list[:]
+    else:
+        list_to_clear.clear()
 
 
 def list_diff(list1, list2):
@@ -697,6 +735,8 @@ def u_print(msg, **kwargs):
     :param kwargs: dict
     """
 
+    from six import text_type
+
     if isinstance(msg, text_type):
         encoding = None
         try:
@@ -715,14 +755,26 @@ def dict_merge(dict, merge_dict):
     to an arbitrary depth, updating keys. The ``merge_dct`` is merged into
     ``dct``.
 
-    :param dct: dict onto which the merge is executed
-    :param merge_dct: dct merged into dct
+    :param dict: dict onto which the merge is executed
+    :param merge_dict: dct merged into dct
     :return: None
     """
 
-    for k, v in merge_dct.iteritems():
-        if (k in dct and isinstance(dct[k], dict)
-                and isinstance(merge_dct[k], collections.Mapping)):
-            dict_merge(dct[k], merge_dct[k])
+    for k, v in merge_dict.iteritems():
+        if (k in dict and isinstance(dict[k], dict)
+                and isinstance(merge_dict[k], collections.Mapping)):
+            dict_merge(dict[k], merge_dict[k])
         else:
-            dct[k] = merge_dct[k]
+            dict[k] = merge_dict[k]
+
+
+def current_processor_time():
+    """
+    Retunrs the current processor time
+    :return: float
+    """
+
+    if is_python2():
+        return time.clock()
+    else:
+        return time.process_time()
