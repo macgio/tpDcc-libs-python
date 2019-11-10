@@ -12,6 +12,7 @@ import os
 import sys
 import types
 import pkgutil
+import inspect
 import traceback
 import importlib
 from collections import OrderedDict
@@ -24,7 +25,7 @@ class Importer(object):
     Base class that allows to import/reload all the modules in a given package and in a given order
     """
 
-    def __init__(self, module_name, module_dir=None, logger=None):
+    def __init__(self, module_name, module_dir=None, logger=None, debug=False):
         super(Importer, self).__init__()
 
         if module_dir is None:
@@ -37,7 +38,7 @@ class Importer(object):
         self.reload_modules = list()
 
         if logger is None:
-            self.log, self.logger = self.create_logger()
+            self.log, self.logger = self.create_logger(debug=debug)
         else:
             self.log = None
             self.logger = logger
@@ -63,7 +64,7 @@ class Importer(object):
 
         return data_path
 
-    def create_logger(self):
+    def create_logger(self, debug=False):
         """
         Creates and initializes importer logger
         """
@@ -75,7 +76,12 @@ class Importer(object):
         log = log_utils.create_logger(logger_name=self._module_name, logger_path=log_path)
         logger = log.logger
 
-        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(self._module_name.upper())) in ['True', 'true']:
+        debug_env_var = '{}_DEV'.format(self._module_name.upper())
+        if debug:
+            os.environ[debug_env_var] = 'True'
+        else:
+            os.environ[debug_env_var] = 'False'
+        if debug_env_var in os.environ and os.environ.get(debug_env_var) in ['True', 'true']:
             logger.setLevel(log_utils.LoggerLevel.DEBUG)
         else:
             logger.setLevel(log_utils.LoggerLevel.WARNING)
@@ -336,7 +342,11 @@ def init_importer(importer_class, do_import=False, do_reload=True):
     :return:
     """
 
-    new_importer = importer_class()
+    if inspect.isclass(importer_class):
+        new_importer = importer_class()
+    else:
+        new_importer = importer_class
+
     if do_reload:
         new_importer.reload_all()
 

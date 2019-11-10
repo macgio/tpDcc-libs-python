@@ -21,7 +21,6 @@ import collections
 from tpPyUtils import strings
 
 
-# region Classes
 class RollbackImporter(object):
     """
     This class is used to restore the loaded modules in a certain time after the rollback is instantiated
@@ -57,21 +56,47 @@ class classproperty(object):
 
     def __get__(self, instance, owner):
         return self.getter(owner)
-# endregion
 
 
-# region Functions
-def add_to_python_path(path):
+def add_to_python_path(path, check=True, insert=True):
     """
     Adds a path to the Python path, only if it is not present in the Python path
     :param path: str, path to add to the Python path
+    :param insert: bool
     """
 
     if not path:
-        return
+        return False
 
-    if not path in sys.path:
+    if check:
+        if not os.path.exists(path):
+            return False
+
+    if path in sys.path:
+        return False
+
+    if insert:
+        sys.path.insert(0, path)
+    else:
         sys.path.append(path)
+
+    return True
+
+
+def add_to_environment(env, new_paths):
+    """
+    Adds given paths into the given environment variable
+    :param env: str
+    :param new_paths: list(str)
+    """
+
+    paths = [i for i in os.environ.get(env, '').split(os.pathsep) if i]
+
+    for p in new_paths:
+        if p not in paths:
+            paths.append(p)
+
+    os.environ[env] = os.pathsep.join(paths) + os.pathsep
 
 
 def load_python_module(module_name, directory):
@@ -200,9 +225,8 @@ def clear_list(list_to_clear):
     :param list_to_clear: list
     """
 
-    from tpPyUtils import version
-    if get_version() < version.SemanticVersion(3, 2, 0):
-        del list[:]
+    if is_python2():
+        del list_to_clear[:]
     else:
         list_to_clear.clear()
 

@@ -10,6 +10,7 @@ from __future__ import print_function, division, absolute_import
 import os
 import sys
 import getpass
+import platform
 import subprocess
 
 
@@ -48,9 +49,7 @@ def is_linux():
     """
 
     platform = get_platform()
-    if platform == Platforms.Linux:
-        return True
-    return False
+    return platform == Platforms.Linux
 
 
 def is_mac():
@@ -60,9 +59,7 @@ def is_mac():
     """
 
     platform = get_platform()
-    if platform == Platforms.Mac:
-        return True
-    return False
+    return platform == Platforms.Mac
 
 
 def is_windows():
@@ -72,18 +69,19 @@ def is_windows():
     """
 
     platform = get_platform()
-    if platform == Platforms.Windows:
-        return True
-    return False
+    return platform == Platforms.Windows
 
 
-def get_user():
+def get_user(lower=True):
     """
     Returns the current user
+    :param lower: bool
     :return: str
     """
 
-    return getpass.getuser()
+    username = getpass.getuser()
+
+    return username.lower() if lower else username
 
 
 def get_permission(filepath):
@@ -157,19 +155,6 @@ def append_env_var(name, value):
     set_env_var(name=name, value=env_value)
 
 
-def add_to_PYTHONPATH(path):
-    """
-    Adds given path to the Python Path only if it is not already present in it
-    :param path: str
-    """
-
-    if not path:
-        return
-
-    if not path in sys.path:
-        sys.path.append(path)
-
-
 def get_system_config_directory():
     """
     Returns platform specific configuration directory
@@ -215,4 +200,25 @@ def open_file(file_path):
         subprocess.call(('xdg-open', file_path))
     else:
         raise NotImplementedError('OS not supported: {}'.format(os.name))
+
+
+def machine_info():
+    """
+    Returns dictionary with information about the current machine
+    :return: dict
+    """
+
+    machine_dict = {
+        'pythonVersion': sys.version,
+        'node': platform.node(),
+        'OSRelease': platform.release(),
+        'OSVersion': platform.platform(),
+        'processor': platform.processor(),
+        'machineType': platform.machine(),
+        'env': os.environ,
+        'syspaths': sys.path,
+        'executable': sys.executable,
+    }
+
+    return machine_dict
 

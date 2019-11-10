@@ -24,7 +24,7 @@ def write_to_file(data, filename):
         filename += '.yml'
 
     with open(filename, 'w') as yaml_file:
-        yaml.dump(data, yaml_file)
+        yaml.safe_dump(data, yaml_file)
 
     return filename
 
