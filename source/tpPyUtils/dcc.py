@@ -8,6 +8,8 @@ Module that contains utility functions related with apps
 
 from __future__ import print_function, division, absolute_import
 
+import sys
+
 
 def is_nuke():
     """
@@ -28,11 +30,16 @@ def is_maya():
     :return: bool
     """
 
-    try:
-        import maya.cmds as cmds
-        return True
-    except ImportError:
-        return False
+    return 'maya.exe' in sys.executable.lower()
+
+
+def is_mayapy():
+    """
+    Checks if Maya is available or not
+    :return: bool
+    """
+
+    return 'mayapy.exe' in sys.executable.lower()
 
 
 def is_max():
@@ -41,11 +48,7 @@ def is_max():
     :return: bool
     """
 
-    try:
-        import MaxPlus
-        return True
-    except ImportError:
-        return False
+    return '3dsmax' in sys.executable.lower()
 
 
 def is_houdini():
@@ -54,8 +57,13 @@ def is_houdini():
     :return: bool
     """
 
-    try:
-        import hou
-        return True
-    except ImportError:
-        return False
+    return 'houdini' in sys.executable
+
+
+def is_motionbuilder():
+    """
+    Checks if MotionBuilder is available or not
+    :return: bool
+    """
+
+    return 'motionbuilder' in sys.executable.lower()
