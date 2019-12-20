@@ -43,7 +43,7 @@ def create_folder(name, directory=None, make_unique=False):
         full_path = path.join_path(directory, name)
 
     if make_unique:
-        full_path = path.join_path(directory, name)
+        full_path = path.unique_path_name(directory=full_path)
 
     if not full_path:
         return False
@@ -142,7 +142,7 @@ def delete_folder(folder_name, directory):
     :return: str, folder that was deleted with path
     """
 
-    from tpPyUtils import path, fileio
+    from tpPyUtils import path
 
     def delete_read_only_error(action, name, exc):
         """
