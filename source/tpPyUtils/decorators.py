@@ -10,6 +10,7 @@ from __future__ import print_function, division, absolute_import
 import os
 import time
 import inspect
+import logging
 import traceback
 import threading
 import contextlib
@@ -17,6 +18,8 @@ from functools import wraps
 
 import tpPyUtils
 from tpPyUtils import debug
+
+LOGGER = logging.getLogger()
 
 
 def abstractmethod(fn):
@@ -30,7 +33,7 @@ def abstractmethod(fn):
         if mode == 'raise':
             raise NotImplementedError(debug.debug_object_string(fn, msg))
         elif mode == 'warn':
-            print(debug.debug_object_string(fn, msg))
+            LOGGER.info(debug.debug_object_string(fn, msg))
         return fn(*args, **kwargs)
 
     new_fn.__name__ = fn.__name__
@@ -176,7 +179,7 @@ def timestamp(f):
     def wrapper(*args, **kwargs):
         start_time = time.time()
         res = f(*args, **kwargs)
-        print('<' + f.func_name + '> Elapsed time :', time.time() - start_time)
+        LOGGER.info('<' + f.func_name + '> Elapsed time :', time.time() - start_time)
         return res
     return wrapper
 
@@ -192,7 +195,7 @@ def try_pass(fn):
         try:
             return_value = fn(*args, **kwargs)
         except Exception:
-            print(traceback.format_exc())
+            LOGGER.error(traceback.format_exc())
         return return_value
     return wrapper
 
