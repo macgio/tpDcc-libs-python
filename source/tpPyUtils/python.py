@@ -802,3 +802,18 @@ def current_processor_time():
         return time.clock()
     else:
         return time.process_time()
+
+
+def is_iterable(obj):
+    """
+    Returns whether or not given Python object is iterable
+    :param obj: object
+    :return: bool
+    """
+
+    try:
+        it = iter(obj)
+    except TypeError:
+        return False
+
+    return True
