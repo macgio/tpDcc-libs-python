@@ -8,6 +8,9 @@ Module that contains functions and class related with maths
 from __future__ import print_function, division, absolute_import
 
 import math
+import struct
+
+MAX_INT = 2 ** (struct.Struct('i').size * 8 - 1) - 1
 
 
 class BaseVector(object):

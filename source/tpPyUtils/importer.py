@@ -79,8 +79,8 @@ class Importer(object):
         debug_env_var = '{}_DEV'.format(self._module_name.upper())
         if debug:
             os.environ[debug_env_var] = 'True'
-        else:
-            os.environ[debug_env_var] = 'False'
+        # else:
+        #     os.environ[debug_env_var] = 'False'
         if debug_env_var in os.environ and os.environ.get(debug_env_var) in ['True', 'true']:
             logger.setLevel(log_utils.LoggerLevel.DEBUG)
         else:
@@ -191,9 +191,9 @@ class Importer(object):
                     ordered_names.insert(temp_index + 1, n)
                     ordered_paths.insert(temp_index + 1, n)
                     temp_index += 1
-                elif str(o) in str(n):
-                    ordered_names.append(n)
-                    ordered_paths.append(p)
+                # elif str(o) in str(n):
+                #     ordered_names.append(n)
+                #     ordered_paths.append(p)
 
         ordered_names.extend(package_names)
         ordered_paths.extend(package_paths)
@@ -239,10 +239,10 @@ class Importer(object):
 
         for mod in self.reload_modules:
             if not hasattr(mod, 'no_reload'):
-                self.logger.info('Reloading: {}'.format(mod.__name__))
+                self.logger.debug('Reloading: {}'.format(mod.__name__))
                 reload(mod)
             else:
-                self.logger.info('Avoiding reload of: {}'.format(mod.__name__))
+                self.logger.debug('Avoiding reload of: {}'.format(mod.__name__))
         self.logger.debug('{} reloaded successfully!'.format(self._module_name))
 
 
@@ -333,17 +333,18 @@ class SimpleImporter(object):
         self.import_modules()
 
 
-def init_importer(importer_class, do_import=False, do_reload=True):
+def init_importer(importer_class, do_import=False, do_reload=True, debug=False):
     """
     Initializes importer
     :param importer_class:
     :param do_import: bool
     :param do_reload: bool
+    :param debug: bool
     :return:
     """
 
     if inspect.isclass(importer_class):
-        new_importer = importer_class()
+        new_importer = importer_class(debug=debug)
     else:
         new_importer = importer_class
 
