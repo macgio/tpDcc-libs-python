@@ -11,9 +11,10 @@ from __future__ import print_function, division, absolute_import
 
 import re
 import os
+import random
+import logging
+from string import ascii_letters
 
-
-# region Constants
 iters = [list, tuple, set, frozenset]
 class _hack(tuple): pass
 iters = _hack(iters)
@@ -21,7 +22,8 @@ iters.__doc__ = """
 A list of iterable items (like lists, but not strings). Includes whichever
 of lists, tuples, sets, and Sets are available in this version of Python.
 """
-# endregion
+
+LOGGER = logging.getLogger()
 
 
 def _strips(direction, text, remove):
@@ -376,3 +378,37 @@ def remove_digits_from_end_of_string(input_string):
     """
 
     return re.sub(r'\d+$', '', input_string)
+
+
+def rst_to_html(rst):
+    """
+    Converts given srst strin to HMLT
+    :param rst: str
+    :return:
+    """
+
+    if not rst:
+        return ''
+
+    try:
+        from docutils import core
+    except Exception:
+        LOGGER.warning('docutils module is not availble. Impossible to convert RST to HTML ...')
+        return rst
+
+    return core.publish_string(rst, writer_name='html').decode('utf-8')
+
+
+def generate_random_string(num_symbols=5):
+    """
+    Generates a random string with the given number of characters
+    :param num_symbols: int
+    :return: str
+    """
+
+    result = ''
+    for i in range(num_symbols):
+        letter = random.choice(ascii_letters)
+        result += letter
+
+    return result
