@@ -17,7 +17,7 @@ import subprocess
 class Platforms(object):
     Windows = 'Windows'
     Linux = 'Linux'
-    Mac = 'MacOSX'
+    Mac = 'MacOS'
 
 
 def get_platform():
@@ -222,3 +222,17 @@ def machine_info():
 
     return machine_dict
 
+
+def get_architecture():
+    """
+    Returns architecture of current OS
+    :return: str
+    """
+
+    if get_platform() == Platforms.Mac:
+        if sys.maxsize > 2**32:
+            return '64bit'
+        else:
+            return '32bit'
+    else:
+        return platform.architecture()[0]
