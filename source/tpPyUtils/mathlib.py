@@ -281,7 +281,7 @@ class BoundingBox(object):
         :return: float
         """
 
-        return get_distance(self.min_vector, self.max_vector)
+        return get_distance_between_vectors(self.min_vector, self.max_vector)
 
 
 def is_equal(x, y, tolerance=0.000001):
@@ -439,20 +439,106 @@ def check_vector_2d(vector):
     return Vector(vector[0], vector[1])
 
 
-def get_distance(vector1, vector2):
+def vector_add(vector1, vector2):
     """
-    Returns the distance between two vectors
-    :param vector1: list<float, float, float>, vector
-    :param vector2: list<float, float, float>, vector
+    Adds one vector to another
+    :param vector1: list(float, float, float)
+    :param vector2: list(float, float, float)
+    :return: list(float, float, float)
+    """
+
+    return [vector1[0] + vector2[0], vector1[1] + vector2[1], vector1[2] + vector2[2]]
+
+
+def vector_sub(vector1, vector2):
+    """
+    Subtracts one vector to another
+    :param vector1: list(float, float, float)
+    :param vector2: list(float, float, float)
+    :return: list(float, float, float)
+    """
+
+    return [vector1[0] - vector2[0], vector1[1] - vector2[1], vector1[2] - vector2[2]]
+
+
+def vector_multiply(vector, value):
+    """
+    Multiples given vector by a value
+    :param vector: list(float, float, float)
+    :param value: float ,value to multiple vector by
+    :return: list(float, float, float)
+    """
+
+    result = [vector[0] * value, vector[1] * value, vector[2] * value]
+
+    return result
+
+
+def vector_divide(vector, value):
+    """
+    Divides given vector by a value
+    :param vector: list(float, float, float)
+    :param value: float ,value to multiple vector by
+    :return: list(float, float, float)
+    """
+
+    result = [vector[0] / value, vector[1] / value, vector[2] / value]
+
+    return result
+
+
+def vector_magnitude(vector):
+    """
+    Returns the magnitude of a vector
+    :param vector: list(float, float, float)
+    :return:  float
+    """
+
+    magnitude = math.sqrt(vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2)
+
+    return magnitude
+
+
+def vector_normalize(vector):
+    """
+    Normalizes given vector
+    :param vector: list(float, float, float)
+    :return: list(float, float, float)
+    """
+
+    return vector_divide(vector, vector_magnitude(vector))
+
+
+def get_distance_between_vectors(vector1, vector2):
+    """
+    Returns the distance bewteen two vectors
+    :param vector1: list(float, float, float)
+    :param vector2: list(float, float, float)
     :return: float
     """
 
-    v1 = check_vector(vector1)
-    v2 = check_vector(vector2)
-    v = v1 - v2
-    dst = v()
+    vector1 = Vector(vector1)
+    vector2 = Vector(vector2)
+    vector = vector1 - vector2
+    dst = vector()
 
     return math.sqrt((dst[0] * dst[0]) + (dst[1] * dst[1]) + (dst[2] * dst[2]))
+
+
+def get_distance_between_vectors_before_sqrt(vector1, vector2):
+    """
+    Returns the distance bewteen two vectors before applying square root
+    :param vector1: list(float, float, float)
+    :param vector2: list(float, float, float)
+    :return: float
+    """
+
+    vector1 = Vector(vector1)
+    vector2 = Vector(vector2)
+    vector = vector1 - vector2
+    dst = vector()
+
+    return (dst[0] * dst[0]) + (dst[1] * dst[1]) + (dst[2] * dst[2])
 
 
 def get_distance_2d(vector1_2d, vector2_2d):
@@ -570,3 +656,4 @@ def fade_sigmoid(percent_value):
     input_value = percent_value * 10 + 1
 
     return (2 / (1 + (math.e**(-0.70258 * input_value)))) - 1
+
