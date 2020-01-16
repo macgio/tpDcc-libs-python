@@ -14,6 +14,7 @@ Installation
 Manual
 ~~~~~~~~~~~~~~~~~~~~~~
 1. Clone/Download tpPyUtils anywhere in your PC (If you download the repo, you will need to extract the contents of the .zip file).
+
 2. Copy **tpPyUtils** folder located inside **source** folder in a path added to **sys.path**
 
 Automatic
