@@ -49,17 +49,6 @@ class tpPyUtils(object):
 
         return mod_dir
 
-    def update_paths(self):
-        """
-        Adds path to system paths at startup
-        """
-
-        paths_to_update = [self.externals_path()]
-
-        for p in paths_to_update:
-            if os.path.exists(p) and p not in sys.path:
-                sys.path.append(p)
-
     def get_data_path(self):
         """
         Returns path where user data should be located
@@ -91,14 +80,6 @@ class tpPyUtils(object):
 
         return logger
 
-    def externals_path(self):
-        """
-        Returns the paths where tpPyUtils externals packages are stored
-        :return: str
-        """
-
-        return os.path.join(self.get_module_path(), 'externals')
-
     def import_module(self, module_name):
         """
         Static function used to import a function given its complete name
@@ -106,8 +87,6 @@ class tpPyUtils(object):
         """
 
         try:
-            if '{}.externals'.format(self._module_name) in module_name:
-                return
             mod = importlib.import_module(module_name)
             self.logger.debug('Imported: {}'.format(mod))
             if mod and isinstance(mod, types.ModuleType):

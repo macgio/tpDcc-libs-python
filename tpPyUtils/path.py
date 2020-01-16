@@ -16,9 +16,10 @@ import tempfile
 import traceback
 import contextlib
 
+import six
+
 import tpPyUtils
 from tpPyUtils import name, folder
-from tpPyUtils.externals import six
 
 SEPARATOR = '/'
 BAD_SEPARATOR = '\\'
