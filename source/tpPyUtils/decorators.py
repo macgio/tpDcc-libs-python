@@ -19,8 +19,6 @@ from functools import wraps
 import tpPyUtils
 from tpPyUtils import debug
 
-LOGGER = logging.getLogger()
-
 
 def abstractmethod(fn):
     """
@@ -33,7 +31,7 @@ def abstractmethod(fn):
         if mode == 'raise':
             raise NotImplementedError(debug.debug_object_string(fn, msg))
         elif mode == 'warn':
-            LOGGER.info(debug.debug_object_string(fn, msg))
+            tpPyUtils.logger.warning(debug.debug_object_string(fn, msg))
         return fn(*args, **kwargs)
 
     new_fn.__name__ = fn.__name__
@@ -179,7 +177,7 @@ def timestamp(f):
     def wrapper(*args, **kwargs):
         start_time = time.time()
         res = f(*args, **kwargs)
-        LOGGER.info('<' + f.func_name + '> Elapsed time :', time.time() - start_time)
+        tpPyUtils.logger.info('<{}> Elapsed time : {}'.format(f.func_name, time.time() - start_time))
         return res
     return wrapper
 
@@ -195,7 +193,7 @@ def try_pass(fn):
         try:
             return_value = fn(*args, **kwargs)
         except Exception:
-            LOGGER.error(traceback.format_exc())
+            tpPyUtils.logger.error(traceback.format_exc())
         return return_value
     return wrapper
 
@@ -333,3 +331,27 @@ class Singleton(object):
             self.instance = self.cls(*args, **kwargs)
 
         return self.instance
+
+
+class HybridMethod(object):
+    """
+    Merges a normal method with a classmethod
+    First two arguments are (cls, self), where self will match cls if it is a classmethod
+    https://stackoverflow.com/a/18078819/2403000
+    """
+
+    def __init__(self, fn):
+        self._fn = fn
+
+    def __get__(self, obj, cls):
+        context = obj if obj is not None else cls
+
+        @wraps(self._fn)
+        def hybrid(*args, **kwargs):
+            return self._fn(cls, context, *args, **kwargs)
+
+        # Mimic method attributes (not required)
+        hybrid.__func__ = hybrid.im_func = self._fn
+        hybrid.__self__ = hybrid.im_self = context
+
+        return hybrid()
