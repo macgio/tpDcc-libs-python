@@ -47,7 +47,7 @@ def get_current_time(date_and_time=True, reverse_date=False):
     """
 
     mtime = time.time()
-    date_value = datetime.datetime.fromtimestamp(mtime)
+    date_value = datetime.fromtimestamp(mtime)
     hour = str(date_value.hour)
     minute = str(date_value.minute)
     second = str(int(date_value.second))

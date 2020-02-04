@@ -22,7 +22,6 @@ from tempfile import mkstemp
 from shutil import move
 
 
-# region Classes
 class FileManager(object):
     """
     Base class to deal with file writing and reading
@@ -936,6 +935,33 @@ def get_last_modified_date(file_path):
         second = second + '0'
 
     return '{0}-{1}-{2}  {3}:{4}:{5}'.format(year, month, day, hour, minute, second)
+
+
+def get_file_date(file_path):
+    """
+    Returns date the given file was created
+    :param file_path: str
+    :return: str
+    """
+
+    date_file = 0
+    if os.path.isfile(file_path):
+        st_file = os.stat(file_path)
+        date_file = st_file[stat.ST_MTIME]
+
+    return date_file
+
+
+def copy_file_date(original_file_path, target_file_path):
+    """
+    Copies the creation date of one file to another one
+    :param original_file_path: str
+    :param target_file_path: str
+    """
+
+    if os.path.isfile(original_file_path) and os.path.isfile(target_file_path):
+        date_file = get_file_date(original_file_path)
+        os.utime(target_file_path, (date_file, date_file))
 
 
 def get_file_lines(file_path):

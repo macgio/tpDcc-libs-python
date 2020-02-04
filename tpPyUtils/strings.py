@@ -380,6 +380,25 @@ def remove_digits_from_end_of_string(input_string):
     return re.sub(r'\d+$', '', input_string)
 
 
+def num_pad(num, length):
+    """
+    Returns given number with zero's at prefix to match given length
+    :param num: int
+    :param length: int
+    :return: str
+    """
+
+    num_str = str(num)
+    length_str = str(length)
+    num_chars = len(num_str)
+    length_chars = len(length_str)
+    if num_chars < length_chars:
+        diff = length_chars - num_chars
+        return '{}{}'.format('0' * diff, num_str)
+
+    return num_str
+
+
 def rst_to_html(rst):
     """
     Converts given srst strin to HMLT

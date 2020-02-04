@@ -7,6 +7,11 @@ Module that contains utility functions related with email
 
 import email
 import smtplib
+import webbrowser
+try:
+    import urllib2 as urllib
+except ImportError:
+    import urllib
 
 
 class Email(object):
@@ -89,3 +94,18 @@ def open_web(url):
     """
 
     webbrowser.open(url)
+
+
+def safe_open_url(url):
+    """
+    Opens given URL in a safe way
+    :param url: str
+    :return:
+    """
+
+    try:
+        result = urllib.urlopen(url)
+    except urllib.HTTPError as exc:
+        raise Exception('{} : {}'.format(exc, exc.url))
+
+    return result

@@ -17,6 +17,8 @@ import time
 import types
 import traceback
 import collections
+from itertools import groupby
+from operator import itemgetter
 
 from tpPyUtils import strings
 
@@ -817,3 +819,17 @@ def is_iterable(obj):
         return False
 
     return True
+
+
+def group_consecutive_items(list_of_items):
+    """
+    From a list of non grouped consecutive items, returns a list of grouped consecutive frames
+    :param list_of_items: list(int), list of frames. For example, [1, 2, 5, 7, 8, 9, 11, 12, 13, 15]
+    :return: list(list(int)), list of frames. For example, [[1, 2,], [5], [7, 8, 9], [11, 12, 13], [15]]
+    """
+
+    list_of_frames = list()
+    for k, g in groupby(enumerate(list_of_items), lambda (i, x): i - x):
+        list_of_frames.append(map(itemgetter(1), g))
+
+    return list_of_frames
