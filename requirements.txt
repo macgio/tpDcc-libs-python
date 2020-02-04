@@ -6,3 +6,4 @@ pyyaml
 comtypes
 docutils
 six
+pysvg
