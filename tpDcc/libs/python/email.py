@@ -67,4 +67,3 @@ class Gmail(Email, object):
         self._server.ehlo()
         self._server.starttls()
         self._server.login(self._user, self._password)
-

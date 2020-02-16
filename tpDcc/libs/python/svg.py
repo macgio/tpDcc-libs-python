@@ -223,12 +223,12 @@ class SvgNormalizer(object):
                 else:
                     size_per_pixel = (proportion[proportion.keys()[i - 1]] - proportion[proportion.keys()[i]]) / \
                                      (proportion.keys()[i - 1] - proportion.keys()[i])
-                    font_proportion = (proportion[proportion.keys()[i]] +
-                                       (new_width - proportion.keys()[i]) * size_per_pixel)
+                    font_proportion = (
+                            proportion[proportion.keys()[i]] + (new_width - proportion.keys()[i]) * size_per_pixel)
             break
         else:
-            font_proportion = new_width * (proportion[proportion.keys()[len(proportion.keys()) - 1]] /
-                                           proportion.keys()[len(proportion.keys()) - 1])
+            font_proportion = new_width * (proportion[proportion.keys()[
+                len(proportion.keys()) - 1]] / proportion.keys()[len(proportion.keys()) - 1])
 
         new_font_size = font_size * font_proportion
         set_svg_element_font_size(svg_text_elem, new_font_size)
@@ -283,5 +283,3 @@ class SvgNormalizer(object):
         new_y = self._new_resolution[1] - (new_height / y_dst_proportion)
         svg_image_elem.set_x(new_x)
         svg_image_elem.set_y(new_y)
-
-

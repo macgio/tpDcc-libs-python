@@ -36,7 +36,7 @@ class RollbackImporter(object):
         Creates an instance and installs and store the current imported modules list
         """
 
-        self._prev_modules = set (sys.modules.keys())
+        self._prev_modules = set(sys.modules.keys())
 
     def uninstall(self):
         """
@@ -147,7 +147,7 @@ def import_python_module(module_name, directory):
     module = None
     full_path = path.join_path(directory, module_name)
     if path.is_file(full_path):
-        if not directory in sys.path:
+        if directory not in sys.path:
             sys.path.append(directory)
 
         split_name = module_name.split('.')
@@ -174,12 +174,12 @@ def source_python_module(module_file):
             module_in = open(module_file, 'rb')
             import md5
             return imp.load_source(md5.new(module_file).hexdigest(), module_file, module_in)
-        except:
+        except Exception:
             return traceback.format_exc()
         finally:
             try:
                 module_in.close()
-            except:
+            except Exception:
                 pass
     except ImportError:
         traceback.print_exc(file=sys.stderr)
@@ -241,7 +241,7 @@ def list_diff(list1, list2):
     :return: list
     """
 
-    return [i for i in list1 if not i in list2]
+    return [i for i in list1 if i not in list2]
 
 
 def list_to_string(list_):
@@ -392,7 +392,7 @@ def module_exists(moduleName):
         module = imp.load_module(moduleName, *module_info)
         imp.find_module('__init__', module.__path__)
         has_module = True
-    except:
+    except Exception:
         has_module = False
     return has_module
 
@@ -645,7 +645,7 @@ def convert_list_to_string(*args):
                 new_args.append(str(arg))
         args = new_args
         if not args:
-            return  ''
+            return ''
         string_value = strings.join(args)
         string_value = string_value.replace('\n', '\t\n')
         if string_value.endswith('\t\n'):
@@ -787,8 +787,7 @@ def dict_merge(dict, merge_dict):
     """
 
     for k, v in merge_dict.iteritems():
-        if (k in dict and isinstance(dict[k], dict)
-                and isinstance(merge_dict[k], collections.Mapping)):
+        if (k in dict and isinstance(dict[k], dict) and isinstance(merge_dict[k], collections.Mapping)):
             dict_merge(dict[k], merge_dict[k])
         else:
             dict[k] = merge_dict[k]

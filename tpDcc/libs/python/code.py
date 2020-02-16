@@ -57,6 +57,7 @@ def get_ast_function_args(function_node):
 
     return found_args
 
+
 def get_ast_function_name_and_args(function_node):
     """
     Return function name from given AST node
@@ -273,7 +274,7 @@ def get_line_imports(lines):
             module_prefix = ''
             if split_line[i] == 'import':
                 if i > 1:
-                    if split_line[i-2] == 'from':
+                    if split_line[i - 2] == 'from':
                         module_prefix = split_line[i-1]
                 if i < split_line_count - 1:
                     module = split_line[i + 1]

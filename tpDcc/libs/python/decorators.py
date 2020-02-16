@@ -57,7 +57,8 @@ def accepts(*types, **kw):
                 if debug is 0:
                     return f(*args)
                 args = list(args)
-                if not (len(args[1:]) == len(types)): raise AssertionError
+                if not (len(args[1:]) == len(types)):
+                    raise AssertionError
                 argtypes = tuple(map(type, args[1:]))
                 if argtypes != types:
                     msg = debug.format_message(f.__name__, types, argtypes, 0)
@@ -93,6 +94,7 @@ def returns(ret_type, **kw):
             debug = 1
         else:
             debug = kw['debug']
+
         def decorator(f):
             def newf(*args):
                 result = f(*args)
@@ -137,13 +139,13 @@ def timer(fn):
             try:
                 mod = inspect.getmodule(args[0])
                 trace += '{0} >>'.format(mod.__name__.split('.')[-1])
-            except:
+            except Exception:
                 tpPyUtils.logger.debug('function module inspect failure')
 
             try:
                 cls = args[0].__clas__
                 trace += '{0}.'.format(args[0].__clas__.__name__)
-            except:
+            except Exception:
                 tpPyUtils.logger.debug('function class inspect failure')
 
             trace += fn.__name__
@@ -209,6 +211,7 @@ def empty_decorator(f):
         return r
     return wrapper
 
+
 @contextlib.contextmanager
 def empty_decorator_context():
     """
@@ -221,7 +224,8 @@ def empty_decorator_context():
 
 def repeater(interval, limit=-1):
     """!
-    A function interval decorator based on http://stackoverflow.com/questions/5179467/equivalent-of-setinterval-in-python
+    A function interval decorator based on
+    http://stackoverflow.com/questions/5179467/equivalent-of-setinterval-in-python
 
     Inifinite Example Usage:
         @repeater(.05)
@@ -249,7 +253,8 @@ def repeater(interval, limit=-1):
 
     @param interval      The interval (in seconds) between function invocations.
     @param limit         The limit to the number of function invocations; -1 represents infinity.
-    @return              A new decorator with a closure around the original function and the Python threading.Thread used to invoke it.
+    @return              A new decorator with a closure around the original function and the Python threading.
+                         Thread used to invoke it.
     """
 
     def actual_decorator(fn):
@@ -322,7 +327,7 @@ def add_method(cls):
             return func(self, *args, **kwargs)
         setattr(cls, func.__name__, wrapper)
         # Note we are not binding func, but wrapper which accepts self but does exactly the same as func
-        return func # returning func means func can still be used normally
+        return func     # returning func means func can still be used normally
     return decorator
 
 

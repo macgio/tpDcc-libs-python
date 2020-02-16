@@ -120,7 +120,8 @@ class Importer(object):
         def foo(name, only_packages):
             for importer, m_name, is_pkg in pkgutil.iter_modules([name]):
                 mod_path = name + '\\' + m_name
-                mod_name = '{}.'.format(self._module_name) + os.path.relpath(mod_path, self._module_dir).replace('\\', '.')
+                mod_name = '{}.'.format(
+                    self._module_name) + os.path.relpath(mod_path, self._module_dir).replace('\\', '.')
                 if only_packages:
                     if is_pkg:
                         module_paths.append(mod_path)
@@ -295,7 +296,8 @@ class SimpleImporter(object):
         log = log_utils.create_logger(logger_name=self._module_name, logger_path=log_path)
         logger = log.logger
 
-        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(self._module_name.upper())) in ['True', 'true']:
+        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(
+                self._module_name.upper())) in ['True', 'true']:
             logger.setLevel(log_utils.LoggerLevel.DEBUG)
         else:
             logger.setLevel(log_utils.LoggerLevel.WARNING)

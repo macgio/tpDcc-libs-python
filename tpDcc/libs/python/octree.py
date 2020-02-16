@@ -88,7 +88,7 @@ class OctreeNode(object):
         greater_half_y = int(y >= half_y)
         greater_half_z = int(z >= half_z)
 
-        child_index = 4*greater_half_z + 2*greater_half_y + greater_half_x
+        child_index = 4 * greater_half_z + 2 * greater_half_y + greater_half_x
         return self._children[child_index]
 
     def is_inside(self, point):

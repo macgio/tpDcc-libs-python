@@ -45,7 +45,8 @@ class FindUniqueString(object):
             number = str(number).zfill(self.padding)
 
         if exp:
-            self.increment_string = '{0}{1}{2}'.format(self.test_string[:exp.start()], number, self.test_string[exp.end():])
+            self.increment_string = '{0}{1}{2}'.format(
+                self.test_string[:exp.start()], number, self.test_string[exp.end():])
         else:
             split_dot = self.test_string.split('.')
             if len(split_dot) > 1:
@@ -67,7 +68,7 @@ class FindUniqueString(object):
             if not scope:
                 unique = True
                 continue
-            if not self.increment_string in scope:
+            if self.increment_string not in scope:
                 unique = True
                 continue
             if self.increment_string in scope:
@@ -194,7 +195,7 @@ def get_end_number(input_string, as_string=False):
     :return: variant, str || int,  number at the end of te string
     """
 
-    found = re.findall('\d+', input_string)
+    found = re.findall(r'\d+', input_string)
     if not found:
         return None
 
@@ -219,9 +220,9 @@ def get_trailing_number(input_string, as_string=False, number_count=-1):
     if not input_string:
         return None
 
-    number = '\d+'
+    number = r'\d+'
     if number_count > 0:
-        number = '\d' * number_count
+        number = r'\d' * number_count
 
     group = re.match('([a-zA-Z_0-9]+)(%s$)' % number, input_string)
     if group:
@@ -251,9 +252,9 @@ def get_last_letter(input_string):
 
 def convert_side_name(name):
     """
-    Convert a string with underscore "_\L", "_L0\_", "L\_", "_L" to "R". And vice and versa.
+    Convert a string with underscore to proper side name
     :param name: str, string to convert
-    :return: tuple of interger
+    :return: tuple of integer
     """
 
     if name == "L":
@@ -392,7 +393,7 @@ def search_last_number(input_string):
     :return: int, last number in the string
     """
 
-    regex = re.compile('(\d+)(?=(\D+)?$)')
+    regex = re.compile(r'(\d+)(?=(\D+)?$)')
     return regex.search(input_string)
 
 
@@ -405,7 +406,7 @@ def replace_last_number(input_string, replace_string):
     """
 
     replace_string = str(replace_string)
-    regex = re.compile('(\d+)(?=(\D+)?$)')
+    regex = re.compile(r'(\d+)(?=(\D+)?$)')
     search = regex.search(input_string)
     if not search:
         return input_string + replace_string
@@ -422,7 +423,8 @@ def increment_first_number(input_string, value=1):
 
     search = search_first_number(input_string)
     if search:
-        new_string = '{0}{1}{2}'.format(input_string[0:search.start()], int(search.group())+value, input_string[search.end():])
+        new_string = '{0}{1}{2}'.format(
+            input_string[0:search.start()], int(search.group()) + value, input_string[search.end():])
     else:
         new_string = input_string + '_{}'.format(value)
 
@@ -438,7 +440,8 @@ def increment_last_number(input_string, value=1):
 
     search = search_last_number(input_string)
     if search:
-        new_string = '{0}{1}{2}'.format(input_string[0:search.start()], int(search.group())+value, input_string[search.end():])
+        new_string = '{0}{1}{2}'.format(
+            input_string[0:search.start()], int(search.group()) + value, input_string[search.end():])
     else:
         new_string = input_string + '{}'.format(value)
 
@@ -474,7 +477,8 @@ def add_unique_postfix(fn):
     path, name = os.path.split(fn)
     name, ext = os.path.splitext(name)
 
-    make_fn = lambda i: os.path.join(path, '%s_%d%s' % (name, i, ext))
+    def make_fn(i):
+        return os.path.join(path, '%s_%d%s' % (name, i, ext))
 
     for i in range(2, sys.maxint):
         uni_fn = make_fn(i)
