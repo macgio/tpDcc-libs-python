@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Module that contains tests for tpPyUtils
+Module that contains tests for tpDcc-libs-python
 """
 
 import pytest

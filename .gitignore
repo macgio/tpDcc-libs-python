@@ -105,6 +105,5 @@ venv.bak/
 
 .idea/*
 .idea/workspace.xml
-.idea/tpPyUtils.iml
 .idea/modules.xml
 .idea/inspectionProfiles/profiles_settings.xml

@@ -7,8 +7,7 @@ Module that contains classes to handle version files
 
 import getpass
 
-from tpPyUtils import folder, path, fileio, sort
-from tpPyUtils import name as name_utils
+from tpDcc.libs.python import folder, path, fileio, sort, name as name_utils
 
 
 class SemanticVersion(object):

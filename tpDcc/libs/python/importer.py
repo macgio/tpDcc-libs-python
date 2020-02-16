@@ -17,7 +17,7 @@ import traceback
 import importlib
 from collections import OrderedDict
 
-from tpPyUtils import decorators, log as log_utils
+from tpDcc.libs.python import decorators, log as log_utils
 
 
 class Importer(object):

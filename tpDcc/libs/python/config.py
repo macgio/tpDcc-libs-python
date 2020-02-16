@@ -13,7 +13,7 @@ import platform
 import subprocess
 import configparser
 
-from tpPyUtils import osplatform
+from tpDcc.libs.python import osplatform
 
 LOGGER = logging.getLogger()
 
