@@ -11,21 +11,23 @@ import os
 import re
 import shutil
 import zipfile
+import logging
 try:
     from urllib.request import urlopen, Request
 except ImportError:
     from urllib2 import urlopen, Request
 
+numbers = re.compile(r'\d+')
 
-numbers = re.compile('\d+')
+LOGGER = logging.getLogger()
 
 
 def chunk_report(bytes_so_far, chunk_size, total_size):
     percent = float(bytes_so_far) / total_size
-    percent = round(percent*100, 2)
-    print("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
+    percent = round(percent * 100, 2)
+    LOGGER.info("Downloaded %d of %d bytes (%0.2f%%)\r" % (bytes_so_far, total_size, percent))
     if bytes_so_far >= total_size:
-        print('\n')
+        LOGGER.info('\n')
 
 
 def chunk_read(response, destination, chunk_size=8192, report_hook=None):
@@ -46,15 +48,16 @@ def chunk_read(response, destination, chunk_size=8192, report_hook=None):
 
 
 def download_file(filename, destination):
-    print('Downloading file {0} to temporary folder -> {1}'.format(os.path.basename(filename), destination))
+    LOGGER.info('Downloading file {0} to temporary folder -> {1}'.format(os.path.basename(filename), destination))
     try:
         dst_folder = os.path.dirname(destination)
         if not os.path.exists(dst_folder):
-            print('Creating downloaded folders ...')
+            LOGGER.info('Creating downloaded folders ...')
             os.makedirs(dst_folder)
 
         hdr = {
-            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 '
+                          '(KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
             'Accept-Encoding': 'none',
@@ -67,30 +70,30 @@ def download_file(filename, destination):
         raise e
 
     if os.path.exists(destination):
-        print('Files downloaded succesfully!')
+        LOGGER.info('Files downloaded succesfully!')
         return True
     else:
-        print('ERROR: Error when downloading files. Maybe server is down! Please contact TD!')
+        LOGGER.info('ERROR: Error when downloading files. Maybe server is down! Please contact TD!')
         return False
 
 
 def unzip_file(filename, destination, removeFirst=True, removeSubfolders=None):
-    print('Unzipping file {} to --> {}'.format(filename, destination))
+    LOGGER.info('Unzipping file {} to --> {}'.format(filename, destination))
     try:
         if removeFirst and removeSubfolders:
-            print('Removing old installation ...')
+            LOGGER.info('Removing old installation ...')
             for subfolder in removeSubfolders:
                 p = os.path.join(destination, subfolder)
-                print('\t{}'.format(p))
+                LOGGER.info('\t{}'.format(p))
                 if os.path.exists(p):
                     shutil.rmtree(p)
         if not os.path.exists(destination):
-            print('Creating destination folders ...')
+            LOGGER.info('Creating destination folders ...')
             os.makedirs(destination)
         zip_ref = zipfile.ZipFile(filename, 'r')
         zip_ref.extractall(destination)
         zip_ref.close()
-        print('Unzip completed!')
+        LOGGER.info('Unzip completed!')
     except Exception as e:
         raise e
 

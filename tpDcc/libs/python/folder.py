@@ -127,7 +127,7 @@ def move_folder(path1, path2):
 
     try:
         shutil.move(path1, path2)
-    except:
+    except Exception:
         tpPyUtils.logger.warning('Failed to move {0} to {1}'.format(path1, path2))
         return False
 
@@ -255,7 +255,7 @@ def get_folders(root_folder, recursive=False):
     if not recursive:
         try:
             found_files = os.listdir(root_folder)
-        except:
+        except Exception:
             return found_folders
 
         if not found_files:
@@ -274,7 +274,7 @@ def get_folders(root_folder, recursive=False):
                     folder_name = os.path.relpath(folder_name, root_folder)
                     folder_name = path.clean_path(folder_name)
                     found_folders.append(folder_name)
-        except:
+        except Exception:
             return found_folders
 
     return found_folders
@@ -363,14 +363,15 @@ def get_files_date_sorted(root_directory, extension=None):
     :return: list(str), list of files date sorted in the directory
     """
 
+    def _get_mtime(fld):
+        return os.stat(os.path.join(root_directory, fld)).st_mtime
+
     if not extension:
         files = get_files(root_folder=root_directory)
     else:
         files = get_files_with_extension(extension=extension, root_directory=root_directory)
 
-    mtime = lambda f: os.stat(os.path.join(root_directory, f)).st_mtime
-
-    return list(sorted(files, key=mtime))
+    return list(sorted(files, key=_get_mtime))
 
 
 def open_folder(path=None):
@@ -456,5 +457,7 @@ def get_folders_date_sorted(root_folder):
     :return: list(str): list of folder date sorted in the directory
     """
 
-    mtime = lambda f: os.stat(os.path.join(root_folder, f)).st_mtime
-    return list(sorted(os.listdir(root_folder), key=mtime))
+    def _get_mtime(fld):
+        return os.stat(os.path.join(root_folder, fld)).st_mtime
+
+    return list(sorted(os.listdir(root_folder), key=_get_mtime))

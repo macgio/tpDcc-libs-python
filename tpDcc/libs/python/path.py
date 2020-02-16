@@ -12,6 +12,7 @@ import os
 import stat
 import string
 import shutil
+import logging
 import tempfile
 import traceback
 import contextlib
@@ -31,6 +32,8 @@ WEB_PREFIX = 'https://'
 
 # We use one separator depending if we are working on Windows (nt) or other operative system
 NATIVE_SEPARATOR = (SEPARATOR, BAD_SEPARATOR)[os.name == 'nt']
+
+LOGGER = logging.getLogger()
 
 
 class FindUniquePath(name.FindUniqueString, object):
@@ -531,8 +534,8 @@ def move(path1, path2):
 
     try:
         shutil.move(path1, path2)
-    except:
-        tpPyUtils.warning('Failed to move {0} to {1}'.format(path1, path2))
+    except Exception:
+        LOGGER.warning('Failed to move {0} to {1}'.format(path1, path2))
         return False
 
     return True
@@ -563,10 +566,10 @@ def rename(directory, name, make_unique=False):
     try:
         os.chmod(directory, 0o777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
-        tpPyUtils.logger.info(message)
+        LOGGER.info(message)
         os.rename(directory, rename_path)
     except Exception:
-        tpPyUtils.logger.error('{}'.format(traceback.format_exc()))
+        LOGGER.error('{}'.format(traceback.format_exc()))
         return False
 
     return rename_path

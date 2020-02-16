@@ -8,9 +8,10 @@ Module that contains implementation to reload modules recursively
 from __future__ import print_function, division, absolute_import
 
 
-import sys
 import os
+import sys
 import inspect
+import logging
 from distutils import sysconfig
 
 from types import ModuleType
@@ -37,11 +38,14 @@ IGNORE_DIRECTORIES = [
 ]
 
 
+LOGGER = logging.getLogger()
+
+
 def debug_log(*args, **kwargs):
     verbosity = kwargs.get('verbosity', 1)
     title = kwargs.get('title', True)
     if verbosity <= _verbosity:
-        print (DEBUG_LOG_TITLE if title else '') + _debug_offset_string + ''.join(args)
+        LOGGER.debug((DEBUG_LOG_TITLE if title else '') + _debug_offset_string + ''.join(args))
 
 
 def debug_log_empty():

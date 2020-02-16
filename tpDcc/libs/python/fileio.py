@@ -39,7 +39,6 @@ class FileManager(object):
         if not skip_warning:
             self.check_path(warning_text='Path {} is invalid!'.format(file_path))
 
-    # region Public Functions
     def get_open_file(self):
         """
         Returns managed file and opens it
@@ -129,7 +128,6 @@ class FileManager(object):
             return False
 
         return True
-    # endregion
 
 
 class FileReader(FileManager, object):
@@ -140,7 +138,6 @@ class FileReader(FileManager, object):
     def __init__(self, file_path):
         super(FileReader, self).__init__(file_path=file_path)
 
-    # region Public Functions
     def read(self):
         """
         Read managed file
@@ -152,13 +149,11 @@ class FileReader(FileManager, object):
         self.close_file()
 
         return lines
-    # endregion
 
-    # region Private Functions
     def _get_lines(self):
         try:
             lines = self.open_file.read()
-        except:
+        except Exception:
             return []
 
         return get_text_lines(lines)
@@ -177,7 +172,6 @@ class FileWriter(FileManager, object):
         osplatform.get_permission(file_path)
         self.append = False
 
-    # region Override Functions
     def write_file(self):
         """
         Overrides write file. This function creates the file if it does not exists
@@ -188,9 +182,7 @@ class FileWriter(FileManager, object):
             self.append_file()
         else:
             super(FileWriter, self).write_file()
-    # endregion
 
-    # region Public Functions
     def set_append(self, append):
         """
         If True, next write operations will append new lines to end of documents otherwise the text
@@ -238,7 +230,7 @@ class FileWriter(FileManager, object):
         try:
             inc = 0
             for line in lines:
-                if inc == len(lines)-1 and not last_line_empty:
+                if inc == len(lines) - 1 and not last_line_empty:
                     self.open_file.write(str('%s' % line))
                     break
                 self.open_file.write(str('%s\n' % line))
@@ -247,7 +239,6 @@ class FileWriter(FileManager, object):
             print('Could not write to file {}'.format(self.file_path))
 
         self.close_file()
-    # endregion
 
 
 class FileVersion(object):
@@ -269,7 +260,6 @@ class FileVersion(object):
             self.comment_file = None
             self.updated_old = False
 
-    # region Properties
     def get_version_name(self):
         return self._version_name
 
@@ -292,9 +282,7 @@ class FileVersion(object):
     version_name = property(get_version_name, set_version_name)
     version_folder_name = property(get_version_folder_name, set_version_folder_name)
     version_folder = property(get_version_folder, set_version_folder)
-    # endregion
 
-    # region Public Functions
     def has_versions(self):
         """
         Returns whether the version file already has versions folder created or not
@@ -567,9 +555,6 @@ class FileVersion(object):
         comment, user = self.get_version_data(version_number)
         return comment
 
-    # endregion
-
-    # region Private Functions
     def _get_version_folder(self):
         from tpPyUtils import path
 
@@ -610,11 +595,8 @@ class FileVersion(object):
         from tpPyUtils import path
         version_path = path.join_path(self._version_folder, self._version_name + '.1')
         return path.unique_path_name(directory=version_path)
-    # endregion
-# endregion
 
 
-# region Functions
 def open_browser(file_path):
     """
     Open the file browser to the path specified
