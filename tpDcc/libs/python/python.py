@@ -829,7 +829,7 @@ def group_consecutive_items(list_of_items):
     """
 
     list_of_frames = list()
-    for k, g in groupby(enumerate(list_of_items), lambda (i, x): i - x):
+    for k, g in groupby(enumerate(list_of_items), lambda i, x: i - x):
         list_of_frames.append(map(itemgetter(1), g))
 
     return list_of_frames

@@ -8,8 +8,10 @@ Module that contains functions to work with win32
 """
 
 import sys
-import ctypes
-import ctypes.wintypes
+
+if 'win' in sys.platform:
+    import ctypes
+    import ctypes.wintypes
 
 GWL_WNDPROC = -4
 GWL_HINSTANCE = -6
