@@ -1,14 +1,30 @@
 language: python
+before_install:
+- pip install pycodestyle
 install:
-  - "python setup.py install"
+- pip install -r requirements.txt
+- python setup.py install
 script:
-  - pytest
+- find . -name \*.py -exec pycodestyle --max-line-length=120 --ignore=E402 {} +
+- pytest --cov=tpDcc
+- sphinx-apidoc -f -e -o docs/sphinx tpDcc
+- sphinx-build -M html ./docs/sphinx ./
+after_success:
+- coveralls
+- cd html && touch .nojekyll && cd ../
 deploy:
-  skip_cleanup: true
-  provider: pypi
-  user: tpoveda
-  password:
-    secure: ZUSoRcbo/7DyuCgXRQekri/zb/8UCxeULvEA2SjqOs4ZQ4qDA+J+EkgGi7eSYtd3vieQpBl88ndQooJW5ThQ4mJ0ZQyskLxI2QRKWA3P/FT7mpwHg2tJF7Hb+tjYohndOC4M+aDeyi/r16rsAFqBMCgyvNMknXYXB21XtNACVRK6Eh59x1SVEalTCxqJNJaA3uHeJHQDDRuvL0DHzfLC56j+07V00caPG2ZJwWoF1Xeo7q6w5vXubB8pkK8/Q9SjA7824MWKN3Dzo+Z3BrbPxYkeEMyHZa8cwRypPkpZGIXhdfc8vk9FAXlELfe0eYATub60Pat9TcgLczn464GSFHZPXAaFlcWYQbOx34BpfIr8PlLsoQDy/AUPwSeMLZSy5eNtvJ7SVQ2I6zrD3tDHG9Uli6W2ZTVaSQlPAn88f6QMtnDUKZ0uhz8SRhuNkWcyoR0wYmGWlHB64m97QJKcxC7I2PYP5pIHWG8r+8Gv6ygNtiWda7jBpaK9wzYNcOwcV86PKcK5RsZaNtkX5j5xTyM7zv/wOoWNzR0x+uO2AjO1dc34gpdUkPcSjCtFsIIgXiPa0sGVkkQXT/+DKoLqUdoGigDT7/2bZNuCi9LQe6sxSPOYp+qY33cHEgmVQvB/nO3dLnK5y7QOWtPfABVQDX3LA5mw+5v3aDtVxdCanDA=
-  on:
-    branch: master
-    tags: true
+  - provider: pages
+    skip_cleanup: true
+    github_token: "$GITHUB_TOKEN"
+    keep_history: true
+    local_dir: html
+    on:
+      branch: master
+  - provider: pypi
+    skip_cleanup: true
+    user: tpoveda
+    password:
+      secure: Me8OOOCTe0ElMqnE1PRQWGHOqcXu5bHPdz1fCKrrDAZNp3thytRmlmtITcvyk/RHzWj6h5CbxMhqbsarzlMGkahMZ3s+e2uKwhRYI501ilOENWeVMgrqmj2pEw9Z3ZTFkCZilD/Gu0EHppIH4ISTAUaNRciae/W9LLgdrJKYZdXfNl7g9/MGYRH9mtFVuVig1PVYsaSTJndoe25Rv475K9Df94zvmb8tCcEacjWCZnWiwSyPMwH/8otfqsFj7vOhiW2cUq3Y3InYF41MD8Jg//XtkHQElJIS3Vr8FYnKlxuLvx2ae/3QpKdvM4TGaqMbiSlbQbjjDvdEH2hnbAR+1Cthzhcfk099YqvtSkUh5RryILh41mEOg0IqsT//nmM4PDZqTfPVtbkVJNtlVpLBrFCmydlepGotCf2SIK+EWf1zfIiNXmxsKTK1bcT6YbdohcQCvTkvEt/2X2qm4aDwWAU1v6JJpwGrXNkeIYMs1U17bCWxO5ZLgzZH0Xlyqg6zHC4BOvsedJE/6RhpYXEchT/+ZV/Hesobe6hWhIBO+Da+JQLmz0vE+MNHapa6noXxSf7UxUie+TcksRsHGztNy+2rewtRJ52dE1SAuWJP8KIGARp1P8eb9YONBTvDjL7fT6qfGc8agWiIWFa1h7L3SVFkJZo+KFcU/GLBRE1UgHI=
+    on:
+      branch: master
+      tags: true

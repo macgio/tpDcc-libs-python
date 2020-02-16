@@ -1,5 +1,5 @@
 # ===================================================================
-# tpPyUtils requirements file
+# tpDcc-lib-python requirements file
 # ===================================================================
 configparser
 pyyaml
@@ -7,3 +7,4 @@ comtypes
 docutils
 six
 pysvg
+pathlib2

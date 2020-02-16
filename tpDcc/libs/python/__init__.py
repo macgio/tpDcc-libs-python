@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Initialization module for tpPyUtils
+Initialization module for tpDcc-libs-python
 """
 
 from __future__ import print_function, division, absolute_import
@@ -25,7 +25,7 @@ class tpPyUtils(object):
 
         self.loaded_modules = OrderedDict()
         self.reload_modules = list()
-        self._module_name = 'tpPyUtils'
+        self._module_name = 'tpDcc-libs-python'
         self._module_dir = self.get_module_path()
         self.logger = self.create_logger()
 

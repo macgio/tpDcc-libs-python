@@ -1,5 +1,5 @@
 from setuptools import setup
 
-from tpPyUtils.__version__ import __version__
+from tpDcc.libs.python.__version__ import __version__
 
 setup()
