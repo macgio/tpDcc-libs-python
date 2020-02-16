@@ -1,0 +1,7 @@
+tpDcc.libs.python.web module
+============================
+
+.. automodule:: tpDcc.libs.python.web
+   :members:
+   :undoc-members:
+   :show-inheritance:

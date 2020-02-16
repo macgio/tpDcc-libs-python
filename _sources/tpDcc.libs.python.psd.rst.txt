@@ -1,0 +1,7 @@
+tpDcc.libs.python.psd module
+============================
+
+.. automodule:: tpDcc.libs.python.psd
+   :members:
+   :undoc-members:
+   :show-inheritance:

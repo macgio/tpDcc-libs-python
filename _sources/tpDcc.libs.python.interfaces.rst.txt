@@ -1,0 +1,7 @@
+tpDcc.libs.python.interfaces module
+===================================
+
+.. automodule:: tpDcc.libs.python.interfaces
+   :members:
+   :undoc-members:
+   :show-inheritance:

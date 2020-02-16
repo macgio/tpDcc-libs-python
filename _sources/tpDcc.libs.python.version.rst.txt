@@ -1,0 +1,7 @@
+tpDcc.libs.python.version module
+================================
+
+.. automodule:: tpDcc.libs.python.version
+   :members:
+   :undoc-members:
+   :show-inheritance:

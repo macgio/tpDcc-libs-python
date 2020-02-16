@@ -1,0 +1,7 @@
+tpDcc.libs.python.timedate module
+=================================
+
+.. automodule:: tpDcc.libs.python.timedate
+   :members:
+   :undoc-members:
+   :show-inheritance:

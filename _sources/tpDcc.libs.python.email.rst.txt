@@ -1,0 +1,7 @@
+tpDcc.libs.python.email module
+==============================
+
+.. automodule:: tpDcc.libs.python.email
+   :members:
+   :undoc-members:
+   :show-inheritance:

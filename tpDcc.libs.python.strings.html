@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tpDcc.libs.python.strings module &mdash; tpDcc-libs-python 0.0.l documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tpDcc.libs.python.timedate module" href="tpDcc.libs.python.timedate.html" />
+    <link rel="prev" title="tpDcc.libs.python.sort module" href="tpDcc.libs.python.sort.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> tpDcc-libs-python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">tpDcc</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="tpDcc.html">tpDcc package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tpDcc.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="tpDcc.libs.html">tpDcc.libs package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tpDcc.html#module-tpDcc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">tpDcc-libs-python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">tpDcc</a> &raquo;</li>
+        
+          <li><a href="tpDcc.html">tpDcc package</a> &raquo;</li>
+        
+          <li><a href="tpDcc.libs.html">tpDcc.libs package</a> &raquo;</li>
+        
+          <li><a href="tpDcc.libs.python.html">tpDcc.libs.python package</a> &raquo;</li>
+        
+      <li>tpDcc.libs.python.strings module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tpDcc.libs.python.strings.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-tpDcc.libs.python.strings">
+<span id="tpdcc-libs-python-strings-module"></span><h1>tpDcc.libs.python.strings module<a class="headerlink" href="#module-tpDcc.libs.python.strings" title="Permalink to this headline">¶</a></h1>
+<p>Module that contains utility functions related with strings</p>
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.add_prefix">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">add_prefix</code><span class="sig-paren">(</span><em class="sig-param">prefix</em>, <em class="sig-param">split</em>, <em class="sig-param">string</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.add_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a prefix to the given string
+:param prefix: str, prefix to add to the string
+:param split: str, split character
+:param string: str, string to add prefix to
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.camel_case_to_lower_case_underscore">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">camel_case_to_lower_case_underscore</code><span class="sig-paren">(</span><em class="sig-param">text</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.camel_case_to_lower_case_underscore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts camel case string to underscore separate string
+:param text: str, string to convert
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.camel_case_to_string">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">camel_case_to_string</code><span class="sig-paren">(</span><em class="sig-param">camel_case_string</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.camel_case_to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a camel case string to a normal one
+testPath –&gt; test Path
+:param camel_case_string: str
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.camel_case_to_title">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">camel_case_to_title</code><span class="sig-paren">(</span><em class="sig-param">text</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.camel_case_to_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split string by upper case letters and return a nice name
+:param text: str, string to convert
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.clean_string">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">clean_string</code><span class="sig-paren">(</span><em class="sig-param">text</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.clean_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a cleaned version of a string - removes everything but alphanumeric and characters and dots
+:param text:  str, string to clean
+:return: str, cleaned string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.extract">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">extract</code><span class="sig-paren">(</span><em class="sig-param">string</em>, <em class="sig-param">start='('</em>, <em class="sig-param">stop=')'</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the string that is contained between start and stop strings
+:param string: str, string to process
+:param start: str, start string
+:param stop: str, stop string
+:return: str, extracted string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.extract_digits_from_end_of_string">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">extract_digits_from_end_of_string</code><span class="sig-paren">(</span><em class="sig-param">input_string</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.extract_digits_from_end_of_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets digits at the end of a string
+:param input_string: str
+:return: int</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.format_path">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">format_path</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.format_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a path and format it to forward slashes
+:param path: str
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.format_path_join">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">format_path_join</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">*paths</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.format_path_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>os.path.join wrapper that returns always a valid Python path
+:param path:  str
+:param paths: str
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.generate_random_string">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">generate_random_string</code><span class="sig-paren">(</span><em class="sig-param">num_symbols=5</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.generate_random_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a random string with the given number of characters
+:param num_symbols: int
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.get_alpha">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">get_alpha</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">capital=False</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.get_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an integer value to a character. a-z then double, aa-zz etc.
+&#64;param value: int, Value to get an alphabetic character from
+&#64;param capital: boolean: True if you want to get capital character
+&#64;return: str, Character from an integer</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.get_prefix">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">get_prefix</code><span class="sig-paren">(</span><em class="sig-param">string</em>, <em class="sig-param">split</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.get_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the prefix of the given string
+:param string: str, string to get prefix of
+:param split: str, split character
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.get_string_index">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">get_string_index</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">padding=2</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.get_string_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the string equivalent for the given integer index
+:param index: int, the index to get the string equivalent for
+:param padding: int, number of characters for the index string
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.get_trailing_number">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">get_trailing_number</code><span class="sig-paren">(</span><em class="sig-param">input_string</em>, <em class="sig-param">as_string=False</em>, <em class="sig-param">number_count=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.get_trailing_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number at the very end of a string. If number not at the end of the string return None
+:param input_string: str
+:param as_string: bool
+:param number_count: int
+:return: varianht, str || None</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.lower_case_underscore_to_camel_case">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">lower_case_underscore_to_camel_case</code><span class="sig-paren">(</span><em class="sig-param">text</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.lower_case_underscore_to_camel_case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts string or unicdoe from lower case underscore to camel case
+:param text: str, string to convert
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.lstrips">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">lstrips</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">remove</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.lstrips" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the string <cite>remove</cite> from the left of <cite>text</cite>
+&gt;&gt;&gt; lstrips(“foobar”, “foo”)
+‘bar’
+&gt;&gt;&gt; lstrips(‘<a class="reference external" href="http://foo.org/">http://foo.org/</a>’, [‘<a class="reference external" href="http://">http://</a>’, ‘<a class="reference external" href="https://">https://</a>’])
+‘foo.org/’
+&gt;&gt;&gt; lstrips(‘FOOBARBAZ’, [‘FOO’, ‘BAR’])
+‘BAZ’
+&gt;&gt;&gt; lstrips(‘FOOBARBAZ’, [‘BAR’, ‘FOO’])
+‘BARBAZ’</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.normalize">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">normalize</code><span class="sig-paren">(</span><em class="sig-param">string</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace all invalid characters with “_”
+:param string: str, string to normalize
+:return: str, normalize string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.num_pad">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">num_pad</code><span class="sig-paren">(</span><em class="sig-param">num</em>, <em class="sig-param">length</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.num_pad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns given number with zero’s at prefix to match given length
+:param num: int
+:param length: int
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.remove_digits_from_end_of_string">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">remove_digits_from_end_of_string</code><span class="sig-paren">(</span><em class="sig-param">input_string</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.remove_digits_from_end_of_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the numbers at the end of a string
+:param input_string: str
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.remove_invalid_character">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">remove_invalid_character</code><span class="sig-paren">(</span><em class="sig-param">string</em>, <em class="sig-param">regex='[^A-Za-z0-9]'</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.remove_invalid_character" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all invalid character
+:param string: str, string to normalize
+:return: str, valid string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.replace_sharp_with_padding">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">replace_sharp_with_padding</code><span class="sig-paren">(</span><em class="sig-param">string</em>, <em class="sig-param">index</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.replace_sharp_with_padding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace a list of # symbol with properly padded index (i.e, count_### &gt; count_001)
+:param string: str, string set. Should include ‘#’
+:param index: int, index to replace
+:return: str, normalized string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.rst_to_html">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">rst_to_html</code><span class="sig-paren">(</span><em class="sig-param">rst</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.rst_to_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts given srst strin to HMLT
+:param rst: str
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.rstrips">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">rstrips</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">remove</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.rstrips" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the string <cite>remove</cite> from the right of <cite>text</cite>
+&gt;&gt;&gt; rstrips(“foobar”, “bar”)
+‘foo’</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.string_to_camel_case">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">string_to_camel_case</code><span class="sig-paren">(</span><em class="sig-param">string</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.string_to_camel_case" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a string to a camel case one
+test path –&gt; TestPath
+:param string: str
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.strip_prefix">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">strip_prefix</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">split='_'</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.strip_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strips prefix
+:param name: str, name to strip prefix of
+:param split: str, split character
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.strip_suffix">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">strip_suffix</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">split='_'</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.strip_suffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the portion of name minus the last element separated by the splitter character
+:param name: str, name to strip the suffix from
+:param split: str, split character
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.strings.strips">
+<code class="sig-prename descclassname">tpDcc.libs.python.strings.</code><code class="sig-name descname">strips</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">remove</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.strings.strips" title="Permalink to this definition">¶</a></dt>
+<dd><p>removes the string <cite>remove</cite> from the both sides of <cite>text</cite>
+&gt;&gt;&gt; strips(“foobarfoo”, “foo”)
+‘bar’</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/tpDcc/tpDcc-libs-python" target="_blank">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tpDcc.libs.python.timedate.html" class="btn btn-neutral float-right" title="tpDcc.libs.python.timedate module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tpDcc.libs.python.sort.html" class="btn btn-neutral float-left" title="tpDcc.libs.python.sort module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Tomas Poveda
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

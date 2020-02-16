@@ -1,0 +1,7 @@
+tpDcc.libs.python.decorators module
+===================================
+
+.. automodule:: tpDcc.libs.python.decorators
+   :members:
+   :undoc-members:
+   :show-inheritance:

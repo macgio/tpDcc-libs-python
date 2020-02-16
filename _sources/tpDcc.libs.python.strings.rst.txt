@@ -1,0 +1,7 @@
+tpDcc.libs.python.strings module
+================================
+
+.. automodule:: tpDcc.libs.python.strings
+   :members:
+   :undoc-members:
+   :show-inheritance:

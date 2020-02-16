@@ -1,0 +1,7 @@
+tpDcc.libs.python.debug module
+==============================
+
+.. automodule:: tpDcc.libs.python.debug
+   :members:
+   :undoc-members:
+   :show-inheritance:

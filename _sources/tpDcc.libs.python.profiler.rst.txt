@@ -1,0 +1,7 @@
+tpDcc.libs.python.profiler module
+=================================
+
+.. automodule:: tpDcc.libs.python.profiler
+   :members:
+   :undoc-members:
+   :show-inheritance:

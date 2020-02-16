@@ -1,0 +1,50 @@
+tpDcc.libs.python package
+=========================
+
+Submodules
+----------
+
+.. toctree::
+
+   tpDcc.libs.python.attributes
+   tpDcc.libs.python.code
+   tpDcc.libs.python.config
+   tpDcc.libs.python.dcc
+   tpDcc.libs.python.debug
+   tpDcc.libs.python.decorators
+   tpDcc.libs.python.download
+   tpDcc.libs.python.email
+   tpDcc.libs.python.fileio
+   tpDcc.libs.python.folder
+   tpDcc.libs.python.importer
+   tpDcc.libs.python.interfaces
+   tpDcc.libs.python.jsonio
+   tpDcc.libs.python.language
+   tpDcc.libs.python.log
+   tpDcc.libs.python.mathlib
+   tpDcc.libs.python.name
+   tpDcc.libs.python.octree
+   tpDcc.libs.python.osplatform
+   tpDcc.libs.python.path
+   tpDcc.libs.python.profiler
+   tpDcc.libs.python.psd
+   tpDcc.libs.python.python
+   tpDcc.libs.python.reloader
+   tpDcc.libs.python.security
+   tpDcc.libs.python.settings
+   tpDcc.libs.python.sort
+   tpDcc.libs.python.strings
+   tpDcc.libs.python.timedate
+   tpDcc.libs.python.timers
+   tpDcc.libs.python.version
+   tpDcc.libs.python.web
+   tpDcc.libs.python.win32
+   tpDcc.libs.python.yamlio
+
+Module contents
+---------------
+
+.. automodule:: tpDcc.libs.python
+   :members:
+   :undoc-members:
+   :show-inheritance:

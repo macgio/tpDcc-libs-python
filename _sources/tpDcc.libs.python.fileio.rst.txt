@@ -1,0 +1,7 @@
+tpDcc.libs.python.fileio module
+===============================
+
+.. automodule:: tpDcc.libs.python.fileio
+   :members:
+   :undoc-members:
+   :show-inheritance:

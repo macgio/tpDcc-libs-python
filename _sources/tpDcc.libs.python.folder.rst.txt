@@ -1,0 +1,7 @@
+tpDcc.libs.python.folder module
+===============================
+
+.. automodule:: tpDcc.libs.python.folder
+   :members:
+   :undoc-members:
+   :show-inheritance:

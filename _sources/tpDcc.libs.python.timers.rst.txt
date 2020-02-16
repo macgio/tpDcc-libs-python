@@ -1,0 +1,7 @@
+tpDcc.libs.python.timers module
+===============================
+
+.. automodule:: tpDcc.libs.python.timers
+   :members:
+   :undoc-members:
+   :show-inheritance:

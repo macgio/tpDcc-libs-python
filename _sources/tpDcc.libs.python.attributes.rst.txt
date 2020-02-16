@@ -1,0 +1,7 @@
+tpDcc.libs.python.attributes module
+===================================
+
+.. automodule:: tpDcc.libs.python.attributes
+   :members:
+   :undoc-members:
+   :show-inheritance:

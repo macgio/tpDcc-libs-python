@@ -1,0 +1,7 @@
+tpDcc.libs.python.octree module
+===============================
+
+.. automodule:: tpDcc.libs.python.octree
+   :members:
+   :undoc-members:
+   :show-inheritance:

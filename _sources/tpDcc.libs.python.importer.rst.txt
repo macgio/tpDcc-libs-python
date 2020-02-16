@@ -1,0 +1,7 @@
+tpDcc.libs.python.importer module
+=================================
+
+.. automodule:: tpDcc.libs.python.importer
+   :members:
+   :undoc-members:
+   :show-inheritance:

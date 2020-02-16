@@ -1,0 +1,7 @@
+tpDcc.libs.python.sort module
+=============================
+
+.. automodule:: tpDcc.libs.python.sort
+   :members:
+   :undoc-members:
+   :show-inheritance:

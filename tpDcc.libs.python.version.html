@@ -1,0 +1,409 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tpDcc.libs.python.version module &mdash; tpDcc-libs-python 0.0.l documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tpDcc.libs.python.web module" href="tpDcc.libs.python.web.html" />
+    <link rel="prev" title="tpDcc.libs.python.timers module" href="tpDcc.libs.python.timers.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> tpDcc-libs-python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">tpDcc</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="tpDcc.html">tpDcc package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tpDcc.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="tpDcc.libs.html">tpDcc.libs package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tpDcc.html#module-tpDcc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">tpDcc-libs-python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">tpDcc</a> &raquo;</li>
+        
+          <li><a href="tpDcc.html">tpDcc package</a> &raquo;</li>
+        
+          <li><a href="tpDcc.libs.html">tpDcc.libs package</a> &raquo;</li>
+        
+          <li><a href="tpDcc.libs.python.html">tpDcc.libs.python package</a> &raquo;</li>
+        
+      <li>tpDcc.libs.python.version module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tpDcc.libs.python.version.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-tpDcc.libs.python.version">
+<span id="tpdcc-libs-python-version-module"></span><h1>tpDcc.libs.python.version module<a class="headerlink" href="#module-tpDcc.libs.python.version" title="Permalink to this headline">¶</a></h1>
+<p>Module that contains classes to handle version files</p>
+<dl class="class">
+<dt id="tpDcc.libs.python.version.SemanticVersion">
+<em class="property">class </em><code class="sig-prename descclassname">tpDcc.libs.python.version.</code><code class="sig-name descname">SemanticVersion</code><span class="sig-paren">(</span><em class="sig-param">major</em>, <em class="sig-param">minor</em>, <em class="sig-param">patch</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.SemanticVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that defines Semantic version following: &lt;<a class="reference external" href="https://semver.org">https://semver.org</a>&gt;</p>
+<dl class="method">
+<dt id="tpDcc.libs.python.version.SemanticVersion.from_string">
+<em class="property">static </em><code class="sig-name descname">from_string</code><span class="sig-paren">(</span><em class="sig-param">version_string</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.SemanticVersion.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns semantic version instance from given string
+:param version_string: str
+:return: SemanticVersion</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.SemanticVersion.major">
+<em class="property">property </em><code class="sig-name descname">major</code><a class="headerlink" href="#tpDcc.libs.python.version.SemanticVersion.major" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns major field of the semantic version
+:return: int</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.SemanticVersion.minor">
+<em class="property">property </em><code class="sig-name descname">minor</code><a class="headerlink" href="#tpDcc.libs.python.version.SemanticVersion.minor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns minor field of the semantic version
+:return: int</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.SemanticVersion.patch">
+<em class="property">property </em><code class="sig-name descname">patch</code><a class="headerlink" href="#tpDcc.libs.python.version.SemanticVersion.patch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns patch field of the semantic version
+:return: int</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tpDcc.libs.python.version.VersionFile">
+<em class="property">class </em><code class="sig-prename descclassname">tpDcc.libs.python.version.</code><code class="sig-name descname">VersionFile</code><span class="sig-paren">(</span><em class="sig-param">file_path</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Utility class to hold version for files and folders</p>
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.file_name">
+<em class="property">property </em><code class="sig-name descname">file_name</code><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.file_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.file_path">
+<em class="property">property </em><code class="sig-name descname">file_path</code><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.file_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_count">
+<code class="sig-name descname">get_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of versions
+:return: int</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_default">
+<code class="sig-name descname">get_default</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_latest_version">
+<code class="sig-name descname">get_latest_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_latest_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the file path to the latest version
+:return: str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_organized_version_data">
+<code class="sig-name descname">get_organized_version_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_organized_version_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all the version data:
+[version, comment, user, file_size, modified, version_file]
+:return: list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_version_comment">
+<code class="sig-name descname">get_version_comment</code><span class="sig-paren">(</span><em class="sig-param">version_number</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_version_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the comment of the given version
+:param version_number: int, version number
+:return: str, version comment</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_version_data">
+<code class="sig-name descname">get_version_data</code><span class="sig-paren">(</span><em class="sig-param">version_number</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_version_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the data (comment and user) of the given version
+:param version_number: int
+:return: tuple(str, str)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_version_numbers">
+<code class="sig-name descname">get_version_numbers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_version_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns numbers of all versions
+:return: list&lt;int&gt;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_version_path">
+<code class="sig-name descname">get_version_path</code><span class="sig-paren">(</span><em class="sig-param">version_number</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_version_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the path to the version
+:param version_number: int, version number
+:return: str, path to the version</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.get_versions">
+<code class="sig-name descname">get_versions</code><span class="sig-paren">(</span><em class="sig-param">return_version_numbers=False</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.get_versions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get file paths of all versions
+:param return_version_numbers: bool, Whether to return also version numbers or only paths
+:return: variant, list&lt;str&gt; | list&lt;str&gt;, list&lt;int&gt;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.has_default">
+<code class="sig-name descname">has_default</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.has_default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.has_versions">
+<code class="sig-name descname">has_versions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.has_versions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the current version file has version or not
+:return: bool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">comment=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a new version
+:param comment: str, comment to add to the version
+:return: str, new version file name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.save_comment">
+<code class="sig-name descname">save_comment</code><span class="sig-paren">(</span><em class="sig-param">comment=None</em>, <em class="sig-param">version_file=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.save_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a comment to a log file
+:param comment: str, comment to save
+:param version_file: str, correspnding version file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.save_default">
+<code class="sig-name descname">save_default</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.save_default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.set_version_folder">
+<code class="sig-name descname">set_version_folder</code><span class="sig-paren">(</span><em class="sig-param">folder_path</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.set_version_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the folder where the version folder should be created
+:param folder_path: str, full path to where the version folder should be created</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.set_version_folder_name">
+<code class="sig-name descname">set_version_folder_name</code><span class="sig-paren">(</span><em class="sig-param">folder_name</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.set_version_folder_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the name of the version folder
+:param folder_name: str, name of the version folder</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.set_version_name">
+<code class="sig-name descname">set_version_name</code><span class="sig-paren">(</span><em class="sig-param">version_name</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.set_version_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the version name
+:param version_name: str, name of the version</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tpDcc.libs.python.version.VersionFile.updated_old">
+<em class="property">property </em><code class="sig-name descname">updated_old</code><a class="headerlink" href="#tpDcc.libs.python.version.VersionFile.updated_old" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/tpDcc/tpDcc-libs-python" target="_blank">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tpDcc.libs.python.web.html" class="btn btn-neutral float-right" title="tpDcc.libs.python.web module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tpDcc.libs.python.timers.html" class="btn btn-neutral float-left" title="tpDcc.libs.python.timers module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Tomas Poveda
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

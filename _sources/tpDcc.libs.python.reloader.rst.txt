@@ -1,0 +1,7 @@
+tpDcc.libs.python.reloader module
+=================================
+
+.. automodule:: tpDcc.libs.python.reloader
+   :members:
+   :undoc-members:
+   :show-inheritance:

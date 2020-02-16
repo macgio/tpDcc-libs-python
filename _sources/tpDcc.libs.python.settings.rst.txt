@@ -1,0 +1,7 @@
+tpDcc.libs.python.settings module
+=================================
+
+.. automodule:: tpDcc.libs.python.settings
+   :members:
+   :undoc-members:
+   :show-inheritance:

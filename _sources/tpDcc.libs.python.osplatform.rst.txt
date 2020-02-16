@@ -1,0 +1,7 @@
+tpDcc.libs.python.osplatform module
+===================================
+
+.. automodule:: tpDcc.libs.python.osplatform
+   :members:
+   :undoc-members:
+   :show-inheritance:

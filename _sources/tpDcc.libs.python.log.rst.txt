@@ -1,0 +1,7 @@
+tpDcc.libs.python.log module
+============================
+
+.. automodule:: tpDcc.libs.python.log
+   :members:
+   :undoc-members:
+   :show-inheritance:

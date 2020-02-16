@@ -1,0 +1,7 @@
+tpDcc.libs.python.yamlio module
+===============================
+
+.. automodule:: tpDcc.libs.python.yamlio
+   :members:
+   :undoc-members:
+   :show-inheritance:

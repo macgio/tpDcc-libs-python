@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tpDcc.libs.python.win32 module &mdash; tpDcc-libs-python 0.0.l documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="tpDcc.libs.python.yamlio module" href="tpDcc.libs.python.yamlio.html" />
+    <link rel="prev" title="tpDcc.libs.python.web module" href="tpDcc.libs.python.web.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> tpDcc-libs-python
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">tpDcc</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="tpDcc.html">tpDcc package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tpDcc.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="tpDcc.libs.html">tpDcc.libs package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tpDcc.html#module-tpDcc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">tpDcc-libs-python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">tpDcc</a> &raquo;</li>
+        
+          <li><a href="tpDcc.html">tpDcc package</a> &raquo;</li>
+        
+          <li><a href="tpDcc.libs.html">tpDcc.libs package</a> &raquo;</li>
+        
+          <li><a href="tpDcc.libs.python.html">tpDcc.libs.python package</a> &raquo;</li>
+        
+      <li>tpDcc.libs.python.win32 module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tpDcc.libs.python.win32.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-tpDcc.libs.python.win32">
+<span id="tpdcc-libs-python-win32-module"></span><h1>tpDcc.libs.python.win32 module<a class="headerlink" href="#module-tpDcc.libs.python.win32" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="tpDcc.libs.python.win32.get_reg_key">
+<code class="sig-prename descclassname">tpDcc.libs.python.win32.</code><code class="sig-name descname">get_reg_key</code><span class="sig-paren">(</span><em class="sig-param">registry</em>, <em class="sig-param">key</em>, <em class="sig-param">architecture=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.win32.get_reg_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a _winreg hkey if found
+:param registry: str, registry to look in. HKEY_LOCAL_MACHINE for example
+:param key: str, key to open ‘Software/Ubisoft/Test’ for example
+:param architecture: variant, int || None, 32 or 64 bit. If None, default system architecture is used
+:return: _winreg handle object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.win32.list_reg_key_values">
+<code class="sig-prename descclassname">tpDcc.libs.python.win32.</code><code class="sig-name descname">list_reg_key_values</code><span class="sig-paren">(</span><em class="sig-param">registry</em>, <em class="sig-param">key</em>, <em class="sig-param">architecture=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.win32.list_reg_key_values" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns a list of child keys and their values as tuples containing:</dt><dd><ul class="simple">
+<li><p>A string that identifies the value name</p></li>
+<li><p>An object that holds the value data, and whose type depends on the underlying registry type</p></li>
+<li><p>An integer that identifies the type of the value data (see table in docs for _winreg.SetValueEx)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>registry</strong> – str, registry to look in. HKEY_LOCAL_MACHINE for example</p></li>
+<li><p><strong>key</strong> – str, key to open ‘Software/Ubisoft/Test’ for example</p></li>
+<li><p><strong>architecture</strong> – variant, int || None, 32 or 64 bit. If None, default system architecture is used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list&lt;tuple&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.win32.list_reg_keys">
+<code class="sig-prename descclassname">tpDcc.libs.python.win32.</code><code class="sig-name descname">list_reg_keys</code><span class="sig-paren">(</span><em class="sig-param">registry</em>, <em class="sig-param">key</em>, <em class="sig-param">architecture=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.win32.list_reg_keys" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns a list of child keys as tuples containing:</dt><dd><ul class="simple">
+<li><p>A string that identifies the value name</p></li>
+<li><p>An object that holds the value data, and whose type depends on the underlying registry type</p></li>
+<li><p>An integer that identifies the type of the value data (see table in docs for _winreg.SetValueEx)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>registry</strong> – str, registry to look in. HKEY_LOCAL_MACHINE for example</p></li>
+<li><p><strong>key</strong> – str, key to open ‘Software/Ubisoft/Test’ for example</p></li>
+<li><p><strong>architecture</strong> – variant, int || None, 32 or 64 bit. If None, default system architecture is used</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list&lt;tuple&gt;</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.win32.registry_value">
+<code class="sig-prename descclassname">tpDcc.libs.python.win32.</code><code class="sig-name descname">registry_value</code><span class="sig-paren">(</span><em class="sig-param">registry</em>, <em class="sig-param">key</em>, <em class="sig-param">value_name</em>, <em class="sig-param">architecture=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.win32.registry_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retruns the value and type of the given registry key value name
+:param registry: str, registry to look in. HKEY_LOCAL_MACHINE for example
+:param key: str, key to open ‘Software/Ubisoft/Test’ for example
+:param value_name: str, name of the value to read. To read the ‘default’ key, pass an empty string
+:param architecture: variant, int || None, 32 or 64 bit. If None, default system architecture is used
+:return: tuple&lt;object, int, value stored in key and registry type for value (see _winreg’s Value Types)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.win32.set_owner">
+<code class="sig-prename descclassname">tpDcc.libs.python.win32.</code><code class="sig-name descname">set_owner</code><span class="sig-paren">(</span><em class="sig-param">hwnd</em>, <em class="sig-param">hwnd_owner</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.win32.set_owner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the owner window of the given window
+:param hwnd:
+:param hwnd_owner:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.win32.to_hwnd">
+<code class="sig-prename descclassname">tpDcc.libs.python.win32.</code><code class="sig-name descname">to_hwnd</code><span class="sig-paren">(</span><em class="sig-param">pycobject</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.win32.to_hwnd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to get a Windows Handle from a PySide WinID
+Based on <a class="reference external" href="http://srinikom.github.io/pyside-bz-archive/523.html">http://srinikom.github.io/pyside-bz-archive/523.html</a>
+&#64;return A value equivalent to a void* that represents the Windows handle if one exists; None otherwise.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+    <a href="https://github.com/tpDcc/tpDcc-libs-python" target="_blank">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+    </a>
+
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tpDcc.libs.python.yamlio.html" class="btn btn-neutral float-right" title="tpDcc.libs.python.yamlio module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tpDcc.libs.python.web.html" class="btn btn-neutral float-left" title="tpDcc.libs.python.web module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Tomas Poveda
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

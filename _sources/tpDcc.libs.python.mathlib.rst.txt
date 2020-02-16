@@ -1,0 +1,7 @@
+tpDcc.libs.python.mathlib module
+================================
+
+.. automodule:: tpDcc.libs.python.mathlib
+   :members:
+   :undoc-members:
+   :show-inheritance:
