@@ -505,10 +505,10 @@ class FileVersion(object):
                         line_info_dict[name] = value
 
                 # Version
-                if not line_info_dict.has_key('version'):
+                if 'version' not in line_info_dict:
                     continue
                 version = int(line_info_dict['version'])
-                if not version in version_numbers:
+                if version not in version_numbers:
                     continue
 
                 # Comment
@@ -760,13 +760,13 @@ def replace(file_path, pattern, subst):
 
     # Create temp file
     fh, abs_path = mkstemp()
-    with os.fdopen(fh,'w') as new_file:
+    with os.fdopen(fh, 'w') as new_file:
         with open(file_path) as old_file:
             for line in old_file:
                 # TODO: This gives when working with non ascii codecs, solve ethis without try/except
                 try:
                     new_file.write(line.replace(pattern, subst))
-                except:
+                except Exception:
                     pass
     # Remove original file
     os.remove(file_path)

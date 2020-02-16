@@ -183,7 +183,7 @@ class Logger(object):
 
         # If want, we add a new RotatingFileHandler
         if file_name:
-            rotating_file_handler = RotatingFileHandler(file_name, mode=mode ,maxBytes=max_bytes,
+            rotating_file_handler = RotatingFileHandler(file_name, mode=mode, maxBytes=max_bytes,
                                                         backupCount=backup_count, encoding=encoding)
             setattr(rotating_file_handler, Logger._LOGGER_IDENTIFIER, True)
             if log_level:
