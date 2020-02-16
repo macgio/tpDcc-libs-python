@@ -73,7 +73,8 @@ class tpPyUtils(object):
             raise RuntimeError('{} Log Path {} does not exists!'.format(self._module_name, log_path))
 
         logger = log.create_logger(logger_name=self._module_name, logger_path=log_path).logger
-        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(self._module_name.upper())) in ['True', 'true']:
+        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(
+                self._module_name.upper())) in ['True', 'true']:
             logger.setLevel(log.LoggerLevel.DEBUG)
         else:
             logger.setLevel(log.LoggerLevel.WARNING)
@@ -112,7 +113,8 @@ class tpPyUtils(object):
         def foo(name, only_packages):
             for importer, m_name, is_pkg in pkgutil.iter_modules([name]):
                 mod_path = name + '\\' + m_name
-                mod_name = '{}.'.format(self._module_name) + os.path.relpath(mod_path, self._module_dir).replace('\\', '.')
+                mod_name = '{}.'.format(
+                    self._module_name) + os.path.relpath(mod_path, self._module_dir).replace('\\', '.')
                 if only_packages:
                     if is_pkg:
                         module_paths.append(mod_path)

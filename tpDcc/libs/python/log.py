@@ -40,7 +40,8 @@ class Logger(object):
     _LOGGER_DEFAULT_FORMAT = '[%(levelname)1.1s %(asctime)s | %(name)s | %(module)s:%(lineno)d]: %(message)s'
     _LOGGER_DEFAULT_DATE_FORMAT = '%d/%m/%y %H:%M:%S'
 
-    def __init__(self, name=None, log_file=None, level=logging.DEBUG, formatter=None, max_bytes=0, backup_count=0, file_log_level=None, enable_stderr_logger=True):
+    def __init__(self, name=None, log_file=None, level=logging.DEBUG, formatter=None, max_bytes=0, backup_count=0,
+                 file_log_level=None, enable_stderr_logger=True):
         super(Logger, self).__init__()
 
         self._name = name or self._LOGGER_DEFAULT_NAME
@@ -48,7 +49,10 @@ class Logger(object):
         self._log_file = log_file
         self._formatter = formatter
 
-        self._logger = Logger.create_logger(name=self._name, log_file=self._log_file, level=self._log_level, formatter=self._formatter, max_bytes=max_bytes, file_log_level=file_log_level, backup_count=backup_count, enable_stderr_logger=enable_stderr_logger)
+        self._logger = Logger.create_logger(name=self._name, log_file=self._log_file, level=self._log_level,
+                                            formatter=self._formatter, max_bytes=max_bytes,
+                                            file_log_level=file_log_level, backup_count=backup_count,
+                                            enable_stderr_logger=enable_stderr_logger)
 
     def get_name(self):
         return self._name
@@ -60,14 +64,15 @@ class Logger(object):
     logger = property(get_logger)
 
     @staticmethod
-    def create_logger(name, log_file=None, level=logging.DEBUG, formatter=None, max_bytes=0, backup_count=0, file_log_level=None, enable_stderr_logger=True):
+    def create_logger(name, log_file=None, level=logging.DEBUG, formatter=None, max_bytes=0, backup_count=0,
+                      file_log_level=None, enable_stderr_logger=True):
         """
         Creates a fully configured logger instance
         :param name: str, name of the logger object
         :param log_file: str, If given, path where the log should be stored
         :param level: int, minimum logging level to display
         :param formatter: Python logging Formater object to apply
-        :param max_bytes: int, size of the log file when rollover should occur. Default is 0, so rollover never should occur
+        :param max_bytes: int, size of log file when rollover should occur. Default is 0, so rollover never should occur
         :param backup_count: int, number of backups to keep. Default is 0, so no backups are done
         :param file_log_level: int, logging level for the file logger
         :param enable_stderr_logger: bool, Whether the default stderr logger be disabled or not
@@ -117,13 +122,15 @@ class Logger(object):
         Resets the internal logger to its initial configuration
         """
 
-        self._logger = Logger.create_logger(name=self._name, log_file=self._log_file, level=self._log_level, formatter=self._formatter)
+        self._logger = Logger.create_logger(name=self._name, log_file=self._log_file, level=self._log_level,
+                                            formatter=self._formatter)
 
     def log_level(self, level=logging.DEBUG, update_custom_handlers=False):
         """
         Set the minimum log level for the internal logger
         :param level: int, new miminimum log level
-        :param update_custom_handlers: bool, Whether to only reconfigure internal logger handlers only or also reconfigure custom handlers
+        :param update_custom_handlers: bool, Whether to only reconfigure internal logger handlers only or also
+            reconfigure custom handlers
         """
 
         self._logger.setLevel(level)
@@ -144,7 +151,8 @@ class Logger(object):
         """
         Set the formatter for all handlers of the default logger
         :param formatter: formatter, new Python logging formatter
-        :param update_custom_handlers: bool, Whether to only reconfigure internal logger handlers only or also reconfigure custom handlers
+        :param update_custom_handlers: bool, Whether to only reconfigure internal logger handlers only or also
+            reconfigure custom handlers
         """
 
         for handler in list(self._logger.handlers):
@@ -153,7 +161,8 @@ class Logger(object):
 
         self._formatter = formatter
 
-    def log_file(self, file_name, formatter=None, mode='a', max_bytes=0, backup_count=0, encoding=None, log_level=None, enable_stderr_logger=True):
+    def log_file(self, file_name, formatter=None, mode='a', max_bytes=0, backup_count=0, encoding=None,
+                 log_level=None, enable_stderr_logger=True):
         """
         Setup logging to a file (using a RotatingFileHandler)
         :param file_name: str, file name of the log file
@@ -174,7 +183,8 @@ class Logger(object):
 
         # If want, we add a new RotatingFileHandler
         if file_name:
-            rotating_file_handler = RotatingFileHandler(file_name, mode=mode ,maxBytes=max_bytes, backupCount=backup_count, encoding=encoding)
+            rotating_file_handler = RotatingFileHandler(file_name, mode=mode ,maxBytes=max_bytes,
+                                                        backupCount=backup_count, encoding=encoding)
             setattr(rotating_file_handler, Logger._LOGGER_IDENTIFIER, True)
             if log_level:
                 setattr(rotating_file_handler, Logger._LOGGER_INTERNAL_HANDLER_IS_CUSTOM_LOG_LEVEL, True)
@@ -226,7 +236,7 @@ class Logger(object):
     def _remove_internal_loggers(self, enable_stderr_logger=False):
         """
         Removes the internal logger handlers of the internal logger
-        :param enable_stderr_logger: bool, Whether the default stderrl ogger should be disdabled or not
+        :param enable_stderr_logger: bool, Whether the default stderrl logger should be disabled or not
         """
 
         for handler in list(self._logger.handlers):

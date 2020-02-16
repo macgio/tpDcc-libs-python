@@ -53,9 +53,9 @@ def get_current_time(date_and_time=True, reverse_date=False):
     second = str(int(date_value.second))
 
     if len(hour) == 1:
-        hour = '0'+hour
+        hour = '0' + hour
     if len(minute) == 1:
-        minute = '0'+minute
+        minute = '0' + minute
     if len(second) == 1:
         second += '0'
 

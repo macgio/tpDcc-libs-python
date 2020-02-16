@@ -278,7 +278,6 @@ class FileVersion(object):
     def set_version_folder(self, version_folder):
         self._version_folder = version_folder
 
-
     version_name = property(get_version_name, set_version_name)
     version_folder_name = property(get_version_folder_name, set_version_folder_name)
     version_folder = property(get_version_folder, set_version_folder)
@@ -452,13 +451,13 @@ class FileVersion(object):
                 start_index = line.find('"')
                 if start_index > -1:
                     end_index = line.find(';')
-                    sub_part = line[start_index+1:end_index]
+                    sub_part = line[start_index + 1:end_index]
                     sub_part = sub_part.replace('"', '\\"')
-                    line = line[:start_index+1] + sub_part + line[end_index:]
+                    line = line[:start_index + 1] + sub_part + line[end_index:]
 
                 try:
                     exec(line)
-                except:
+                except Exception:
                     pass
 
                 if version == version_number:
@@ -469,7 +468,7 @@ class FileVersion(object):
     def get_all_versions_data(self):
         """
         Returns all the version data (comment, user, file_size, modified and version_file) of all the versions
-        :return: list<str, str, str, str, str, str>, tuple with version, comment, user, file_size, modified, version_file
+        :return: list<str, str, str, str, str, str>, tuple version, comment, user, file_size, modified, file_version
         """
 
         from tpPyUtils import path
@@ -513,12 +512,12 @@ class FileVersion(object):
                     continue
 
                 # Comment
-                if line_info_dict.has_key('comment'):
+                if 'comment' in line_info_dict:
                     comment = line_info_dict['comment']
                     comment = comment[1:-1]
 
                 # User
-                if line_info_dict.has_key('user'):
+                if 'user' in line_info_dict:
                     user = line_info_dict['user']
                     user = user[1:-1]
 
@@ -641,7 +640,7 @@ def create_file(filename, directory, make_unique=False):
     try:
         open_file = open(full_path, 'a')
         open_file.close()
-    except:
+    except Exception:
         return False
 
     return full_path
@@ -669,7 +668,7 @@ def move_file(path1, path2):
 
     try:
         shutil.move(path1, path2)
-    except:
+    except Exception:
         print('Failed to move {0} to {1}'.format(path1, path2))
         return False
 
@@ -759,7 +758,7 @@ def replace(file_path, pattern, subst):
     :param subst: string that will replace the old one
     """
 
-    #Create temp file
+    # Create temp file
     fh, abs_path = mkstemp()
     with os.fdopen(fh,'w') as new_file:
         with open(file_path) as old_file:
@@ -769,10 +768,10 @@ def replace(file_path, pattern, subst):
                     new_file.write(line.replace(pattern, subst))
                 except:
                     pass
-    #Remove original file
+    # Remove original file
     os.remove(file_path)
 
-    #Move new file
+    # Move new file
     move(abs_path, file_path)
 
 
