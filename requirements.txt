@@ -12,6 +12,5 @@ pyyaml
 comtypes
 docutils
 six
-pysvg
 pathlib2
 aenum;python_version <= '3.4'
