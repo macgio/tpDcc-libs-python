@@ -9,14 +9,15 @@ Module that contains utility functions related with debugging purposes
 from __future__ import print_function, division, absolute_import
 
 
-# region Functions
 def format_message(fname, expected, actual, flag):
     """
     Convenience function that returns nicely formatted error/warning messages
     """
 
-    format = lambda types: ', '.join([str(t).split("'")[1] for t in types])
-    expected, actual = format(expected), format(actual)
+    def _format(types):
+        return ', '.join([str(t).split("'")[1] for t in types])
+
+    expected, actual = _format(expected), _format(actual)
     msg = "'{}' method ".format(fname) + ('accepts', 'returns')[flag] + ' ({}), but '.format(expected) + \
           ('was given', 'result is')[flag] + ' ({})'.format(actual)
     return msg
@@ -46,4 +47,3 @@ def debug_object_string(obj, msg):
     # debug a function
     elif inspect.isfunction(obj):
         return '[%s.%s function] :: %s' % (obj.__module__, obj.__name__, msg)
-# endregion

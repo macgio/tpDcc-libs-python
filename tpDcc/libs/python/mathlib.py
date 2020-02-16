@@ -293,7 +293,7 @@ def is_equal(x, y, tolerance=0.000001):
     :return: bool
     """
 
-    return abs(x-y) < tolerance
+    return abs(x - y) < tolerance
 
 
 def lerp(start, end, alpha):
@@ -410,7 +410,7 @@ def snap_value(input, snap_value):
     :return: float
     """
 
-    return round((float(input)/snap_value)) * snap_value
+    return round((float(input) / snap_value)) * snap_value
 
 
 def check_vector(vector):
@@ -656,4 +656,3 @@ def fade_sigmoid(percent_value):
     input_value = percent_value * 10 + 1
 
     return (2 / (1 + (math.e**(-0.70258 * input_value)))) - 1
-

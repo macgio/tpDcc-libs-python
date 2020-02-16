@@ -588,7 +588,7 @@ def pad_number(name):
     if number < 10:
         number_string = number_string.zfill(2)
 
-    new_name = name[0:index] + number_string + name[index+1:]
+    new_name = name[0:index] + number_string + name[index + 1:]
 
     return new_name
 

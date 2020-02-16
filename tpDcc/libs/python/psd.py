@@ -31,7 +31,7 @@ def find_layers(layer):
     try:
         layer.layers
         is_group = True
-    except:
+    except Exception:
         pass
 
     if is_group:
@@ -73,7 +73,7 @@ def load_image_sequence_from_psd(psd_file):
         for i, layer in enumerate(layers_list):
             layer.Visible = True
             layer_name = 'Layer_' + str(i)
-            png_file = os.path.join(export_dir_path, layer_name+'.png')
+            png_file = os.path.join(export_dir_path, layer_name + '.png')
             if os.path.isfile(png_file):
                 psd_time = os.state(psd_file)[8]
                 png_time = os.stat(png_file)[8]

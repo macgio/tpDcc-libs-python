@@ -68,6 +68,7 @@ def cd(new_dir, cleanup=lambda: True):
 @contextlib.contextmanager
 def temp_dir():
     dir_path = tempfile.mkdtemp()
+
     def cleanup():
         shutil.rmtree(dir_path)
     with cd(dir_path, cleanup):
@@ -237,7 +238,11 @@ def get_immediate_subdirectories(root_directory):
     :param root_directory: str, directory to start looking
     """
 
-    return [os.path.join(root_directory, name) for name in os.listdir(root_directory) if os.path.isdir(os.path.join(root_directory, name))]
+    return [
+        os.path.join(
+            root_directory, name) for name in os.listdir(root_directory) if os.path.isdir(
+            os.path.join(root_directory, name))
+    ]
 
 
 def get_extension(path):
@@ -292,12 +297,14 @@ def get_files(root, file_extension=None, recursive=False, full_path=False, stdou
         directories = [d for d in os.listdir(root) if is_dir(root, d)]
         if file_extension:
             if full_path:
-                files = [clean_path(os.path.abspath(os.path.join(root, f))) for f in os.listdir(root) if is_file(root, f) and has_extension(f, file_extension)]
+                files = [clean_path(os.path.abspath(os.path.join(root, f))) for
+                         f in os.listdir(root) if is_file(root, f) and has_extension(f, file_extension)]
             else:
                 files = [f for f in os.listdir(root) if is_file(root, f) and has_extension(f, file_extension)]
         else:
             if full_path:
-                files = [clean_path(os.path.abspath(os.path.join(root, f))) for f in os.listdir(root) if is_file(root, f)]
+                files = [
+                    clean_path(os.path.abspath(os.path.join(root, f))) for f in os.listdir(root) if is_file(root, f)]
             else:
                 files = [f for f in os.listdir(root) if is_file(root, f)]
 

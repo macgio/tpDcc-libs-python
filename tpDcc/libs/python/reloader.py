@@ -148,25 +148,32 @@ def do_reload(module, remapping=False):
         attr_module = inspect.getmodule(attr_val)
 
         if not attr_module:
-            debug_log(dbg_phase_title, '"', attrName, '"(attr): cannot get module for attribute. Skipped.', verbosity=2)
+            debug_log(
+                dbg_phase_title, '"', attrName, '"(attr): cannot get module for attribute. Skipped.', verbosity=2)
             continue
 
-        debug_log(dbg_phase_title, '"', attrName, '"(attr): attribute belongs to module "', attr_module.__name__, '"', verbosity=2)
+        debug_log(
+            dbg_phase_title, '"', attrName, '"(attr): attribute belongs to module "',
+            attr_module.__name__, '"', verbosity=2)
 
         if attr_module.__name__ in sys.builtin_module_names:
             debug_log(dbg_phase_title, '"', attr_module.__name__, '"(module): builtin. Skipped.', verbosity=2)
             continue
 
         if not hasattr(attr_module, '__file__'):
-            debug_log(dbg_phase_title, '"', attr_module.__name__, '"(module): no "__file__" attribute. Skipped.', verbosity=2)
+            debug_log(
+                dbg_phase_title, '"', attr_module.__name__, '"(module): no "__file__" attribute. Skipped.', verbosity=2)
             continue
 
         if attr_module == sys.modules[__name__]:
-            debug_log(dbg_phase_title, '"', attr_module.__name__, '"(module): ', SCRIPT_NAME, ' itself. Skipped.', verbosity=2)
+            debug_log(
+                dbg_phase_title, '"', attr_module.__name__, '"(module): ', SCRIPT_NAME,
+                ' itself. Skipped.', verbosity=2)
             continue
 
         if attr_module in _processed_modules:
-            debug_log(dbg_phase_title, '"', attr_module.__name__, '"(module): already processed. Skipped.', verbosity=2)
+            debug_log(
+                dbg_phase_title, '"', attr_module.__name__, '"(module): already processed. Skipped.', verbosity=2)
             continue
 
         if need_to_be_ignored(attr_module.__file__.lower()):
@@ -174,7 +181,8 @@ def do_reload(module, remapping=False):
             continue
 
         detected_modules.add(attr_module)
-        debug_log(dbg_phase_title, '"', attr_module.__name__, '"(module): added to list of detected modules.', verbosity=2)
+        debug_log(
+            dbg_phase_title, '"', attr_module.__name__, '"(module): added to list of detected modules.', verbosity=2)
 
         if remapping:
 
@@ -210,9 +218,13 @@ def do_reload(module, remapping=False):
     dbg_phase_title = module.__name__ + ': recursion entrance phase: '
     for detectedModule in detected_modules:
         if detectedModule in _reloaded_modules:
-            debug_log(dbg_phase_title, 'module "' + detectedModule.__name__ + '" was already reloaded. Skipping recursion.', verbosity=1)
+            debug_log(
+                dbg_phase_title,
+                'module "' + detectedModule.__name__ + '" was already reloaded. Skipping recursion.', verbosity=1)
             continue
-        debug_log(dbg_phase_title, 'module "' + detectedModule.__name__ + '" is not analyzed. Entering recursion.', verbosity=1)
+        debug_log(
+            dbg_phase_title,
+            'module "' + detectedModule.__name__ + '" is not analyzed. Entering recursion.', verbosity=1)
         do_reload(detectedModule)
 
     dbg_phase_title = module.__name__ + ': reload phase: '

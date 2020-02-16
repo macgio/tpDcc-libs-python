@@ -16,7 +16,12 @@ import logging
 from string import ascii_letters
 
 iters = [list, tuple, set, frozenset]
-class _hack(tuple): pass
+
+
+class _hack(tuple):
+    pass
+
+
 iters = _hack(iters)
 iters.__doc__ = """
 A list of iterable items (like lists, but not strings). Includes whichever
@@ -146,8 +151,8 @@ def extract(string, start='(', stop=')'):
     """
 
     try:
-        return string[string.index(start)+1:string.index(stop)]
-    except:
+        return string[string.index(start) + 1:string.index(stop)]
+    except Exception:
         return string
 
 
@@ -197,7 +202,7 @@ def strip_suffix(name, split='_'):
     if not name.count(split):
         return name
 
-    return name.replace(split+name.split(split)[-1], '')
+    return name.replace(split + name.split(split)[-1], '')
 
 
 def add_prefix(prefix, split, string):
@@ -229,7 +234,7 @@ def camel_case_to_string(camel_case_string):
     :return: str
     """
 
-    return re.sub("([a-z])([A-Z])", "\g<1> \g<2>", camel_case_string)
+    return re.sub("([a-z])([A-Z])", r"\g<1> \g<2>", camel_case_string)
 
 
 def string_to_camel_case(string):
@@ -302,9 +307,9 @@ def get_trailing_number(input_string, as_string=False, number_count=-1):
     if not input_string:
         return None
 
-    number = '\d+'
+    number = r'\d+'
     if number_count > 0:
-        number = '\d' * number_count
+        number = r'\d' * number_count
 
     group = re.match('([a-zA-Z_0-9]+)(%s$)' % number, input_string)
     if group:
@@ -324,8 +329,8 @@ def get_string_index(index, padding=2):
     """
 
     str_ind = str(index)
-    for i in range(padding-len(str_ind)):
-        str_ind = '0'+str_ind
+    for i in range(padding - len(str_ind)):
+        str_ind = '0' + str_ind
 
     return str_ind
 
@@ -365,7 +370,7 @@ def extract_digits_from_end_of_string(input_string):
     :return: int
     """
 
-    result = re.search('(\d+)$', input_string)
+    result = re.search(r'(\d+)$', input_string)
     if result is not None:
         return int(result.group(0))
 

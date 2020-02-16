@@ -348,17 +348,17 @@ class VersionFile(object):
             version = None
             comment = None
             user = None
-            for l in lines:
-                start_index = l.find('"')
+            for line in lines:
+                start_index = line.find('"')
                 if start_index > -1:
-                    end_index = l.find('";')
-                    sub_part = l[start_index+1:end_index]
+                    end_index = line.find('";')
+                    sub_part = line[start_index + 1:end_index]
                     sub_part = sub_part.replace('"', '\\"')
-                    l = l[:start_index+1] + sub_part + l[end_index:]
+                    line = line[:start_index + 1] + sub_part + line[end_index:]
 
                 # Get version, comment and user variables by executing the line
                 try:
-                    exec(l)
+                    exec(line)
                 except Exception:
                     pass
 

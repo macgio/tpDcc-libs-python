@@ -203,32 +203,31 @@ class SvgNormalizer(object):
 
     def _normalize_text(self, svg_text_elem):
         self._normalize_position(svg_text_elem)
-        proportion = OrderedDict()
-        proportion[2048] = 1
-        proportion[1920] = 1
-        proportion[1600] = 0.936
-        proportion[1500] = 0.936
-        proportion[1033] = 0.78
-        proportion[1024] = 0.78
-        proportion[960] = 0.74
-        proportion[768] = 0.66
-        proportion[640] = 0.60
+        res = OrderedDict()
+        res[2048] = 1
+        res[1920] = 1
+        res[1600] = 0.936
+        res[1500] = 0.936
+        res[1033] = 0.78
+        res[1024] = 0.78
+        res[960] = 0.74
+        res[768] = 0.66
+        res[640] = 0.60
 
         new_width = float(self._new_resolution[0])
         font_size = get_svg_element_font_size(svg_text_elem)
-        for i in range(len(proportion.keys())):
-            if new_width > proportion.keys()[i]:
+        for i in range(len(res.keys())):
+            if new_width > res.keys()[i]:
                 if i == 0:
-                    font_proportion = new_width / proportion.keys()[0]
+                    font_proportion = new_width / res.keys()[0]
                 else:
-                    size_per_pixel = (proportion[proportion.keys()[i - 1]] - proportion[proportion.keys()[i]]) / \
-                                     (proportion.keys()[i - 1] - proportion.keys()[i])
-                    font_proportion = (
-                            proportion[proportion.keys()[i]] + (new_width - proportion.keys()[i]) * size_per_pixel)
+                    size_per_pixel = (res[res.keys()[i - 1]] - res[res.keys()[i]]) / \
+                                     (res.keys()[i - 1] - res.keys()[i])
+                    font_proportion = (res[res.keys()[i]] + (new_width - res.keys()[i]) * size_per_pixel)
             break
         else:
-            font_proportion = new_width * (proportion[proportion.keys()[
-                len(proportion.keys()) - 1]] / proportion.keys()[len(proportion.keys()) - 1])
+            font_proportion = new_width * (res[res.keys()[
+                len(res.keys()) - 1]] / res.keys()[len(res.keys()) - 1])
 
         new_font_size = font_size * font_proportion
         set_svg_element_font_size(svg_text_elem, new_font_size)
