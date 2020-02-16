@@ -9,7 +9,7 @@ Implementation of an octree data structure
 from __future__ import print_function, division, absolute_import
 
 
-from tpPyUtils import mathlib
+from tpDcc.libs.python import mathlib
 
 
 class Octree(object):

@@ -19,8 +19,7 @@ import contextlib
 
 import six
 
-import tpPyUtils
-from tpPyUtils import name, folder
+from tpDcc.libs.python import name, folder
 
 SEPARATOR = '/'
 BAD_SEPARATOR = '\\'
@@ -355,7 +354,7 @@ def get_basename(directory, with_extension=True):
     :return: variant, str || bool (if fails)
     """
 
-    from tpPyUtils import fileio
+    from tpDcc.libs.python import fileio
 
     try:
         base_name = os.path.basename(directory)

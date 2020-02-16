@@ -18,7 +18,7 @@ except ImportError:
 
 loggers = []
 
-from tpPyUtils import osplatform
+from tpDcc.libs.python import osplatform
 
 
 class LoggerLevel:

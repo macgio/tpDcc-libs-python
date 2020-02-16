@@ -11,7 +11,7 @@ import sys
 import ast
 import string
 
-from tpPyUtils import fileio, path as path_utils
+from tpDcc.libs.python import fileio, path as path_utils
 
 
 def get_ast_function_args(function_node):

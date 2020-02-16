@@ -31,7 +31,7 @@ class tpPyUtils(object):
 
     def get_module_path(self):
         """
-        Returns path where tpPyUtils module is stored
+        Returns path where tpDcc.libs.python module is stored
         :return: str
         """
 
@@ -42,8 +42,8 @@ class tpPyUtils(object):
                 mod_dir = os.path.dirname(__file__)
             except Exception:
                 try:
-                    import tpPyUtils
-                    mod_dir = tpPyUtils.__path__[0]
+                    import tpDcc.libs.python
+                    mod_dir = tpDcc.libs.python.__path__[0]
                 except Exception:
                     return None
 
@@ -63,10 +63,10 @@ class tpPyUtils(object):
 
     def create_logger(self):
         """
-        Creates and initializes tpPyUtils logger
+        Creates and initializes tpDcc.libs.python logger
         """
 
-        from tpPyUtils import log
+        from tpDcc.libs.python import log
 
         log_path = self.get_data_path()
         if not os.path.exists(log_path):
@@ -236,8 +236,8 @@ class tpPyUtils(object):
 
 def init(do_reload=True):
     """
-    Initializes tpPyUtils package
-    :param do_reload: bool, Whether to reload imported tpPyUtils modules or not
+    Initializes tpDcc.libs.python package
+    :param do_reload: bool, Whether to reload imported tpDcc.libs.python modules or not
     :return: bool
     """
 

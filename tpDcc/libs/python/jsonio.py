@@ -8,10 +8,11 @@ Utility methods related to write/read json files
 
 from __future__ import print_function, division, absolute_import
 
-import json
 import os
+import json
+import logging
 
-import tpPyUtils
+LOGGER = logging.getLogger()
 
 
 def write_to_file(data, filename):
@@ -42,5 +43,5 @@ def read_file(filename):
             with open(filename, 'r') as json_file:
                 return json.load(json_file)
         except Exception as e:
-            tpPyUtils.logger.warning('Could not read {0}'.format(filename))
-            tpPyUtils.logger.warning(str(e))
+            LOGGER.warning('Could not read {0}'.format(filename))
+            LOGGER.warning(str(e))

@@ -12,12 +12,13 @@ from __future__ import print_function, division, absolute_import
 import os
 import sys
 import shutil
+import fnmatch
+import logging
 import tempfile
 import traceback
 import subprocess
-import fnmatch
 
-import tpPyUtils
+LOGGER = logging.getLogger()
 
 
 def create_folder(name, directory=None, make_unique=False):
@@ -29,7 +30,7 @@ def create_folder(name, directory=None, make_unique=False):
     :return: variant, str || bool, folder name with path or False if the folder creation failed
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     full_path = False
 
@@ -68,7 +69,7 @@ def rename_folder(directory, name, make_unique=False):
     :return: str, path of the renamed folder
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     base_name = path.get_basename(directory=directory)
     if base_name == name:
@@ -86,10 +87,10 @@ def rename_folder(directory, name, make_unique=False):
     try:
         os.chmod(directory, 0o777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
-        tpPyUtils.logger.info(message)
+        LOGGER.info(message)
         os.rename(directory, rename_path)
     except Exception:
-        tpPyUtils.logger.error('{}'.format(traceback.format_exc()))
+        LOGGER.error('{}'.format(traceback.format_exc()))
         return False
 
     return rename_path
@@ -105,7 +106,7 @@ def copy_folder(directory, directory_destination, ignore_patterns=[]):
     :return: str, destination directory
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     if not path.is_dir(directory=directory):
         return
@@ -128,7 +129,7 @@ def move_folder(path1, path2):
     try:
         shutil.move(path1, path2)
     except Exception:
-        tpPyUtils.logger.warning('Failed to move {0} to {1}'.format(path1, path2))
+        LOGGER.warning('Failed to move {0} to {1}'.format(path1, path2))
         return False
 
     return True
@@ -142,7 +143,7 @@ def delete_folder(folder_name, directory):
     :return: str, folder that was deleted with path
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     def delete_read_only_error(action, name, exc):
         """
@@ -167,7 +168,7 @@ def clean_folder(directory):
     :param directory: str
     """
 
-    from tpPyUtils import path, fileio, folder
+    from tpDcc.libs.python import path, fileio, folder
 
     base_name = path.get_basename(directory=directory)
     dir_name = path.get_dirname(directory=directory)
@@ -191,7 +192,7 @@ def get_folder_size(directory, round_value=2):
     :return: str
     """
 
-    from tpPyUtils import path, fileio
+    from tpDcc.libs.python import path, fileio
 
     size = 0
     for root, dirs, files in os.walk(directory):
@@ -209,7 +210,7 @@ def get_size(file_path, round_value=2):
     :return: int
     """
 
-    from tpPyUtils import fileio, path
+    from tpDcc.libs.python import fileio, path
 
     size = 0
     if path.is_dir(file_path):
@@ -249,7 +250,7 @@ def get_folders(root_folder, recursive=False):
     :return: list<str>
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     found_folders = list()
     if not recursive:
@@ -288,7 +289,7 @@ def get_files(root_folder, full_path=False, recursive=False, pattern="*"):
     :return: list<str>
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     if not path.is_dir(root_folder):
         return []
@@ -324,7 +325,7 @@ def get_files_and_folders(directory):
     :return: list<str>
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     if not path.is_dir(directory=directory):
         return
@@ -401,7 +402,7 @@ def get_user_folder(absolute=True):
     :return: str, path to the user folder
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     if absolute:
         return path.clean_path(os.path.abspath(os.path.expanduser('~')))
@@ -415,7 +416,7 @@ def get_temp_folder():
     :return: str, path to the temp folder
     """
 
-    from tpPyUtils import path
+    from tpDcc.libs.python import path
 
     return path.clean_path(tempfile.gettempdir())
 

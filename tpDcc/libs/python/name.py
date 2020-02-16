@@ -116,7 +116,7 @@ def remove_suffix(name):
 
 def get_numeric_name(text, names):
 
-    from tpPyUtils import python as utils
+    from tpDcc.libs.python import python as utils
 
     if text in names:
         text = re.sub('\\d*$', '', text)
@@ -626,7 +626,7 @@ def get_unique_name_from_list(existing_names, name):
     :return: str
     """
 
-    from tpPyUtils import strings
+    from tpDcc.libs.python import strings
 
     if name not in existing_names:
         return name

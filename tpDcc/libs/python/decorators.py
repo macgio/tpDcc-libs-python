@@ -16,8 +16,9 @@ import threading
 import contextlib
 from functools import wraps
 
-import tpPyUtils
-from tpPyUtils import debug
+from tpDcc.libs.python import debug
+
+LOGGER = logging.getLogger()
 
 
 def abstractmethod(fn):
@@ -31,7 +32,7 @@ def abstractmethod(fn):
         if mode == 'raise':
             raise NotImplementedError(debug.debug_object_string(fn, msg))
         elif mode == 'warn':
-            tpPyUtils.logger.warning(debug.debug_object_string(fn, msg))
+            LOGGER.warning(debug.debug_object_string(fn, msg))
         return fn(*args, **kwargs)
 
     new_fn.__name__ = fn.__name__
@@ -127,7 +128,7 @@ def timer(fn):
 
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if tpPyUtils.logger.getEffectiveLevel() == 20:
+        if LOGGER.getEffectiveLevel() == 20:
             # If we are in info mode we disable timers
             res = fn(*args, **kwargs)
         else:
@@ -140,16 +141,16 @@ def timer(fn):
                 mod = inspect.getmodule(args[0])
                 trace += '{0} >>'.format(mod.__name__.split('.')[-1])
             except Exception:
-                tpPyUtils.logger.debug('function module inspect failure')
+                LOGGER.debug('function module inspect failure')
 
             try:
                 cls = args[0].__clas__
                 trace += '{0}.'.format(args[0].__clas__.__name__)
             except Exception:
-                tpPyUtils.logger.debug('function class inspect failure')
+                LOGGER.debug('function class inspect failure')
 
             trace += fn.__name__
-            tpPyUtils.logger.debug('Timer : %s: took %0.3f ms' % (trace, (t2 - t1) * 1000.0))
+            LOGGER.debug('Timer : %s: took %0.3f ms' % (trace, (t2 - t1) * 1000.0))
         return res
     return wrapper
 
@@ -179,7 +180,7 @@ def timestamp(f):
     def wrapper(*args, **kwargs):
         start_time = time.time()
         res = f(*args, **kwargs)
-        tpPyUtils.logger.info('<{}> Elapsed time : {}'.format(f.func_name, time.time() - start_time))
+        LOGGER.info('<{}> Elapsed time : {}'.format(f.func_name, time.time() - start_time))
         return res
     return wrapper
 
@@ -195,7 +196,7 @@ def try_pass(fn):
         try:
             return_value = fn(*args, **kwargs)
         except Exception:
-            tpPyUtils.logger.error(traceback.format_exc())
+            LOGGER.error(traceback.format_exc())
         return return_value
     return wrapper
 

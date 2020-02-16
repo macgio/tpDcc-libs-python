@@ -14,7 +14,7 @@ import time
 import configparser
 from collections import OrderedDict
 
-from tpPyUtils import fileio, path, jsonio
+from tpDcc.libs.python import fileio, path, jsonio
 
 
 class FileSettings(object):

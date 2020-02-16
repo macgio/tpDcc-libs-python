@@ -20,7 +20,7 @@ import collections
 from itertools import groupby
 from operator import itemgetter
 
-from tpPyUtils import strings
+from tpDcc.libs.python import strings
 
 
 class RollbackImporter(object):
@@ -110,7 +110,7 @@ def load_python_module(module_name, directory):
     :return: mod, loaded module
     """
 
-    from tpPyUtils import path, fileio
+    from tpDcc.libs.python import path, fileio
 
     if path.is_dir(directory):
         full_path = path.join_path(directory, module_name)
@@ -139,7 +139,7 @@ def import_python_module(module_name, directory):
     :return: mod, imported module
     """
 
-    from tpPyUtils import path, fileio
+    from tpDcc.libs.python import path, fileio
 
     if not path.is_dir(directory=directory):
         return
@@ -192,7 +192,8 @@ def get_version():
     :return: SemanticVersion, python version
     """
 
-    from tpPyUtils import version
+    from tpDcc.libs.python import version
+
     py_version = sys.version_info
     current_version = version.SemanticVersion(
         major=py_version.major,
@@ -610,7 +611,7 @@ def delete_pyc_file(python_script):
     :param python_script: str
     """
 
-    from tpPyUtils import path, fileio
+    from tpDcc.libs.python import path, fileio
 
     script_name = path.get_basename(python_script)
     if not python_script.endswith('.py'):

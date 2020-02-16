@@ -10,8 +10,9 @@ from __future__ import print_function, division, absolute_import
 
 import os
 import yaml
+import logging
 
-import tpPyUtils
+LOGGER = logging.getLogger()
 
 
 def write_to_file(data, filename):
@@ -42,5 +43,5 @@ def read_file(filename):
             with open(filename, 'r') as yaml_file:
                 return yaml.safe_load(yaml_file)
         except Exception as e:
-            tpPyUtils.logger.warning('Could not read {0}'.format(filename))
-            tpPyUtils.logger.warning(str(e))
+            LOGGER.warning('Could not read {0}'.format(filename))
+            LOGGER.warning(str(e))
