@@ -215,11 +215,39 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tpDcc.libs.python" title="Permalink to this headline">¶</a></h2>
 <p>Initialization module for tpDcc-libs-python</p>
 <dl class="function">
+<dt id="tpDcc.libs.python.create_logger">
+<code class="sig-prename descclassname">tpDcc.libs.python.</code><code class="sig-name descname">create_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.create_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns logger of current modue</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.create_logger_directory">
+<code class="sig-prename descclassname">tpDcc.libs.python.</code><code class="sig-name descname">create_logger_directory</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.create_logger_directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates artellapipe logger directory</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.get_logging_config">
+<code class="sig-prename descclassname">tpDcc.libs.python.</code><code class="sig-name descname">get_logging_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.get_logging_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns logging configuration file path
+:return: str</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="tpDcc.libs.python.init">
 <code class="sig-prename descclassname">tpDcc.libs.python.</code><code class="sig-name descname">init</code><span class="sig-paren">(</span><em class="sig-param">do_reload=True</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.init" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes tpDcc.libs.python package
 :param do_reload: bool, Whether to reload imported tpDcc.libs.python modules or not
 :return: bool</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tpDcc.libs.python.register_class">
+<code class="sig-prename descclassname">tpDcc.libs.python.</code><code class="sig-name descname">register_class</code><span class="sig-paren">(</span><em class="sig-param">cls_name</em>, <em class="sig-param">cls</em>, <em class="sig-param">is_unique=False</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.register_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function registers given class
+:param cls_name: str, name of the class we want to register
+:param cls: class, class we want to register
+:param is_unique: bool, Whether if the class should be updated if new class is registered with the same name</p>
 </dd></dl>
 
 <dl class="class">
