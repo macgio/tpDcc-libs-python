@@ -14,9 +14,8 @@ import pkgutil
 import inspect
 import traceback
 import importlib
+import logging.config
 from collections import OrderedDict
-
-logger = None
 
 
 class tpPyUtils(object):
@@ -25,7 +24,7 @@ class tpPyUtils(object):
 
         self.loaded_modules = OrderedDict()
         self.reload_modules = list()
-        self._module_name = 'tpDcc-libs-python'
+        self._module_name = 'tpDcc.libs.python'
         self._module_dir = self.get_module_path()
         self.logger = self.create_logger()
 
@@ -243,10 +242,57 @@ def init(do_reload=True):
 
     new_importer = tpPyUtils()
 
-    global logger
-    logger = new_importer.logger
+    logger = create_logger()
+    register_class('logger', logger)
 
     new_importer.import_modules()
     new_importer.import_packages(only_packages=True)
     if do_reload:
         new_importer.reload_all()
+
+
+def create_logger():
+    """
+    Returns logger of current modue
+    """
+
+    logging.config.fileConfig(get_logging_config(), disable_existing_loggers=False)
+    logger = logging.getLogger('tpDcc-libs-python')
+
+    return logger
+
+
+def create_logger_directory():
+    """
+    Creates artellapipe logger directory
+    """
+
+    logger_directory = os.path.normpath(os.path.join(os.path.expanduser('~'), 'tpDcc', 'logs'))
+    if not os.path.isdir(logger_directory):
+        os.makedirs(logger_directory)
+
+
+def get_logging_config():
+    """
+    Returns logging configuration file path
+    :return: str
+    """
+
+    create_logger_directory()
+
+    return os.path.normpath(os.path.join(os.path.dirname(__file__), '__logging__.ini'))
+
+
+def register_class(cls_name, cls, is_unique=False):
+    """
+    This function registers given class
+    :param cls_name: str, name of the class we want to register
+    :param cls: class, class we want to register
+    :param is_unique: bool, Whether if the class should be updated if new class is registered with the same name
+    """
+
+    if is_unique:
+        if cls_name in sys.modules[__name__].__dict__:
+            setattr(sys.modules[__name__], cls_name, getattr(sys.modules[__name__], cls_name))
+    else:
+        sys.modules[__name__].__dict__[cls_name] = cls
