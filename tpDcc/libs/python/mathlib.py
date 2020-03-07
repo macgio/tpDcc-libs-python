@@ -308,7 +308,7 @@ def lerp(start, end, alpha):
     return start + alpha * (end - start)
 
 
-def clamp(number, min_value, max_value):
+def clamp(number, min_value=0.0, max_value=1.0):
     """
     Clamps a number between two values
     :param number: number, value to clamp
@@ -318,6 +318,20 @@ def clamp(number, min_value, max_value):
     """
 
     return max(min(number, max_value), min_value)
+
+
+def remap_value(value, old_min, old_max, new_min, new_max):
+    """
+    Remap value taking into consideration its old range and the new one
+    :param value: float
+    :param old_min: float
+    :param old_max: float
+    :param new_min: float
+    :param new_max: float
+    :return: float
+    """
+
+    return new_min + (value - old_min) * (new_max - new_min) / (old_max - old_min)
 
 
 def roundup(number, to):

@@ -202,3 +202,72 @@ def registry_value(registry, key, value_name, architecture=None):
         return value
 
     return '', 0
+
+
+def get_monitors():
+    """
+    Returns a list of all monitors
+    code.activestate.com/recipes/460509-get-the-actual-and-usable-sizes-of-all-the-monitor
+    :return:
+    """
+
+    result = list()
+
+    CBFUNC = ctypes.WINFUNCTYPE(ctypes.c_int, ctypes.c_ulong, ctypes.c_ulong, ctypes.POINTER(RECT), ctypes.c_double)
+
+    def cb(h_monitor, hdc_monitor, l_prc_monitor, dw_data):
+        r = l_prc_monitor.contents
+        data = [h_monitor]
+        data.append(r.dump())
+        result.append(data)
+
+        return 1
+
+    cb_fn = CBFUNC(cb)
+    ctypes.windll.user32.EnumDisplayMonitors(0, 0, cb_fn, 0)
+
+    return result
+
+
+def get_active_monitor_area():
+    """
+    Returns the active and working area of each monitor
+    code.activestate.com/recipes/460509-get-the-actual-and-usable-sizes-of-all-the-monitor
+    :return:
+    """
+
+    result = list()
+    monitors = get_monitors()
+    for h_monitor, extents in monitors:
+        data = [h_monitor]
+        monitor_info = MonitorInfo()
+        monitor_info.cbSize = ctypes.sizeof(MonitorInfo)
+        monitor_info.rcMonitor = Rect()
+        monitor_info.rcWork = Rect()
+        ctypes.windll.user32.GetMonitorInfoA(h_monitor, ctypes.byref(monitor_info))
+        data.append(monitor_info.rcMonitor.dump())
+        data.append(monitor_info.rcWork.dump())
+        result.append(data)
+
+    return result
+
+
+class Rect(ctypes.Structure):
+    _fields_ = [
+        ('left', ctypes.c_long),
+        ('top', ctypes.c_long),
+        ('right', ctypes.c_long),
+        ('bottom', ctypes.c_long)
+    ]
+
+    def dump(self):
+        return tuple(map(int, (self.left, self.top, self.right, self.bottom)))
+
+
+class MonitorInfo(ctypes.Structure):
+    _fields_ = [
+        ('cbSize', ctypes.c_long),
+        ('rcMonitor', Rect),
+        ('rcWork', Rect),
+        ('dwFlags', ctypes.c_long)
+    ]

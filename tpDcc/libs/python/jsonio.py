@@ -10,12 +10,11 @@ from __future__ import print_function, division, absolute_import
 
 import os
 import json
-import logging
 
-LOGGER = logging.getLogger()
+from tpDcc.libs import python
 
 
-def write_to_file(data, filename):
+def write_to_file(data, filename, **kwargs):
 
     """
     Writes data to JSON file
@@ -24,8 +23,16 @@ def write_to_file(data, filename):
     if '.json' not in filename:
         filename += '.json'
 
-    with open(filename, 'w') as json_file:
-        json.dump(data, json_file, indent=2)
+    indent = kwargs.pop('indent', 2)
+
+    try:
+        with open(filename, 'w') as json_file:
+            json.dump(data, json_file, indent=indent, **kwargs)
+    except IOError:
+        python.logger.error('Data not saved to file {}'.format(filename))
+        return None
+
+    python.logger.info('File correctly saved to: {}'.format(filename))
 
     return filename
 
@@ -41,7 +48,9 @@ def read_file(filename):
     else:
         try:
             with open(filename, 'r') as json_file:
-                return json.load(json_file)
-        except Exception as e:
-            LOGGER.warning('Could not read {0}'.format(filename))
-            LOGGER.warning(str(e))
+                data = json.load(json_file)
+        except Exception as err:
+            python.logger.warning('Could not read {0}'.format(filename))
+            raise err
+
+    return data

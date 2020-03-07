@@ -235,6 +235,23 @@ def get_trailing_number(input_string, as_string=False, number_count=-1):
     return None
 
 
+def get_trailing_number_data(input_string):
+    """
+    Returns the trailing number of a string, the name with the number removed and the padding of the number
+    :param input_string: str
+    :return: tuple(str, str, int)
+    """
+
+    m = re.search(r'\d+$', input_string)
+    if m:
+        num_as_string = m.group()
+        name_without_number = input_string[:-len(num_as_string)]
+        padding = len(num_as_string)
+        return name_without_number, int(num_as_string), padding
+
+    return input_string, None, 0
+    
+
 def get_last_letter(input_string):
     """
     Returns the last letter of the given string

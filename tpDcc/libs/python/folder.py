@@ -11,14 +11,14 @@ from __future__ import print_function, division, absolute_import
 
 import os
 import sys
+import errno
 import shutil
 import fnmatch
-import logging
 import tempfile
 import traceback
 import subprocess
 
-LOGGER = logging.getLogger()
+from tpDcc.libs import python
 
 
 def create_folder(name, directory=None, make_unique=False):
@@ -87,10 +87,10 @@ def rename_folder(directory, name, make_unique=False):
     try:
         os.chmod(directory, 0o777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
-        LOGGER.info(message)
+        python.logger.info(message)
         os.rename(directory, rename_path)
     except Exception:
-        LOGGER.error('{}'.format(traceback.format_exc()))
+        python.logger.error('{}'.format(traceback.format_exc()))
         return False
 
     return rename_path
@@ -129,7 +129,7 @@ def move_folder(path1, path2):
     try:
         shutil.move(path1, path2)
     except Exception:
-        LOGGER.warning('Failed to move {0} to {1}'.format(path1, path2))
+        python.logger.warning('Failed to move {0} to {1}'.format(path1, path2))
         return False
 
     return True
@@ -333,7 +333,7 @@ def get_files_and_folders(directory):
     return os.listdir(directory)
 
 
-def get_files_with_extension(extension, root_directory, full_path=False):
+def get_files_with_extension(extension, root_directory, full_path=False, recursive=False):
     """
     Returns file in given directory with given extensions
     :param extension: str, extension to find (.py, .data, etc)
@@ -344,10 +344,23 @@ def get_files_with_extension(extension, root_directory, full_path=False):
 
     found = list()
 
+    if not extension.startswith('.'):
+        extension = '.{}'.format(extension)
+
+    if recursive:
+        for dir_path, dir_names, file_names in os.walk(root_directory):
+            for file_name in file_names:
+                filename, found_extension = os.path.splitext(file_name)
+                if found_extension == '{}'.format(extension):
+                    if not full_path:
+                        found.append(file_name)
+                    else:
+                        found.append(os.path.join(root_directory, file_name))
+
     objs = os.listdir(root_directory)
     for filename_and_extension in objs:
         filename, found_extension = os.path.splitext(filename_and_extension)
-        if found_extension == '.{}'.format(extension):
+        if found_extension == '{}'.format(extension):
             if not full_path:
                 found.append(filename_and_extension)
             else:
@@ -462,3 +475,26 @@ def get_folders_date_sorted(root_folder):
         return os.stat(os.path.join(root_folder, fld)).st_mtime
 
     return list(sorted(os.listdir(root_folder), key=_get_mtime))
+
+
+def ensure_folder_exists(folder_path, persmissions=0o755, place_holder=False):
+    """
+    Checks that folder given folder exists. If not, folder is created.
+    :param folder_path: str, folder path to check or created
+    :param persmissions:int, folder permission mode
+    :param place_holder: bool, Whether to create place holder text file or not
+    :raise OSError: raise OSError if the creation of the folder fails
+    """
+
+    if not os.path.exists(folder_path):
+        try:
+            python.logger.debug('Creating folder {} [{}]'.format(folder_path, persmissions))
+            os.makedirs(path, persmissions)
+            if place_holder:
+                place_path = os.path.join(folder_path, 'placeholder')
+                if not os.path.exists(place_path):
+                    with open(place_path, 'wt') as fh:
+                        fh.write('Automatically generated place holder file')
+        except OSError as err:
+            if err.errno != errno.EEXIST:
+                raise
