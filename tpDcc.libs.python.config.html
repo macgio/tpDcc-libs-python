@@ -172,69 +172,6 @@
             
   <div class="section" id="module-tpDcc.libs.python.config">
 <span id="tpdcc-libs-python-config-module"></span><h1>tpDcc.libs.python.config module<a class="headerlink" href="#module-tpDcc.libs.python.config" title="Permalink to this headline">¶</a></h1>
-<p>Module that contains Config definition</p>
-<dl class="class">
-<dt id="tpDcc.libs.python.config.Config">
-<em class="property">class </em><code class="sig-prename descclassname">tpDcc.libs.python.config.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">app_name</em>, <em class="sig-param">root_folder=None</em>, <em class="sig-param">config_name='config'</em>, <em class="sig-param">config_extension='ini'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.config.Config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">configparser.RawConfigParser</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Configuration file</p>
-<dl class="attribute">
-<dt id="tpDcc.libs.python.config.Config.EXCLUDE_PATTERNS">
-<code class="sig-name descname">EXCLUDE_PATTERNS</code><em class="property"> = ['__*', '*.']</em><a class="headerlink" href="#tpDcc.libs.python.config.Config.EXCLUDE_PATTERNS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="tpDcc.libs.python.config.Config.ICON_EXTENSIONS">
-<code class="sig-name descname">ICON_EXTENSIONS</code><em class="property"> = ['xpm', 'png', 'bmp', 'jpeg']</em><a class="headerlink" href="#tpDcc.libs.python.config.Config.ICON_EXTENSIONS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tpDcc.libs.python.config.Config.app_name">
-<em class="property">property </em><code class="sig-name descname">app_name</code><a class="headerlink" href="#tpDcc.libs.python.config.Config.app_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tpDcc.libs.python.config.Config.create_config">
-<em class="property">static </em><code class="sig-name descname">create_config</code><span class="sig-paren">(</span><em class="sig-param">app_name</em>, <em class="sig-param">root_folder=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.config.Config.create_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct the configuration object from necessary elements</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="tpDcc.libs.python.config.Config.edit">
-<code class="sig-name descname">edit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.config.Config.edit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Edit file with default OS application</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="tpDcc.libs.python.config.Config.get">
-<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">option</em>, <em class="sig-param">section=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.config.Config.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an option value for a given section.</p>
-<p>If <a href="#id1"><span class="problematic" id="id2">`</span></a>vars’ is provided, it must be a dictionary. The option is looked up
-in <a href="#id3"><span class="problematic" id="id4">`</span></a>vars’ (if provided), <a href="#id5"><span class="problematic" id="id6">`</span></a>section’, and in <a href="#id7"><span class="problematic" id="id8">`</span></a>DEFAULTSECT’ in that order.
-If the key is not found and <a href="#id9"><span class="problematic" id="id10">`</span></a>fallback’ is provided, it is used as
-a fallback value. <a href="#id11"><span class="problematic" id="id12">`</span></a>None’ can be provided as a <a href="#id13"><span class="problematic" id="id14">`</span></a>fallback’ value.</p>
-<p>If interpolation is enabled and the optional argument <a href="#id15"><span class="problematic" id="id16">`</span></a>raw’ is False,
-all interpolations are expanded in the return values.</p>
-<p>Arguments <a href="#id17"><span class="problematic" id="id18">`</span></a>raw’, <a href="#id19"><span class="problematic" id="id20">`</span></a>vars’, and <a href="#id21"><span class="problematic" id="id22">`</span></a>fallback’ are keyword only.</p>
-<p>The section DEFAULT is special.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="tpDcc.libs.python.config.Config.get_list">
-<code class="sig-name descname">get_list</code><span class="sig-paren">(</span><em class="sig-param">option</em>, <em class="sig-param">section=None</em><span class="sig-paren">)</span><a class="headerlink" href="#tpDcc.libs.python.config.Config.get_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert string value to list object</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="tpDcc.libs.python.config.Config.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="optional">[</span><em class="sig-param">E</em>, <span class="optional">]</span><em class="sig-param">**F</em><span class="sig-paren">)</span> &#x2192; None.  Update D from mapping/iterable E and F.<a class="headerlink" href="#tpDcc.libs.python.config.Config.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>If E present and has a .keys() method, does:     for k in E: D[k] = E[k]
-If E present and lacks .keys() method, does:     for (k, v) in E: D[k] = v
-In either case, this is followed by: for k, v in F.items(): D[k] = v</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 
 
