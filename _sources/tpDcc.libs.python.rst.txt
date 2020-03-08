@@ -8,6 +8,7 @@ Submodules
 
    tpDcc.libs.python.attributes
    tpDcc.libs.python.code
+   tpDcc.libs.python.color
    tpDcc.libs.python.config
    tpDcc.libs.python.dcc
    tpDcc.libs.python.debug
@@ -22,6 +23,7 @@ Submodules
    tpDcc.libs.python.language
    tpDcc.libs.python.log
    tpDcc.libs.python.mathlib
+   tpDcc.libs.python.modules
    tpDcc.libs.python.name
    tpDcc.libs.python.octree
    tpDcc.libs.python.osplatform

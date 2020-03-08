@@ -1,0 +1,7 @@
+tpDcc.libs.python.color module
+==============================
+
+.. automodule:: tpDcc.libs.python.color
+   :members:
+   :undoc-members:
+   :show-inheritance:
