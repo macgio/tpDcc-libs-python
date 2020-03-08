@@ -250,7 +250,7 @@ def get_trailing_number_data(input_string):
         return name_without_number, int(num_as_string), padding
 
     return input_string, None, 0
-    
+
 
 def get_last_letter(input_string):
     """

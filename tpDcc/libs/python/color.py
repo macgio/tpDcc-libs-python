@@ -33,6 +33,7 @@ def convert_rgb_to_hsv(rgb):
 
     return hsv
 
+
 def convert_single_srgb_to_linear(color_value):
     """
     Changes a single RGB color to linear space
@@ -356,20 +357,20 @@ class RGBRotate(object):
     """
 
     def __init__(self):
-        self.matrix = [[1,0,0],[0,1,0],[0,0,1]]
+        self.matrix = [[1, 0, 0],[0, 1, 0],[0, 0, 1]]
 
     def set_hue_rotation(self, degrees):
         cos_a = math.cos(math.radians(degrees))
         sin_a = math.sin(math.radians(degrees))
         self.matrix[0][0] = cos_a + (1.0 - cos_a) / 3.0
-        self.matrix[0][1] = 1./3. * (1.0 - cos_a) - math.sqrt(1./3.) * sin_a
-        self.matrix[0][2] = 1./3. * (1.0 - cos_a) + math.sqrt(1./3.) * sin_a
-        self.matrix[1][0] = 1./3. * (1.0 - cos_a) + math.sqrt(1./3.) * sin_a
+        self.matrix[0][1] = 1. / 3. * (1.0 - cos_a) - math.sqrt(1. / 3.) * sin_a
+        self.matrix[0][2] = 1. / 3. * (1.0 - cos_a) + math.sqrt(1. / 3.) * sin_a
+        self.matrix[1][0] = 1. / 3. * (1.0 - cos_a) + math.sqrt(1. / 3.) * sin_a
         self.matrix[1][1] = cos_a + 1./3.*(1.0 - cos_a)
-        self.matrix[1][2] = 1./3. * (1.0 - cos_a) - math.sqrt(1./3.) * sin_a
-        self.matrix[2][0] = 1./3. * (1.0 - cos_a) - math.sqrt(1./3.) * sin_a
-        self.matrix[2][1] = 1./3. * (1.0 - cos_a) + math.sqrt(1./3.) * sin_a
-        self.matrix[2][2] = cos_a + 1./3. * (1.0 - cos_a)
+        self.matrix[1][2] = 1. / 3. * (1.0 - cos_a) - math.sqrt(1. / 3.) * sin_a
+        self.matrix[2][0] = 1. / 3. * (1.0 - cos_a) - math.sqrt(1. / 3.) * sin_a
+        self.matrix[2][1] = 1. / 3. * (1.0 - cos_a) + math.sqrt(1. / 3.) * sin_a
+        self.matrix[2][2] = cos_a + 1. / 3. * (1.0 - cos_a)
 
     def apply(self, r, g, b):
 
