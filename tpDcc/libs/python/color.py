@@ -357,7 +357,7 @@ class RGBRotate(object):
     """
 
     def __init__(self):
-        self.matrix = [[1, 0, 0],[0, 1, 0],[0, 0, 1]]
+        self.matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 
     def set_hue_rotation(self, degrees):
         cos_a = math.cos(math.radians(degrees))
@@ -366,7 +366,7 @@ class RGBRotate(object):
         self.matrix[0][1] = 1. / 3. * (1.0 - cos_a) - math.sqrt(1. / 3.) * sin_a
         self.matrix[0][2] = 1. / 3. * (1.0 - cos_a) + math.sqrt(1. / 3.) * sin_a
         self.matrix[1][0] = 1. / 3. * (1.0 - cos_a) + math.sqrt(1. / 3.) * sin_a
-        self.matrix[1][1] = cos_a + 1./3.*(1.0 - cos_a)
+        self.matrix[1][1] = cos_a + 1. / 3. * (1.0 - cos_a)
         self.matrix[1][2] = 1. / 3. * (1.0 - cos_a) - math.sqrt(1. / 3.) * sin_a
         self.matrix[2][0] = 1. / 3. * (1.0 - cos_a) - math.sqrt(1. / 3.) * sin_a
         self.matrix[2][1] = 1. / 3. * (1.0 - cos_a) + math.sqrt(1. / 3.) * sin_a
