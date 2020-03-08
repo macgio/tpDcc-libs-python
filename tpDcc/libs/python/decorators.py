@@ -15,6 +15,7 @@ import threading
 import contextlib
 from functools import wraps
 
+import tpDcc
 from tpDcc.libs import python
 from tpDcc.libs.python import debug
 
@@ -30,7 +31,7 @@ def abstractmethod(fn):
         if mode == 'raise':
             raise NotImplementedError(debug.debug_object_string(fn, msg))
         elif mode == 'warn':
-            LOGGER.warning(debug.debug_object_string(fn, msg))
+            tpDcc.logger.warning(debug.debug_object_string(fn, msg))
         return fn(*args, **kwargs)
 
     new_fn.__name__ = fn.__name__
