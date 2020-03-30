@@ -436,3 +436,23 @@ def generate_random_string(num_symbols=5):
         result += letter
 
     return result
+
+
+def first_letter_lower(input_string):
+    """
+    Returns a new string with the first letter as lowercase
+    :param input_string: str
+    :return: str
+    """
+
+    return input_string[:1].lower() + input_string[1:]
+
+
+def first_letter_upper(input_string):
+    """
+    Returns a new string with the first letter as uppercase
+    :param input_string: str
+    :return: str
+    """
+
+    return input_string[:1].capitalize() + input_string[1:]

@@ -288,14 +288,16 @@ def convert_side_name(name):
     re_match = re.search(re_pattern, name)
     if re_match:
         instance = re_match.group(0)
+        rep = None
         if instance.find("R") != -1:
             rep = instance.replace("R", "L")
         else:
             rep = instance.replace("L", "R")
-        if instance.find('r') != -1:
-            rep = instance.replace('r', 'l')
-        else:
-            rep = instance.replace('l', 'r')
+        if not rep:
+            if instance.find('r') != -1:
+                rep = instance.replace('r', 'l')
+            else:
+                rep = instance.replace('l', 'r')
 
         name = re.sub(re_pattern, rep, name)
 

@@ -675,21 +675,30 @@ def move_file(path1, path2):
     return True
 
 
-def delete_file(name, directory):
+def delete_file(name, directory=None, show_warning=True):
     """
     Delete the file by name in the directory
     :param name: str, name of the file to delete
     :param directory: str, the directory where the file is stored
+    :param show_warning: bool
     :return: str, file path that was deleted
     """
 
-    from tpDcc.libs.python import path
+    from tpDcc.libs.python import path, osplatform
 
-    full_path = path.join_path(directory, name)
+    if not directory:
+        full_path = name
+    else:
+        full_path = path.join_path(directory, name)
     if not path.is_file(full_path):
+        if show_warning:
+            print('File "{}" was not deleted.'.format(full_path))
         return full_path
 
-    os.chmod(full_path, 0o777)
+    try:
+        osplatform.get_permission(full_path)
+    except Exception:
+        pass
     os.remove(full_path)
 
     return full_path
@@ -728,8 +737,8 @@ def write_to_file(file_name, text_to_write):
     """
 
     if os.path.exists(file_name):
-        readOnlyOrWriteable = os.stat(file_name)[0]
-        if readOnlyOrWriteable != stat.S_IWRITE:
+        read_only_or_writeable = os.stat(file_name)[0]
+        if read_only_or_writeable != stat.S_IWRITE:
             os.chmod(file_name, stat.S_IWRITE)
     file = open(file_name, 'w')
     file.write(text_to_write)

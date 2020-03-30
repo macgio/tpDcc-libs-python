@@ -157,6 +157,11 @@ class Vector(object):
             self.y = y
             self.z = z
 
+        if isinstance(x_test, Vector):
+            self.x = x_test.x
+            self.y = x_test.y
+            self.z = x_test.z
+
     def _add(self, value):
         if type(value) == float or type(value) == int:
             return Vector(self.x + value, self.y + value, self.z + value)

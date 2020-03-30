@@ -13,12 +13,15 @@ import os
 import sys
 import errno
 import shutil
+import logging
 import fnmatch
 import tempfile
 import traceback
 import subprocess
 
 from tpDcc.libs import python
+
+LOGGER = logging.getLogger()
 
 
 def create_folder(name, directory=None, make_unique=False):
@@ -135,7 +138,7 @@ def move_folder(path1, path2):
     return True
 
 
-def delete_folder(folder_name, directory):
+def delete_folder(folder_name, directory=None):
     """
     Deletes the folder by name in the given directory
     :param folder_name: str, name of the folder to delete
@@ -153,11 +156,16 @@ def delete_folder(folder_name, directory):
         os.chmod(name, 0o777)
         action(name)
 
-    full_path = path.join_path(directory, folder_name)
+    full_path = folder_name
+    if directory:
+        full_path = path.join_path(directory, folder_name)
     if not path.is_dir(full_path):
         return None
 
-    shutil.rmtree(full_path, onerror=delete_read_only_error)
+    try:
+        shutil.rmtree(full_path, onerror=delete_read_only_error)
+    except Exception as exc:
+        LOGGER.warning('Could not remove children of path "{}" | {}'.format(full_path, exc))
 
     return full_path
 

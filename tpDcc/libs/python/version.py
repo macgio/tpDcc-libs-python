@@ -94,7 +94,6 @@ class VersionFile(object):
         self._comment_file = None
         self._updated_old = False
 
-    # region Properties
     @property
     def file_path(self):
         return self._file_path
@@ -109,9 +108,7 @@ class VersionFile(object):
     @property
     def updated_old(self):
         return self._updated_old
-    # endregion
 
-    # region Public Functions
     def get_version_path(self, version_number):
         """
         Returns the path to the version
@@ -423,9 +420,7 @@ class VersionFile(object):
                 datas.append([version, comment, user, file_size, modified, version_file])
 
         return datas
-    # endregion
 
-    # region Private Functions
     def _prepare_directories(self):
         """
         Internal function used to prepare necessary directories and files for version
@@ -484,4 +479,39 @@ class VersionFile(object):
             folder.copy_folder(self._file_path, file_name)
         elif path.is_file(self._file_path):
             fileio.copy_file(self._file_path, file_name)
-    # endregion
+
+    def delete_version(self, version_number):
+        """
+        Deletes specific version file
+        :param version_number: int
+        """
+
+        version_path = self.get_version_path(version_number)
+        if path.is_file(version_path):
+            fileio.delete_file(version_path)
+        else:
+            folder.delete_folder(path)
+
+
+def delete_version(folder, keep=1):
+    """
+    Deletes all version in the given folder maintaining only the exact number of keep versions
+    :param folder: str
+    :param keep: int
+    """
+
+    version_inst = VersionFile(folder)
+    version_list = version_inst.get_version_numbers()
+    if not version_list:
+        return
+
+    count = len(version_list)
+    if count <= keep:
+        return
+
+    deleted = 0
+    for version in version_list:
+        version_inst.delete_version(version)
+        deleted += 1
+        if count - deleted == keep:
+            break
