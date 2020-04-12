@@ -1010,7 +1010,7 @@ def is_same_text_content(file1, file2):
 
 def get_files(root_directory):
     """
-    Returns files found in the given directorys
+    Returns files found in the given directory
     :param root_directory: str
     :return: list(str)
     """

@@ -92,13 +92,16 @@ def convert_color_linear_to_srgb(linear_rgb):
 
 def hex_to_rgba(hex_str):
     """
-    Converts hexadecimal number to RGBA tuple  in following formats:
+    Converts hexadecimal number to RGBA tuple in following formats:
         - "RRGGBB" (2F2F2F)
         - "AARRGGBB" (882F2F2F)
         - "RGB" (CCC)
     :param hex_str: str, hexadecimal string
     :return: tuple(float, float, float, float), color tuple (R, G, B, A)
     """
+
+    if hex_str.startswith('#'):
+        hex_str = hex_str[1:]
 
     if len(hex_str) == 8:
         return int(hex_str[2:4], 16), int(hex_str[4:6], 16), int(hex_str[6:8], 16), int(hex_str[0:2], 16)
@@ -347,7 +350,10 @@ def string_is_hex(color_str):
     :return: bool
     """
 
-    return len(color_str) in (3, 6, 8)
+    if color_str.startswith('#'):
+        return len(color_str) in (4, 7, 9)
+    else:
+        return len(color_str) in (3, 6, 8)
 
 
 class RGBRotate(object):

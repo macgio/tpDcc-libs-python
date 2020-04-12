@@ -15,6 +15,7 @@ import ast
 import uuid
 import time
 import types
+import inspect
 import traceback
 import collections
 from itertools import groupby
@@ -519,11 +520,21 @@ def get_inheritance_map(class_to_process):
     :param class_to_process: class
     """
 
-    import inspect
     return inspect.getmro(class_to_process)
 
 
-def user_message(message, prefix='RigLib'):
+def get_instance_user_attributes(cls):
+    """
+    Returns user attributes defined in a class or instance of a class
+    :param cls:
+    :return: list
+    """
+
+    _def_attrs = dir(type('dummy', (object,), {}))
+    return [item for item in inspect.getmembers(cls) if item[0] not in _def_attrs]
+
+
+def user_message(message, prefix='message'):
     """
     Writes teh given prefix + message in the Python output
     :param message: str
@@ -833,3 +844,35 @@ def group_consecutive_items(list_of_items):
         list_of_frames.append(map(itemgetter(1), g))
 
     return list_of_frames
+
+
+def from_list_to_nested_dict(input_arg, separator='/'):
+    """
+    Function that converts a list of strings to a nested dict
+    :param input_arg: a list/tuple/set of strings
+    :param separator: separator split input string
+    :return: list of nested dict
+    """
+
+    if not isinstance(input_arg, (list, tuple, set)):
+        raise TypeError('Input argument "input_arg" should be a list or tuple or set, but get {}'.format(
+            type(input_arg)))
+    if not isinstance(separator, (str, unicode)):
+        raise TypeError('Input argument "separator" should be str or unicode but get {}'.format(type(separator)))
+
+    result = list()
+
+    for item in input_arg:
+        components = item.strip(separator).split(separator)
+        component_count = len(components)
+        current = result
+        for i, comp in enumerate(components):
+            action_comp = next((x for x in current if x['value'] == comp), None)
+            if action_comp is None:
+                action_comp = {'value': comp, 'label': comp, 'children': list()}
+                current.append(action_comp)
+            current = action_comp['children']
+            if i == component_count - 1:
+                action_comp.pop('children')
+
+    return result
