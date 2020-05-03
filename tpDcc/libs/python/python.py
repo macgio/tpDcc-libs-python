@@ -876,3 +876,30 @@ def from_list_to_nested_dict(input_arg, separator='/'):
                 action_comp.pop('children')
 
     return result
+
+
+def float_range(start, stop=None, step=None):
+    """
+    Function that returns a generator that allow us to do a range using float numbers
+    :param start: float
+    :param stop: float
+    :param step: float
+    :return: generator
+    """
+
+    start = float(start)
+    if stop is None:
+        stop = start + 0.0
+        start = 0.0
+    if step is None:
+        step = 1.0
+
+    count = 0
+    while True:
+        temp = float(start + count * step)
+        if step > 0 and temp >= stop:
+            break
+        elif step < 0 and temp <= stop:
+            break
+        yield temp
+        count += 1
