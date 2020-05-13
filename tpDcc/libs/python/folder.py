@@ -18,6 +18,7 @@ import fnmatch
 import tempfile
 import traceback
 import subprocess
+from distutils.dir_util import copy_tree
 
 from tpDcc.libs import python
 
@@ -121,18 +122,52 @@ def copy_folder(directory, directory_destination, ignore_patterns=[]):
     return directory_destination
 
 
-def move_folder(path1, path2):
+def move_folder(source_directory, target_directory, only_contents=False):
     """
-    Moves the folder pointed by path1 under the directory path2
-    :param path1: str, folder with full path
-    :param path2: str, path where path1 should be move into
+    Moves the folder pointed by source_directory under the directory target_directory
+    :param source_directory: str, folder with full path
+    :param target_directory: str, path where path1 should be move into
+    :param only_contents: bool, Whether to move the folder or only its contents
     :return: bool, Whether the move operation was successfully
     """
 
     try:
-        shutil.move(path1, path2)
+        if only_contents or os.path.isdir(target_directory):
+            file_list = os.listdir(source_directory)
+            for i in file_list:
+                src = os.path.join(source_directory, i)
+                dest = os.path.join(target_directory, i)
+                if os.path.exists(dest):
+                    if os.path.isdir(dest):
+                        move_folder(src, dest)
+                        continue
+                    else:
+                        os.remove(dest)
+                shutil.move(src, target_directory)
+        else:
+            shutil.move(source_directory, target_directory)
+    except Exception as exc:
+        python.logger.warning('Failed to move {0} to {1}: {}'.format(source_directory, target_directory, exc))
+        return False
+
+    return True
+
+
+def copy_directory_contents(path1, path2, *args, **kwargs):
+    """
+    Copies all the contents of the given path1 to the folder path2. If path2 directory does not
+    exists, it will be created
+    :param path1: str
+    :param path2: str
+    :param args:
+    :param kwargs:
+    :return:
+    """
+
+    try:
+        copy_tree(path1, path2, *args, **kwargs)
     except Exception:
-        python.logger.warning('Failed to move {0} to {1}'.format(path1, path2))
+        python.logger.warning('Failed to move contents of {0} to {1}'.format(path1, path2))
         return False
 
     return True
