@@ -276,9 +276,9 @@ def get_logger(logger_name):
     """
 
     global loggers
-    for l in loggers:
-        if l.name == logger_name:
-            return l
+    for log in loggers:
+        if log.name == logger_name:
+            return log
 
     return None
 

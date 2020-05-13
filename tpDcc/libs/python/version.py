@@ -386,11 +386,11 @@ class VersionFile(object):
         if path.is_file(comment_path):
             read = fileio.FileReader(comment_path)
             lines = read.read()
-            for l in lines:
+            for line in lines:
                 line_info_dict = dict()
                 user = None
                 comment = None
-                split_line = l.split(';')
+                split_line = line.split(';')
                 for sub_line in split_line:
                     assign = sub_line.split('=')
                     if assign and assign[0]:
