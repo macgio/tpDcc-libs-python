@@ -17,7 +17,8 @@ import traceback
 import importlib
 from collections import OrderedDict
 
-from tpDcc.libs.python import decorators, log as log_utils
+from tpDcc.libs import python
+from tpDcc.libs.python import decorators
 
 
 class Importer(object):
@@ -36,12 +37,6 @@ class Importer(object):
 
         self.loaded_modules = OrderedDict()
         self.reload_modules = list()
-
-        if logger is None:
-            self.log, self.logger = self.create_logger(debug=debug)
-        else:
-            self.log = None
-            self.logger = logger
 
     @decorators.abstractmethod
     def get_module_path(self):
@@ -64,30 +59,6 @@ class Importer(object):
 
         return data_path
 
-    def create_logger(self, debug=False):
-        """
-        Creates and initializes importer logger
-        """
-
-        log_path = self.get_data_path()
-        if not os.path.exists(log_path):
-            raise RuntimeError('{} Log Path {} does not exists!'.format(self._module_name, log_path))
-
-        log = log_utils.create_logger(logger_name=self._module_name, logger_path=log_path)
-        logger = log.logger
-
-        debug_env_var = '{}_DEV'.format(self._module_name.upper())
-        if debug:
-            os.environ[debug_env_var] = 'True'
-        # else:
-        #     os.environ[debug_env_var] = 'False'
-        if debug_env_var in os.environ and os.environ.get(debug_env_var) in ['True', 'true']:
-            logger.setLevel(log_utils.LoggerLevel.DEBUG)
-        else:
-            logger.setLevel(log_utils.LoggerLevel.WARNING)
-
-        return log, logger
-
     def import_module(self, module_name):
         """
         Static function used to import a function given its complete name
@@ -96,15 +67,15 @@ class Importer(object):
 
         try:
             mod = importlib.import_module(module_name)
-            self.logger.debug('Imported: {}'.format(mod))
+            python.logger.debug('Imported: {}'.format(mod))
             if mod and isinstance(mod, types.ModuleType):
                 return mod
         except Exception as e:
             try:
-                self.logger.warning('FAILED IMPORT: {} -> {}'.format(str(module_name), str(traceback.format_exc())))
+                python.logger.warning('FAILED IMPORT: {} -> {}'.format(str(module_name), str(traceback.format_exc())))
             except Exception:
-                self.logger.warning('FAILED IMPORT: {}'.format(module_name))
-            self.logger.debug('\t>>>{}'.format(traceback.format_exc()))
+                python.logger.warning('FAILED IMPORT: {}'.format(module_name))
+            python.logger.debug('\t>>>{}'.format(traceback.format_exc()))
 
     def explore_package(self, module_path, only_packages=False):
         """
@@ -240,11 +211,11 @@ class Importer(object):
 
         for mod in self.reload_modules:
             if not hasattr(mod, 'no_reload'):
-                self.logger.debug('Reloading: {}'.format(mod.__name__))
+                python.logger.debug('Reloading: {}'.format(mod.__name__))
                 reload(mod)
             else:
-                self.logger.debug('Avoiding reload of: {}'.format(mod.__name__))
-        self.logger.debug('{} reloaded successfully!'.format(self._module_name))
+                python.logger.debug('Avoiding reload of: {}'.format(mod.__name__))
+        python.logger.debug('{} reloaded successfully!'.format(self._module_name))
 
 
 class SimpleImporter(object):
@@ -256,12 +227,6 @@ class SimpleImporter(object):
         super(SimpleImporter, self).__init__()
 
         self._module_name = module_name
-
-        if logger is None:
-            self.log, self.logger = self.create_logger()
-        else:
-            self.log = None
-            self.logger = logger
 
     @decorators.abstractmethod
     def get_module_path(self):
@@ -284,26 +249,6 @@ class SimpleImporter(object):
 
         return data_path
 
-    def create_logger(self):
-        """
-        Creates and initializes importer logger
-        """
-
-        log_path = self.get_data_path()
-        if not os.path.exists(log_path):
-            raise RuntimeError('{} Log Path {} does not exists!'.format(self._module_name, log_path))
-
-        log = log_utils.create_logger(logger_name=self._module_name, logger_path=log_path)
-        logger = log.logger
-
-        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(
-                self._module_name.upper())) in ['True', 'true']:
-            logger.setLevel(log_utils.LoggerLevel.DEBUG)
-        else:
-            logger.setLevel(log_utils.LoggerLevel.WARNING)
-
-        return log, logger
-
     def import_modules(self):
         """
         This function imports all the modules located in the given importer directory
@@ -322,7 +267,7 @@ class SimpleImporter(object):
                 try:
                     importlib.import_module(module.__name__)
                 except Exception as e:
-                    self.logger.error('{} | {}'.format(e, traceback.format_exc()))
+                    python.logger.error('{} | {}'.format(e, traceback.format_exc()))
 
     def reload_all(self):
         """
