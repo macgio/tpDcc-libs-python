@@ -603,8 +603,6 @@ def open_browser(file_path):
     :return:
     """
 
-    # TODO: Only work on Windows, make it cross platform
-
     from tpDcc.libs.python import osplatform, path
 
     if not path.is_file(file_path) and not path.is_dir(file_path):
@@ -640,7 +638,7 @@ def create_file(filename, directory, make_unique=False):
     try:
         open_file = open(full_path, 'a')
         open_file.close()
-    except Exception:
+    except Exception as exc:
         return False
 
     return full_path

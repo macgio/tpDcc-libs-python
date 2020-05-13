@@ -19,14 +19,14 @@ from collections import OrderedDict
 
 
 class tpPyUtils(object):
-    def __init__(self):
+    def __init__(self, logger):
         super(tpPyUtils, self).__init__()
 
         self.loaded_modules = OrderedDict()
         self.reload_modules = list()
         self._module_name = 'tpDcc.libs.python'
         self._module_dir = self.get_module_path()
-        self.logger = self.create_logger()
+        self.logger = logger
 
     def get_module_path(self):
         """
@@ -59,26 +59,6 @@ class tpPyUtils(object):
             os.makedirs(data_path)
 
         return data_path
-
-    def create_logger(self):
-        """
-        Creates and initializes tpDcc.libs.python logger
-        """
-
-        from tpDcc.libs.python import log
-
-        log_path = self.get_data_path()
-        if not os.path.exists(log_path):
-            raise RuntimeError('{} Log Path {} does not exists!'.format(self._module_name, log_path))
-
-        logger = log.create_logger(logger_name=self._module_name, logger_path=log_path).logger
-        if '{}_DEV'.format(self._module_name.upper()) in os.environ and os.environ.get('{}_DEV'.format(
-                self._module_name.upper())) in ['True', 'true']:
-            logger.setLevel(log.LoggerLevel.DEBUG)
-        else:
-            logger.setLevel(log.LoggerLevel.WARNING)
-
-        return logger
 
     def import_module(self, module_name):
         """
@@ -229,21 +209,22 @@ class tpPyUtils(object):
                 if mod == self._module_name:
                     continue
                 elif mod.startswith(self._module_name):
-                    self.logger.info('Removing module: {}'.format(mod))
+                    self.logger.debug('Removing module: {}'.format(mod))
                     del sys.modules[mod]
 
 
-def init(do_reload=True):
+def init(do_reload=True, dev=False):
     """
     Initializes tpDcc.libs.python package
     :param do_reload: bool, Whether to reload imported tpDcc.libs.python modules or not
+    :param dev: bool, Whether tpDcc-libs-python is initialized in dev mode or not
     :return: bool
     """
 
-    new_importer = tpPyUtils()
-
-    logger = create_logger()
+    logger = create_logger(dev=dev)
     register_class('logger', logger)
+
+    new_importer = tpPyUtils(logger)
 
     new_importer.import_modules()
     new_importer.import_packages(only_packages=True)
@@ -251,13 +232,17 @@ def init(do_reload=True):
         new_importer.reload_all()
 
 
-def create_logger():
+def create_logger(dev=False):
     """
     Returns logger of current modue
     """
 
     logging.config.fileConfig(get_logging_config(), disable_existing_loggers=False)
     logger = logging.getLogger('tpDcc-libs-python')
+    if dev:
+        logger.setLevel(logging.DEBUG)
+        for handler in logger.handlers:
+            handler.setLevel(logging.DEBUG)
 
     return logger
 
@@ -281,6 +266,24 @@ def get_logging_config():
     create_logger_directory()
 
     return os.path.normpath(os.path.join(os.path.dirname(__file__), '__logging__.ini'))
+
+
+def open_logger():
+    """
+    Opens logger file
+    """
+
+    from tpDcc.libs.python import fileio
+
+    logger = logging.getLogger('tpDcc-libs-python')
+    log_file = None
+    for handler in logger.handlers:
+        if hasattr(handler, 'baseFilename'):
+            log_file = handler.baseFilename
+            break
+
+    if log_file:
+        fileio.open_browser(log_file)
 
 
 def register_class(cls_name, cls, is_unique=False):

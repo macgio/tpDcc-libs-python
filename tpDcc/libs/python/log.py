@@ -318,3 +318,21 @@ def end_temp_log(log_name):
     osplatform.set_env_var('{}_LAST_TEMP_LOG'.format(log_name.upper()), value)
 
     return value
+
+
+def open_logger(logger):
+    """
+    Opens file of the given logger object if possible
+    :param logger: logger, logger object to open
+    """
+
+    from tpDcc.libs.python import fileio
+
+    log_file = None
+    for handler in logger.handlers:
+        if hasattr(handler, 'baseFilename'):
+            log_file = handler.baseFilename
+            break
+
+    if log_file:
+        fileio.open_browser(log_file)
