@@ -1,0 +1,7 @@
+tpDcc.libs.python.register module
+=================================
+
+.. automodule:: tpDcc.libs.python.register
+   :members:
+   :undoc-members:
+   :show-inheritance:

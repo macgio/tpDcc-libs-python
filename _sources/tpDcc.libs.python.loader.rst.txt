@@ -1,0 +1,7 @@
+tpDcc.libs.python.loader module
+===============================
+
+.. automodule:: tpDcc.libs.python.loader
+   :members:
+   :undoc-members:
+   :show-inheritance:

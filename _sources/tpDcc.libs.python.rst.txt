@@ -22,6 +22,7 @@ Submodules
    tpDcc.libs.python.interfaces
    tpDcc.libs.python.jsonio
    tpDcc.libs.python.language
+   tpDcc.libs.python.loader
    tpDcc.libs.python.log
    tpDcc.libs.python.mathlib
    tpDcc.libs.python.modules
@@ -32,6 +33,7 @@ Submodules
    tpDcc.libs.python.profiler
    tpDcc.libs.python.psd
    tpDcc.libs.python.python
+   tpDcc.libs.python.register
    tpDcc.libs.python.reloader
    tpDcc.libs.python.security
    tpDcc.libs.python.settings
