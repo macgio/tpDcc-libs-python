@@ -20,6 +20,7 @@ import traceback
 import collections
 from itertools import groupby
 from operator import itemgetter
+from collections import OrderedDict
 
 from tpDcc.libs.python import strings
 
@@ -903,3 +904,14 @@ def float_range(start, stop=None, step=None):
             break
         yield temp
         count += 1
+
+
+def order_dict_by_list_of_keys(dict_to_order, keys):
+    """
+    Order dictionary taking into account the order of the keys in a list
+    :param dict_to_order: dict
+    :param keys: list(str)
+    :return: dict
+    """
+
+    return OrderedDict([(key, dict_to_order[key]) for key in keys if key in dict_to_order])

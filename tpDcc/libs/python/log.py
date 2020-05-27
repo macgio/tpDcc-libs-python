@@ -253,6 +253,7 @@ def create_logger(logger_name, logger_path):
     """
     Function to create standard logger for modules and apps
     :param logger_name: str, name of the logger
+    :param logger_path: str, path were logger will be created
     :return: Logger
     """
 
