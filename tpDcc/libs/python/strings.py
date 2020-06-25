@@ -295,6 +295,21 @@ def lower_case_underscore_to_camel_case(text):
     return split_string[0] + class_.join('', map(class_.capitalize, split_string[1:]))
 
 
+def snake_to_camel_case(snake_text):
+    """
+    Converts snake case text into camel case
+    test_path --> testPath
+    :param snake_text:str
+    :return: str
+    """
+
+    components = snake_text.split('_')
+
+    # We capitalize the first letter of each component except the first one with
+    # the 'title' method and join them together.
+    return components[0] + ''.join(x.title() for x in components[1:])
+
+
 def get_trailing_number(input_string, as_string=False, number_count=-1):
     """
     Get the number at the very end of a string. If number not at the end of the string return None
