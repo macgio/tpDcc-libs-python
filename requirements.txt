@@ -14,4 +14,5 @@ comtypes
 docutils
 six
 pathlib2
+python-json-logger
 aenum;python_version <= '3.4'
