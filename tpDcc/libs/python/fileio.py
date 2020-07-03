@@ -21,6 +21,8 @@ import subprocess
 from tempfile import mkstemp
 from shutil import move
 
+from tpDcc.libs import python
+
 
 class FileManager(object):
     """
@@ -618,7 +620,7 @@ def open_browser(file_path):
             os.system('gnome-terminal --working-directory={}'.format(file_path))
 
 
-def create_file(filename, directory, make_unique=False):
+def create_file(filename, directory=None, make_unique=False):
     """
     Creates a file
     :param filename: str, name of the new file
@@ -628,6 +630,10 @@ def create_file(filename, directory, make_unique=False):
     """
 
     from tpDcc.libs.python import name, path
+
+    if directory is None:
+        directory = path.get_dirname(filename)
+        filename = path.get_basename(filename)
 
     filename = name.clean_file_string(filename)
     full_path = path.join_path(directory, filename)
@@ -974,6 +980,20 @@ def get_text_lines(text):
     lines = text.split('\n')
 
     return lines
+
+
+def write_replace(file_path, data_to_write):
+    """
+    Writes given data into given file path (replacing already existing content)
+    :param file_path: str
+    :param data_to_write:
+    """
+
+    with open(file_path, 'w') as file_handle:
+        try:
+            file_handle.write(data_to_write)
+        except Exception as exc:
+            python.logger.warning('Could not write: {}'.format(data_to_write))
 
 
 def write_lines(file_path, lines, append=False):

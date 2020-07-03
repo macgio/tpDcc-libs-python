@@ -465,6 +465,8 @@ def remove_common_path_at_beginning(path1, path2):
     :return: str
     """
 
+    path2 = path2 or ''
+
     value = path2.find(path1)
     sub_part = None
 

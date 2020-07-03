@@ -22,6 +22,8 @@ from itertools import groupby
 from operator import itemgetter
 from collections import OrderedDict
 
+from six import string_types
+
 from tpDcc.libs.python import strings
 
 
@@ -560,7 +562,8 @@ def is_string(s):
     :param s: object
     :return: bool
     """
-    return type(s) in [str, unicode]
+
+    return isinstance(s, string_types)
 
 
 def is_number(s):
