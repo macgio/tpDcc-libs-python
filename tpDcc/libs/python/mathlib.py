@@ -310,6 +310,7 @@ def lerp(start, end, alpha):
     :return: float, result of the linear interpolation
     """
 
+    # return (1 - alpha) * start + alpha * end
     return start + alpha * (end - start)
 
 
@@ -633,6 +634,26 @@ def get_average(numbers):
     return total / len(numbers)
 
 
+def get_inbetween_vector(vector1, vector2, percent=0.5):
+    """
+    Returns a vector inbetween vector1 and vector2 at the given percent
+    :param vector1: list(float, float, float), vector
+    :param vector2: list(float, float, float), vector
+    :param percent: float, percent the vector should be between vector1 and vector2.
+        - 0 percent will be exactly on vector1
+        - 1 percent will be exactly on vector2
+        - 0.5 percent will be exactly in the mid point between vector1 and vector2
+    :return:  list(float, float, float), vector that represents the vector at the percentage between vector and vector2
+    """
+
+    vector1 = Vector(vector1)
+    vector2 = Vector(vector2)
+    percent = 1 - percent
+    vector = ((vector1 - vector2) * percent) + vector2
+
+    return vector()
+
+
 def get_axis_vector(axis_name, offset=1):
     """
     Returns axis vector from its name
@@ -655,7 +676,7 @@ def fade_sine(percent_value):
     return math.sin(input_value)
 
 
-def ade_cosine(percent_value):
+def fade_cosine(percent_value):
     percent_value = math.pi * percent_value
 
     return (1 - math.cos(percent_value)) * 0.5
@@ -675,3 +696,58 @@ def fade_sigmoid(percent_value):
     input_value = percent_value * 10 + 1
 
     return (2 / (1 + (math.e**(-0.70258 * input_value)))) - 1
+
+
+def ease_in_sine(percent_value):
+    return math.sin(1.5707963 * percent_value)
+
+
+def ease_in_expo(percent_value):
+    return (pow(2, 8 * percent_value) - 1) / 255
+
+
+def ease_out_expo(percent_value, power=2):
+    return 1 - pow(power, -8 * percent_value)
+
+
+def ease_out_circ(percent_value):
+    return math.sqrt(percent_value)
+
+
+def ease_out_back(percent_value):
+    return 1 + (--percent_value) * percent_value * (2.70158 * percent_value + 1.70158)
+
+
+def ease_in_out_sine(percent_value):
+    return 0.5 * (1 + math.sin(math.pi * (percent_value - 0.5)))
+
+
+def easi_in_out_quart(percent_value):
+    if percent_value < 0.5:
+        percent_value *= percent_value
+        return 8 * percent_value * percent_value
+    else:
+        percent_value -= 1
+        percent_value *= percent_value
+        return 1 - 8 * percent_value * percent_value
+
+
+def ease_in_out_expo(percent_value):
+    if percent_value < 0.5:
+        return (math.pow(2, 16 * percent_value) - 1) / 510
+    else:
+        return 1 - 0.5 * math.pow(2, -16 * (percent_value - 0.5))
+
+
+def ease_in_out_circ(percent_value):
+    if percent_value < 0.5:
+        return (1 - math.sqrt(1 - 2 * percent_value)) * 0.5
+    else:
+        return (1 + math.sqrt(2 * percent_value - 1)) * 0.5
+
+
+def ease_in_out_back(percent_value):
+    if percent_value < 0.5:
+        return percent_value * percent_value * (7 * percent_value - 2.5) * 2
+    else:
+        return 1 + (percent_value - 1) * percent_value * 2 * (7 * percent_value + 2.5)
