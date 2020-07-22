@@ -38,7 +38,13 @@ def convert_to_dotted_path(path):
     directory = path_utils.clean_path(directory)
     file_name = os.path.splitext(file_path)[0]
     package_path = [file_name]
-    sys_path = [path_utils.clean_path(p) for p in sys.path]
+    sys_path = list(set([path_utils.clean_path(p) for p in sys.path]))
+
+    # We ignore current working directory. Useful if we want to execute tools directly inside PyCharm
+    current_work_dir = path_utils.clean_path(os.getcwd())
+    if current_work_dir in sys_path:
+        sys_path.remove(current_work_dir)
+
     drive_letter = os.path.splitdrive(path)[0] + '\\'
     while directory not in sys_path:
         directory, name = os.path.split(directory)
@@ -72,6 +78,10 @@ def import_module(module_path, name=None):
                 name = os.path.splitext(os.path.basename(module_path))[0]
             if name in sys.modules:
                 return sys.modules[name]
+        if not name:
+            python.logger.warning(
+                'Impossible to load module because module path: {} was not found!'.format(module_path))
+            return None
         if os.path.isdir(module_path):
             module_path = os.path.join(module_path, '__init__.py')
             if not os.path.exists(module_path):

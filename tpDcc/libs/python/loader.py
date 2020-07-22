@@ -24,12 +24,13 @@ def init(dev=False):
     :return: bool
     """
 
-    from tpDcc.libs.python import importer, register
+    from tpDcc.libs.python import register
 
     if dev:
         register.cleanup()
 
-    importer.init_importer(package=PACKAGE)
+    # importer.init_importer(package=PACKAGE)
+
     logger = create_logger(dev=dev)
     register.register_class('logger', logger)
 
