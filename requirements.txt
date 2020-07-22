@@ -2,11 +2,6 @@
 # tpDcc-lib-python requirements file
 # ===================================================================
 
-pytest
-pytest-cov
-coveralls
-sphinx
-sphinx_rtd_theme
 configparser
 pyyaml
 yamlordereddictloader
