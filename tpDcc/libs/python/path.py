@@ -597,7 +597,7 @@ def get_user_data_dir(appname=None, appauthor=None, version=None, roaming=False)
         Mac OS X:               ~/Library/Application Support/<AppName>
         Unix:                   ~/.local/share/<AppName>    # or in $XDG_DATA_HOME, if defined
         Win XP (not roaming):   C:\Documents and Settings\<username>\Application Data\<AppAuthor>\<AppName>
-        Win XP (roaming):       C:\Documents and Settings\<username>\Local Settings\Application Data\<AppAuthor>\<AppName>
+        Win XP (roaming):       C:\Documents and Settings\<user>\Local Settings\Application Data\<AppAuthor>\<AppName>
         Win 7  (not roaming):   C:\Users\<username>\AppData\Local\<AppAuthor>\<AppName>
         Win 7  (roaming):       C:\Users\<username>\AppData\Roaming\<AppAuthor>\<AppName>
 
