@@ -1,0 +1,9 @@
+# ===================================================================
+# tpDcc-core python requirements file @ Standalone
+# ===================================================================
+
+-r ./../common.txt
+
+configparser
+docutils
+comtypes
