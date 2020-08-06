@@ -1,5 +1,5 @@
 # ===================================================================
-# tpDcc-core python requirements file @ Standalone
+# tpDcc-libs-python requirements file @ Standalone
 # ===================================================================
 
 -r ./../common.txt
