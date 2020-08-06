@@ -1,0 +1,7 @@
+tpDcc.libs.python.enum module
+=============================
+
+.. automodule:: tpDcc.libs.python.enum
+   :members:
+   :undoc-members:
+   :show-inheritance:

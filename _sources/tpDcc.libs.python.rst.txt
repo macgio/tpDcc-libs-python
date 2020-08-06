@@ -16,6 +16,7 @@ Submodules
    tpDcc.libs.python.decorators
    tpDcc.libs.python.download
    tpDcc.libs.python.email
+   tpDcc.libs.python.enum
    tpDcc.libs.python.fileio
    tpDcc.libs.python.folder
    tpDcc.libs.python.importer
