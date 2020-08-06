@@ -2,8 +2,8 @@
 # tpDcc-libs-python requirements file
 # ===================================================================
 
-pyyaml
-yamlordereddictloader
-configparser
-docutils
-comtypes
+pyyaml==5.3.1
+yamlordereddictloader==0.4.0
+configparser==5.0.0
+docutils==0.16
+comtypes==1.1.7
