@@ -13,7 +13,6 @@ import os
 import sys
 import errno
 import shutil
-import logging
 import fnmatch
 import tempfile
 import traceback
@@ -21,8 +20,6 @@ import subprocess
 from distutils.dir_util import copy_tree
 
 from tpDcc.libs import python
-
-LOGGER = logging.getLogger()
 
 
 def create_folder(name, directory=None, make_unique=False):
@@ -200,7 +197,7 @@ def delete_folder(folder_name, directory=None):
     try:
         shutil.rmtree(full_path, onerror=delete_read_only_error)
     except Exception as exc:
-        LOGGER.warning('Could not remove children of path "{}" | {}'.format(full_path, exc))
+        python.logger.warning('Could not remove children of path "{}" | {}'.format(full_path, exc))
 
     return full_path
 
@@ -532,7 +529,7 @@ def ensure_folder_exists(folder_path, persmissions=0o755, place_holder=False):
     if not os.path.exists(folder_path):
         try:
             python.logger.debug('Creating folder {} [{}]'.format(folder_path, persmissions))
-            os.makedirs(path, persmissions)
+            os.makedirs(folder_path, persmissions)
             if place_holder:
                 place_path = os.path.join(folder_path, 'placeholder')
                 if not os.path.exists(place_path):
