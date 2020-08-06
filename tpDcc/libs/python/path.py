@@ -17,9 +17,7 @@ import tempfile
 import traceback
 import contextlib
 
-import six
-
-from tpDcc.libs.python import name, folder
+from tpDcc.libs.python import name, folder, osplatform, python, win32
 
 SEPARATOR = '/'
 BAD_SEPARATOR = '\\'
@@ -32,7 +30,7 @@ WEB_PREFIX = 'https://'
 # We use one separator depending if we are working on Windows (nt) or other operative system
 NATIVE_SEPARATOR = (SEPARATOR, BAD_SEPARATOR)[os.name == 'nt']
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 class FindUniquePath(name.FindUniqueString, object):
@@ -85,7 +83,10 @@ def normalize_path(path):
     """
 
     path = path.replace(BAD_SEPARATOR, SEPARATOR).replace(PATH_SEPARATOR, SEPARATOR)
-    path = six.u(str(path))
+
+    if python.is_python3():
+        path = unicode(path.replace(r'\\', r'\\\\'), "unicode_escape")
+
     return path.rstrip('/')
 
 
@@ -574,3 +575,57 @@ def rename(directory, name, make_unique=False):
         return False
 
     return rename_path
+
+
+def get_user_data_dir(appname=None, appauthor=None, version=None, roaming=False):
+    r"""
+    Based on appdirs user_data_dir function
+
+    Returns the full path to the user-specific data directory
+    :param appname: str or None, name of the application. If None, the system directory is returned
+    :param appauthor: str, name of the author or distributing body for this application. Typically is the owning
+        company name. Only used in Windows.
+    :param version: str, optional version path element to append to the path. You might want to use this if you
+        want multiple versions of you app to be able to run independently. If used, this would typically be
+        "<major>.<minor>". Only is applied if app_name is present.
+    :param roaming: bool, True to use the Windows roaming appdata directory. That means that for users on a a
+        Windows network setup for roaming profiles, this user data will be synced on login. See
+        <http://technet.microsoft.com/en-us/library/cc766489(WS.10).aspx> for a discussion of issues.
+    :return: str
+
+    Typical user data directories are:
+        Mac OS X:               ~/Library/Application Support/<AppName>
+        Unix:                   ~/.local/share/<AppName>    # or in $XDG_DATA_HOME, if defined
+        Win XP (not roaming):   C:\Documents and Settings\<username>\Application Data\<AppAuthor>\<AppName>
+        Win XP (roaming):       C:\Documents and Settings\<username>\Local Settings\Application Data\<AppAuthor>\<AppName>
+        Win 7  (not roaming):   C:\Users\<username>\AppData\Local\<AppAuthor>\<AppName>
+        Win 7  (roaming):       C:\Users\<username>\AppData\Roaming\<AppAuthor>\<AppName>
+
+    For Unix, we follow the XDG spec and support $XDG_DATA_HOME.
+    That means, by default "~/.local/share/<AppName>".
+    """
+
+    system = osplatform.get_sys_platform()
+
+    if system == "win32":
+        if appauthor is None:
+            appauthor = appname
+        const = roaming and "CSIDL_APPDATA" or "CSIDL_LOCAL_APPDATA"
+        path = os.path.normpath(win32.get_win_folder(const))
+        if appname:
+            if appauthor is not False:
+                path = os.path.join(path, appauthor, appname)
+            else:
+                path = os.path.join(path, appname)
+    elif system == 'darwin':
+        path = os.path.expanduser('~/Library/Application Support/')
+        if appname:
+            path = os.path.join(path, appname)
+    else:
+        path = os.getenv('XDG_DATA_HOME', os.path.expanduser("~/.local/share"))
+        if appname:
+            path = os.path.join(path, appname)
+    if appname and version:
+        path = os.path.join(path, version)
+
+    return path

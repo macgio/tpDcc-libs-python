@@ -8,13 +8,18 @@ Module that contains different classes to handle settings
 from __future__ import print_function, division, absolute_import
 
 import os
-import sys
 import ast
 import time
-import configparser
+import logging
 from collections import OrderedDict
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
 
 from tpDcc.libs.python import fileio, path, jsonio
+
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 class FileSettings(object):
@@ -177,7 +182,7 @@ class FileSettings(object):
         try:
             write.write(lines)
         except Exception:
-            sys.utils_log.debug('Impossible to write in {}'.format(self.file_path))
+            LOGGER.debug('Impossible to write in {}'.format(self.file_path))
             time.sleep(.1)
             write.write(lines)
 
@@ -289,7 +294,7 @@ class INISettings(object):
         try:
             self._parser.read(self._file)
         except Exception:
-            sys.utils_log.warning('Impossible to read INI config file "{}"'.format(filename))
+            LOGGER.warning('Impossible to read INI config file "{}"'.format(filename))
         self._section = list()
 
     def __enter__(self):

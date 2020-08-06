@@ -13,6 +13,8 @@ if 'win' in sys.platform:
     import ctypes
     import ctypes.wintypes
 
+from tpDcc.libs.python import python
+
 GWL_WNDPROC = -4
 GWL_HINSTANCE = -6
 GWL_HWNDPARENT = -8
@@ -213,7 +215,7 @@ def get_monitors():
 
     result = list()
 
-    CBFUNC = ctypes.WINFUNCTYPE(ctypes.c_int, ctypes.c_ulong, ctypes.c_ulong, ctypes.POINTER(RECT), ctypes.c_double)
+    CBFUNC = ctypes.WINFUNCTYPE(ctypes.c_int, ctypes.c_ulong, ctypes.c_ulong, ctypes.POINTER(Rect), ctypes.c_double)
 
     def cb(h_monitor, hdc_monitor, l_prc_monitor, dw_data):
         r = l_prc_monitor.contents
@@ -250,6 +252,68 @@ def get_active_monitor_area():
         result.append(data)
 
     return result
+
+
+def _get_win_folder_from_registry(csidl_name):
+    """
+    Based on appdirs _get_win_folder_from_registry function
+    """
+
+    if python.is_python3():
+        import winreg as _winreg
+    else:
+        import _winreg
+
+    shell_folder_name = {
+        "CSIDL_APPDATA": "AppData",
+        "CSIDL_COMMON_APPDATA": "Common AppData",
+        "CSIDL_LOCAL_APPDATA": "Local AppData",
+    }[csidl_name]
+
+    key = _winreg.OpenKey(
+        _winreg.HKEY_CURRENT_USER,
+        r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+    )
+    dir, type = _winreg.QueryValueEx(key, shell_folder_name)
+
+    return dir
+
+
+def _get_win_folder_with_ctypes(csidl_name):
+    """
+    Based on appdirs _get_win_folder_with_ctypes function
+    """
+
+    csidl_const = {
+        "CSIDL_APPDATA": 26,
+        "CSIDL_COMMON_APPDATA": 35,
+        "CSIDL_LOCAL_APPDATA": 28,
+    }[csidl_name]
+
+    buf = ctypes.create_unicode_buffer(1024)
+    ctypes.windll.shell32.SHGetFolderPathW(None, csidl_const, None, 0, buf)
+
+    # Downgrade to short path name if have highbit chars. See
+    # <http://bugs.activestate.com/show_bug.cgi?id=85099>.
+    has_high_char = False
+    for c in buf:
+        if ord(c) > 255:
+            has_high_char = True
+            break
+    if has_high_char:
+        buf2 = ctypes.create_unicode_buffer(1024)
+        if ctypes.windll.kernel32.GetShortPathNameW(buf.value, buf2, 1024):
+            buf = buf2
+
+    return buf.value
+
+
+if 'win' in sys.platform:
+    try:
+        from ctypes import windll
+        get_win_folder = _get_win_folder_with_ctypes
+    except ImportError:
+        get_win_folder = _get_win_folder_from_registry
 
 
 class Rect(ctypes.Structure):

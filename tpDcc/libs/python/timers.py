@@ -7,8 +7,10 @@ Module that contains different types of timers
 
 from __future__ import print_function, division, absolute_import
 
-import sys
 import time
+import logging
+
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 class StopWatch(object):
@@ -29,7 +31,7 @@ class StopWatch(object):
         self.feedback = feedback
         if feedback:
             tabs = '\t' * self.running
-            sys.utils_log.debug('{}started timer: {}'.format(tabs, description))
+            LOGGER.debug('{}started timer: {}'.format(tabs, description))
         self.time = time.time()
         if feedback:
             self.__class__.running += 1
@@ -51,12 +53,12 @@ class StopWatch(object):
         if self.feedback:
             tabs = '\t' * self.running
             if minutes is None:
-                sys.utils_log.debug('{}end timer: {} seconds'.format(tabs, seconds))
+                LOGGER.debug('{}end timer: {} seconds'.format(tabs, seconds))
             else:
                 if minutes > 1:
-                    sys.utils_log.debug('{} end timer: {}  minutes, {} seconds'.format(tabs, minutes, seconds))
+                    LOGGER.debug('{} end timer: {}  minutes, {} seconds'.format(tabs, minutes, seconds))
                 elif minutes == 1:
-                    sys.utils_log.debug('{} end timer: {} minute, {} seconds'.format(tabs, minutes, seconds))
+                    LOGGER.debug('{} end timer: {} minute, {} seconds'.format(tabs, minutes, seconds))
             self.__class__.running -= 1
 
         return minutes, seconds

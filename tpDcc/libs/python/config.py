@@ -11,11 +11,15 @@ import os
 import logging
 import platform
 import subprocess
-import configparser
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
+
 
 from tpDcc.libs.python import osplatform
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 class Config(configparser.RawConfigParser, object):
@@ -68,7 +72,8 @@ class Config(configparser.RawConfigParser, object):
         """
 
         LOGGER.info(
-            'Initializing {0} Settings, creating configuration file: {1}\n'.format(self._app_name, self.config_file))
+            'Initializing {0} Settings, creating configuration file: {1}\n'.format(
+                self._app_name, self.config_file))
 
         self.add_section(self._app_name)
 
