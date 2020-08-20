@@ -58,6 +58,7 @@ class RollbackImporter(object):
 
 class _Singleton(type):
     _instances = dict()
+
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:
             cls._instances[cls] = super(_Singleton, cls).__call__(*args, **kwargs)
