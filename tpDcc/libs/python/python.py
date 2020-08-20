@@ -23,8 +23,6 @@ from itertools import groupby
 from operator import itemgetter
 from collections import OrderedDict
 
-from six import string_types
-
 from tpDcc.libs.python import strings
 
 
@@ -604,7 +602,7 @@ def is_string(s):
     :return: bool
     """
 
-    return isinstance(s, string_types)
+    return isinstance(s, strings.string_types)
 
 
 def is_number(s):
@@ -818,9 +816,7 @@ def u_print(msg, **kwargs):
     :param kwargs: dict
     """
 
-    from six import text_type
-
-    if isinstance(msg, text_type):
+    if isinstance(msg, strings.text_type):
         encoding = None
         try:
             encoding = os.getenv('PYTHONIOENCODING', sys.stdout.encoding)

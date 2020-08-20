@@ -11,12 +11,19 @@ from __future__ import print_function, division, absolute_import
 
 import re
 import os
+import sys
 import random
 import logging
 from string import ascii_letters
 
 iters = [list, tuple, set, frozenset]
 
+if sys.version_info[0] == 2:
+    string_types = basestring,
+    text_type = unicode
+else:
+    string_types = str,
+    text_type = str
 
 class _hack(tuple):
     pass
@@ -28,7 +35,7 @@ A list of iterable items (like lists, but not strings). Includes whichever
 of lists, tuples, sets, and Sets are available in this version of Python.
 """
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 def _strips(direction, text, remove):
