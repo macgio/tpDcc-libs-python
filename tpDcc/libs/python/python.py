@@ -9,6 +9,7 @@ Modules that contains utility functions related with Python
 from __future__ import print_function, division, absolute_import
 
 import os
+import re
 import sys
 import imp
 import ast
@@ -52,6 +53,21 @@ class RollbackImporter(object):
                 del sys.modules[mod_name]
 
 
+# Python 2 & 3 compatible implementation
+# https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
+
+class _Singleton(type):
+    _instances = dict()
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(_Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+
+class Singleton(_Singleton('SingletonMeta', (object,), {})):
+    pass
+
+
 class classproperty(object):
     """
     Simplified way of creating getter and setters in Python
@@ -62,6 +78,30 @@ class classproperty(object):
 
     def __get__(self, instance, owner):
         return self.getter(owner)
+
+
+class ObjectDict(dict):
+    """
+    Wrapper of a standard Python dict that operates like an object
+    """
+
+    def __init__(self, **kwargs):
+        super(ObjectDict, self).__init__(**kwargs)
+
+    def __getattr__(self, item):
+        try:
+            return self[item]
+        except KeyError:
+            return super(ObjectDict, self).__getattribute__(item)
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+    def __delattr__(self, item):
+        if item in self:
+            del self[item]
+            return
+        super(ObjectDict, self).__delattr__(item)
 
 
 def add_to_python_path(path, check=True, insert=True):
@@ -918,3 +958,78 @@ def order_dict_by_list_of_keys(dict_to_order, keys):
     """
 
     return OrderedDict([(key, dict_to_order[key]) for key in keys if key in dict_to_order])
+
+
+def merge_dicts(dict_a, dict_b, path=None):
+    """
+    Merges to given dictionaries
+    :param dict_a: dict
+    :param dict_b: dict
+    :param path:
+    :return:
+    """
+
+    path = path or list()
+    for key in dict_b:
+        if key not in dict_a:
+            dict_a[key] = dict_b[key]
+            continue
+        if isinstance(dict_a[key], dict) and isinstance(dict_b[key], dict):
+            merge_dicts(dict_a[key], dict_b[key], path + [str(key)])
+        elif dict_a[key] == dict_b[key]:
+            pass
+        else:
+            raise Exception('Conflict at {}'.format('.'.join(path + [str(key)])))
+
+    return dict_a
+
+
+def compare_and_update_dicts(source_dict, target_dict):
+    """
+    Compares two dictionaries and updates target dict with entries that where located in source_dict but not in
+    the target dict
+    :param source_dict: dict, source dictionary with original entries
+    :param target_dict: dict, target dictionary that will get the new changes from source
+    :return:
+    """
+
+    msg_log = ''
+    for k, v in source_dict.items():
+        existing = target_dict.get(k)
+        if existing is None:
+            msg_log += 'New key found while comparing user to default dictionary. ' \
+                       'Copying over [\"{}\": \"{}\"] \n'.format(k, v)
+            target_dict[k] = v
+            existing = v
+        if isinstance(v, dict):
+            t, m = compare_and_update_dicts(v, existing)
+            msg_log += m
+
+    return target_dict, msg_log
+
+
+def get_duplicates_in_list(seq):
+    """
+    Returns all duplicates items in given list or tuple
+    :param seq: list or tuple
+    :return: list
+    """
+
+    seen = set()
+    duplicates = list()
+    for obj in seq:
+        if obj in seen:
+            duplicates.append(obj)
+        seen.add(obj)
+
+    return duplicates
+
+
+def order_list_numerically(list_to_order):
+    """
+    Numerically sorts a list of strings that may have integers within
+    :param list_to_order: list(str) or tuple(str)
+    :return: list(str)
+    """
+
+    return sorted(list_to_order, key=lambda key: [int(c) if c.isdigit() else c for c in re.split('([0-9]+)', key)])

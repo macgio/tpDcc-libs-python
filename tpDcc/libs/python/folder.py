@@ -442,6 +442,8 @@ def open_folder(path=None):
     elif sys.platform == 'linux2':
         subprocess.Popen(['xdg-open', path])
     elif sys.platform is 'windows' or 'win32' or 'win64':
+        if path.endswith('/'):
+            path = path[:-1]
         new_path = path.replace('/', '\\')
         try:
             subprocess.check_call(['explorer', new_path], shell=False)
