@@ -25,6 +25,7 @@ else:
     string_types = str,
     text_type = str
 
+
 class _hack(tuple):
     pass
 
