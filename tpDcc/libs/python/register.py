@@ -50,6 +50,5 @@ def cleanup():
     for cls_name in tpDcc.libs.python.__dict__[REGISTER_ATTR]:
         if cls_name not in tpDcc.libs.python.__dict__:
             continue
-        # print('Deleting: {}'.format(cls_name))
         del tpDcc.libs.python.__dict__[cls_name]
     del tpDcc.libs.python.__dict__[REGISTER_ATTR]

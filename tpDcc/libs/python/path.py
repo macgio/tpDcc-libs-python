@@ -84,8 +84,11 @@ def normalize_path(path):
 
     path = path.replace(BAD_SEPARATOR, SEPARATOR).replace(PATH_SEPARATOR, SEPARATOR)
 
-    if python.is_python3():
-        path = unicode(path.replace(r'\\', r'\\\\'), "unicode_escape")
+    if python.is_python2():
+        try:
+            path = unicode(path.replace(r'\\', r'\\\\'), "unicode_escape")
+        except Exception:
+            pass
 
     return path.rstrip('/')
 

@@ -396,15 +396,15 @@ def get_files_with_extension(extension, root_directory, full_path=False, recursi
                         found.append(file_name)
                     else:
                         found.append(os.path.join(root_directory, file_name))
-
-    objs = os.listdir(root_directory)
-    for filename_and_extension in objs:
-        filename, found_extension = os.path.splitext(filename_and_extension)
-        if found_extension == '{}'.format(extension):
-            if not full_path:
-                found.append(filename_and_extension)
-            else:
-                found.append(os.path.join(root_directory, filename_and_extension))
+    else:
+        objs = os.listdir(root_directory)
+        for filename_and_extension in objs:
+            filename, found_extension = os.path.splitext(filename_and_extension)
+            if found_extension == '{}'.format(extension):
+                if not full_path:
+                    found.append(filename_and_extension)
+                else:
+                    found.append(os.path.join(root_directory, filename_and_extension))
 
     return found
 
