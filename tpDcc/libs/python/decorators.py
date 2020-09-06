@@ -54,7 +54,7 @@ def accepts(*types, **kw):
     try:
         def decorator(f):
             def newf(*args):
-                if debug is 0:
+                if debug == 0:
                     return f(*args)
                 args = list(args)
                 if not (len(args[1:]) == len(types)):
@@ -62,7 +62,7 @@ def accepts(*types, **kw):
                 argtypes = tuple(map(type, args[1:]))
                 if argtypes != types:
                     msg = debug.format_message(f.__name__, types, argtypes, 0)
-                    if debug is 1:
+                    if debug == 1:
                         try:
                             for i in range(1, len(args)):
                                 args[i] = types[i - 1](args[i])
@@ -70,7 +70,7 @@ def accepts(*types, **kw):
                             raise ValueError(msg)
                         except TypeError as stdmsg:
                             raise TypeError(msg)
-                    elif debug is 2:
+                    elif debug == 2:
                         raise TypeError(msg)
                 return f(*args)
             newf.__name__ = f.__name__
@@ -98,17 +98,17 @@ def returns(ret_type, **kw):
         def decorator(f):
             def newf(*args):
                 result = f(*args)
-                if debug is 0:
+                if debug == 0:
                     return result
                 res_type = type(result)
                 if res_type != ret_type:
                     msg = debug.format_message(f.__name__, (ret_type,), (res_type,), 1)
-                    if debug is 1:
+                    if debug == 1:
                         try:
                             result = ret_type(result)
                         except ValueError:
                             raise ValueError
-                    elif debug is 2:
+                    elif debug == 2:
                         raise TypeError(msg)
                 return result
             newf.__name__ = f.__name__
@@ -200,16 +200,18 @@ def try_pass(fn):
     return wrapper
 
 
-def empty_decorator(f):
+def empty_decorator(*args, **kwargs):
     """
     Empty decorator
     :param f: fn
     """
 
-    def wrapper(*args, **kwargs):
-        r = f(*args, **kwargs)
-        return r
-    return wrapper
+    def fn_decorator(fn):
+        def wrapper(*args, **kwargs):
+            r = fn(*args, **kwargs)
+            return r
+        return wrapper
+    return fn_decorator
 
 
 @contextlib.contextmanager
