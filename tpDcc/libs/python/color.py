@@ -10,6 +10,8 @@ from __future__ import print_function, division, absolute_import
 import math
 import colorsys
 
+from tpDcc.libs.python import mathlib
+
 
 def convert_hsv_to_rgb(hsv):
     """
@@ -200,8 +202,6 @@ def hsl_color_offset_float(rgb_color, hue_offset=0, saturation_offset=0, lightne
     :return: tuple(float, float, float), color in 0-1 range
     """
 
-    from tpDcc.libs.python import mathlib
-
     if hue_offset:
         hsv = convert_rgb_to_hsv(list(rgb_color))
         new_hue = hsv[0] + hue_offset
@@ -324,8 +324,6 @@ def offset_color(color_to_offset, offset=0):
     :return: tuple(int, int, int), offset color
     """
 
-    from tpDcc.libs.python import mathlib
-
     return tuple([mathlib.clamp((color_channel + offset), 0, 255) for color_channel in color_to_offset])
 
 
@@ -354,6 +352,69 @@ def string_is_hex(color_str):
         return len(color_str) in (4, 7, 9)
     else:
         return len(color_str) in (3, 6, 8)
+
+
+def convert_kelvin_to_rgb(color_temperature):
+    """
+    Converts from Kelvin to RGB
+    http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
+    :param color_temperature: float, color temperate in kelvin degrees
+    :return: tuple(int, int, int), SRGB color in 0-255 format
+    """
+
+    # range check
+    if color_temperature < 1000:
+        color_temperature = 1000
+    elif color_temperature > 40000:
+        color_temperature = 40000
+
+    tmp_internal = color_temperature / 100.0
+
+    # red
+    if tmp_internal <= 66:
+        red = 255
+    else:
+        tmp_red = 329.698727446 * math.pow(tmp_internal - 60, -0.1332047592)
+        if tmp_red < 0:
+            red = 0
+        elif tmp_red > 255:
+            red = 255
+        else:
+            red = tmp_red
+
+    # green
+    if tmp_internal <= 66:
+        tmp_green = 99.4708025861 * math.log(tmp_internal) - 161.1195681661
+        if tmp_green < 0:
+            green = 0
+        elif tmp_green > 255:
+            green = 255
+        else:
+            green = tmp_green
+    else:
+        tmp_green = 288.1221695283 * math.pow(tmp_internal - 60, -0.0755148492)
+        if tmp_green < 0:
+            green = 0
+        elif tmp_green > 255:
+            green = 255
+        else:
+            green = tmp_green
+
+    # blue
+    if tmp_internal >= 66:
+        blue = 255
+    elif tmp_internal <= 19:
+        blue = 0
+    else:
+        tmp_blue = 138.5177312231 * math.log(tmp_internal - 10) - 305.0447927307
+        if tmp_blue < 0:
+            blue = 0
+        elif tmp_blue > 255:
+            blue = 255
+        else:
+            blue = tmp_blue
+
+    return red, green, blue
 
 
 class RGBRotate(object):
@@ -386,3 +447,19 @@ class RGBRotate(object):
         gx = r * self.matrix[1][0] + g * self.matrix[1][1] + b * self.matrix[1][2]
         bx = r * self.matrix[2][0] + g * self.matrix[2][1] + b * self.matrix[2][2]
         return mathlib.clamp(rx, 0, 255), mathlib.clamp(gx, 0, 255), mathlib.clamp(bx, 0, 255)
+
+
+def compare_rgb_colors_tolerance(first_rgb_color, second_rgb_color, tolerance):
+    """
+    Compares to RGB colors taking into account the given tolerance (margin for error)
+    :param first_rgb_color: tuple(float, float, float), first color to compare
+    :param second_rgb_color: tuple(float, float, float), second color to compare
+    :param tolerance: float, range in which the colors can vary
+    :return: bool, True if two colors matches within the given tolerance; False otherwise
+    """
+
+    for i, value in enumerate(first_rgb_color):
+        if not abs(value - second_rgb_color[i]) <= tolerance:
+            return False
+
+    return True
