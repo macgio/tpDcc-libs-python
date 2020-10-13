@@ -38,7 +38,7 @@ class StopWatch(object):
 
     def end(self):
         if not self.time:
-            return
+            return 0.0, None
 
         seconds = time.time() - self.time
         self.time = None

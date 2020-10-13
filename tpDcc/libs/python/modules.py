@@ -56,13 +56,15 @@ def convert_to_dotted_path(path):
     return '.'.join(reversed(package_path))
 
 
-def import_module(module_path, name=None):
+def import_module(module_path, name=None, skip_warnings=False, skip_errors=False):
     """
     Imports the given module path. If the given module path is a dotted one, import lib will be used. Otherwise, it's
     expected that given module path is the absolute path to the source file. If name argument is not given, then the
     basename without the extension will be used
     :param module_path: str, module path. Can be a dotted path (tpDcc.libs.python.modules) or an absolute one
     :param name: str, name for the imported module which will be used if the module path is an absolute path
+    :param skip_warnings: bool, Whether or not warnings should be skipped
+    :param skip_errors: bool, Whether or not errors should be skipped
     :return: ModuleObject, imported module object
     """
 
@@ -70,7 +72,9 @@ def import_module(module_path, name=None):
         try:
             return importlib.import_module(module_path)
         except ImportError:
-            python.logger.error('Failed to load module: "{}"'.format(module_path), exc_info=True)
+            if not skip_errors:
+                python.logger.error('Failed to load module: "{}"'.format(module_path), exc_info=True)
+            return None
 
     try:
         if os.path.exists(module_path):
@@ -79,8 +83,9 @@ def import_module(module_path, name=None):
             if name in sys.modules:
                 return sys.modules[name]
         if not name:
-            python.logger.warning(
-                'Impossible to load module because module path: {} was not found!'.format(module_path))
+            if not skip_warnings:
+                python.logger.warning(
+                    'Impossible to load module because module path: {} was not found!'.format(module_path))
             return None
         if os.path.isdir(module_path):
             module_path = os.path.join(module_path, '__init__.py')

@@ -370,7 +370,10 @@ def get_range_percentage(min_value, max_value, value):
     :return: Percentage (from 0.0 to 1.0) between the two values where input value is
     """
 
-    return (value - min_value) / (max_value - min_value)
+    try:
+        return (value - min_value) / (max_value - min_value)
+    except ZeroDivisionError:
+        return 0.0
 
 
 def map_range_clamped(value, in_range_a, in_range_b, out_range_a, out_range_b):

@@ -411,8 +411,7 @@ class FileVersion(object):
 
         if not comment:
             comment = '-'
-        comment.replace('\n', '   ')
-        comment.replace('\r', '   ')
+        comment = comment.replace('\n', '   ').replace('\r', '   ')
 
         self._create_version_folder()
         self._create_comment_file()
