@@ -20,8 +20,8 @@ def write_to_file(data, filename, **kwargs):
     Writes data to JSON file
     """
 
-    if '.json' not in filename:
-        filename += '.json'
+    # if '.json' not in filename:
+    #     filename += '.json'
 
     indent = kwargs.pop('indent', 2)
 

@@ -22,8 +22,8 @@ def write_to_file(data, filename, **kwargs):
     Writes data to JSON file
     """
 
-    if '.yml' not in filename:
-        filename += '.yml'
+    # if '.yml' not in filename:
+    #     filename += '.yml'
 
     indent = kwargs.pop('indent', 2)
 
