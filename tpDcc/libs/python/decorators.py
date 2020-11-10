@@ -10,14 +10,14 @@ from __future__ import print_function, division, absolute_import
 import os
 import time
 import inspect
+import logging
 import traceback
 import threading
-import contextlib
 from functools import wraps
 
-import tpDcc
-from tpDcc.libs import python
 from tpDcc.libs.python import debug
+
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 def abstractmethod(fn):
@@ -25,19 +25,17 @@ def abstractmethod(fn):
     The decorated function should be overridden by a software specific module.
     """
 
-    def new_fn(*args, **kwargs):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
         msg = 'Abstract implementation has not been overridden.'
-        mode = os.getenv('RIGLIB_ABSTRACTMETHOD_MODE')
-        if mode == 'raise':
+        mode = os.getenv('ABSTRACT_METHOD_MODE')
+        if not mode or mode == 'raise':
             raise NotImplementedError(debug.debug_object_string(fn, msg))
         elif mode == 'warn':
-            tpDcc.logger.warning(debug.debug_object_string(fn, msg))
+            LOGGER.warning(debug.debug_object_string(fn, msg))
         return fn(*args, **kwargs)
 
-    new_fn.__name__ = fn.__name__
-    new_fn.__doc__ = fn.__doc__
-    new_fn.__dict__ = fn.__dict__
-    return new_fn
+    return wrapper
 
 
 def accepts(*types, **kw):
@@ -48,33 +46,33 @@ def accepts(*types, **kw):
     """
 
     if not kw:
-        debug = 1
+        is_debug = 1
     else:
-        debug = kw['debug']
+        is_debug = kw['debug']
     try:
         def decorator(f):
-            def newf(*args):
+            def new_fn(*args):
                 if debug == 0:
                     return f(*args)
                 args = list(args)
                 if not (len(args[1:]) == len(types)):
                     raise AssertionError
-                argtypes = tuple(map(type, args[1:]))
-                if argtypes != types:
-                    msg = debug.format_message(f.__name__, types, argtypes, 0)
-                    if debug == 1:
+                arg_types = tuple(map(type, args[1:]))
+                if arg_types != types:
+                    msg = debug.format_message(f.__name__, types, arg_types, 0)
+                    if is_debug == 1:
                         try:
                             for i in range(1, len(args)):
                                 args[i] = types[i - 1](args[i])
-                        except ValueError as stdmsg:
+                        except ValueError:
                             raise ValueError(msg)
-                        except TypeError as stdmsg:
+                        except TypeError:
                             raise TypeError(msg)
-                    elif debug == 2:
+                    elif is_debug == 2:
                         raise TypeError(msg)
                 return f(*args)
-            newf.__name__ = f.__name__
-            return newf
+            new_fn.__name__ = f.__name__
+            return new_fn
         return decorator
     except KeyError as key:
         raise KeyError(key + 'is not a valid keyword argument')
@@ -127,7 +125,7 @@ def timer(fn):
 
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if python.logger.getEffectiveLevel() == 20:
+        if LOGGER.getEffectiveLevel() == 20:
             # If we are in info mode we disable timers
             res = fn(*args, **kwargs)
         else:
@@ -140,16 +138,15 @@ def timer(fn):
                 mod = inspect.getmodule(args[0])
                 trace += '{0} >>'.format(mod.__name__.split('.')[-1])
             except Exception:
-                python.logger.debug('function module inspect failure')
+                LOGGER.debug('function module inspect failure')
 
             try:
-                cls = args[0].__clas__
-                trace += '{0}.'.format(args[0].__clas__.__name__)
+                trace += '{0}.'.format(args[0].__class__.__name__)
             except Exception:
-                python.logger.debug('function class inspect failure')
+                LOGGER.debug('function class inspect failure')
 
             trace += fn.__name__
-            python.logger.debug('Timer : %s: took %0.3f ms' % (trace, (t2 - t1) * 1000.0))
+            LOGGER.debug('Timer : %s: took %0.3f ms' % (trace, (t2 - t1) * 1000.0))
         return res
     return wrapper
 
@@ -179,7 +176,7 @@ def timestamp(f):
     def wrapper(*args, **kwargs):
         start_time = time.time()
         res = f(*args, **kwargs)
-        python.logger.info('<{}> Elapsed time : {}'.format(f.func_name, time.time() - start_time))
+        LOGGER.info('<{}> Elapsed time : {}'.format(f.func_name, time.time() - start_time))
         return res
     return wrapper
 
@@ -195,7 +192,7 @@ def try_pass(fn):
         try:
             return_value = fn(*args, **kwargs)
         except Exception:
-            python.logger.error(traceback.format_exc())
+            LOGGER.error(traceback.format_exc())
         return return_value
     return wrapper
 
@@ -214,22 +211,12 @@ def empty_decorator(*args, **kwargs):
     return fn_decorator
 
 
-@contextlib.contextmanager
-def empty_decorator_context():
-    """
-    Empty decorator
-    :param f: fn
-    """
-
-    pass
-
-
 def repeater(interval, limit=-1):
     """!
     A function interval decorator based on
     http://stackoverflow.com/questions/5179467/equivalent-of-setinterval-in-python
 
-    Inifinite Example Usage:
+    Infinite Example Usage:
         @repeater(.05)
         def infinite():
             print "Executing infinity."
@@ -357,28 +344,25 @@ def add_metaclass(metaclass):
     return wrapper
 
 
-class Singleton(object):
-    all_instances = list()
+class Singleton(type):
 
-    @staticmethod
-    def destroy_all():
-        for instance in Singleton.all_instances:
-            instance.destroy()
+    """
+    Singleton decorator as metaclass. Should be used in conjunction with add_metaclass function of this module
+    @add_metaclass(Singleton)
+    class MyClass(BaseClass, object):
+        ...
+    """
 
-    def __init__(self, cls):
-        self.cls = cls
-        self.instance = None
-        self.all_instances.append(self)
+    def __new__(meta, name, bases, clsdict):
+        if any(isinstance(cls, meta) for cls in bases):
+            raise TypeError('Cannot inherit from singleton class')
+        clsdict['_instance'] = None
+        return super(Singleton, meta).__new__(meta, name, bases, clsdict)
 
-    def destroy(self):
-        del self.instance
-        self.instance = None
-
-    def __call__(self, *args, **kwargs):
-        if self.instance is None:
-            self.instance = self.cls(*args, **kwargs)
-
-        return self.instance
+    def __call__(cls, *args, **kwargs):
+        if not isinstance(cls._instance, cls):
+            cls._instance = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instance
 
 
 class HybridMethod(object):

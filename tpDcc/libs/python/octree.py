@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 """
 Implementation of an octree data structure
 """
@@ -28,12 +27,9 @@ class Octree(object):
         self._bbox_max = bbox_max
         self._root = OctreeNode(self._bbox_min, self._bbox_max, divisions=0, parent=self)
 
-    # region Properties
-    def get_root(self):
+    @property
+    def root(self):
         return self._root
-
-    root = property(get_root)
-    # endregion
 
 
 class OctreeNode(object):
@@ -58,7 +54,6 @@ class OctreeNode(object):
         self._children = list()
         self._half_values = mathlib.bounding_box_half_values(bbox_min=bbox_min, bbox_max=bbox_max)
 
-    # region Properties
     def get_divisions(self):
         return self._divisions
 
@@ -71,7 +66,6 @@ class OctreeNode(object):
     divisions = property(get_divisions)
     children = property(get_children)
     half_values = property(get_half_values)
-    # endregion
 
     def child_containing(self, point):
         """

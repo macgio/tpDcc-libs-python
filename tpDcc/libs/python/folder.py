@@ -14,12 +14,13 @@ import sys
 import errno
 import shutil
 import fnmatch
+import logging
 import tempfile
 import traceback
 import subprocess
 from distutils.dir_util import copy_tree
 
-from tpDcc.libs import python
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 def create_folder(name, directory=None, make_unique=False):
@@ -88,10 +89,10 @@ def rename_folder(directory, name, make_unique=False):
     try:
         os.chmod(directory, 0o777)
         message = 'rename: {0} >> {1}'.format(directory, rename_path)
-        python.logger.info(message)
+        LOGGER.info(message)
         os.rename(directory, rename_path)
     except Exception:
-        python.logger.error('{}'.format(traceback.format_exc()))
+        LOGGER.error('{}'.format(traceback.format_exc()))
         return False
 
     return rename_path
@@ -144,7 +145,7 @@ def move_folder(source_directory, target_directory, only_contents=False):
         else:
             shutil.move(source_directory, target_directory)
     except Exception as exc:
-        python.logger.warning('Failed to move {0} to {1}: {}'.format(source_directory, target_directory, exc))
+        LOGGER.warning('Failed to move {0} to {1}: {}'.format(source_directory, target_directory, exc))
         return False
 
     return True
@@ -164,7 +165,7 @@ def copy_directory_contents(path1, path2, *args, **kwargs):
     try:
         copy_tree(path1, path2, *args, **kwargs)
     except Exception:
-        python.logger.warning('Failed to move contents of {0} to {1}'.format(path1, path2))
+        LOGGER.warning('Failed to move contents of {0} to {1}'.format(path1, path2))
         return False
 
     return True
@@ -197,7 +198,7 @@ def delete_folder(folder_name, directory=None):
     try:
         shutil.rmtree(full_path, onerror=delete_read_only_error)
     except Exception as exc:
-        python.logger.warning('Could not remove children of path "{}" | {}'.format(full_path, exc))
+        LOGGER.warning('Could not remove children of path "{}" | {}'.format(full_path, exc))
 
     return full_path
 
@@ -441,7 +442,7 @@ def open_folder(path=None):
         subprocess.check_call(['open', '--', path])
     elif sys.platform == 'linux2':
         subprocess.Popen(['xdg-open', path])
-    elif sys.platform is 'windows' or 'win32' or 'win64':
+    elif sys.platform in ['windows', 'win32', 'win64']:
         if path.endswith('/'):
             path = path[:-1]
         new_path = path.replace('/', '\\')
@@ -530,7 +531,7 @@ def ensure_folder_exists(folder_path, persmissions=0o755, place_holder=False):
 
     if not os.path.exists(folder_path):
         try:
-            python.logger.debug('Creating folder {} [{}]'.format(folder_path, persmissions))
+            LOGGER.debug('Creating folder {} [{}]'.format(folder_path, persmissions))
             os.makedirs(folder_path, persmissions)
             if place_holder:
                 place_path = os.path.join(folder_path, 'placeholder')

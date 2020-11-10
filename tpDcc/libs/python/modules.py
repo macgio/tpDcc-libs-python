@@ -11,10 +11,12 @@ import os
 import sys
 import imp
 import inspect
+import logging
 import importlib
 
-from tpDcc.libs import python
 from tpDcc.libs.python import path as path_utils
+
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 def is_dotted_module_path(module_path):
@@ -73,7 +75,7 @@ def import_module(module_path, name=None, skip_warnings=False, skip_errors=False
             return importlib.import_module(module_path)
         except ImportError:
             if not skip_errors:
-                python.logger.error('Failed to load module: "{}"'.format(module_path), exc_info=True)
+                LOGGER.error('Failed to load module: "{}"'.format(module_path), exc_info=True)
             return None
 
     try:
@@ -84,7 +86,7 @@ def import_module(module_path, name=None, skip_warnings=False, skip_errors=False
                 return sys.modules[name]
         if not name:
             if not skip_warnings:
-                python.logger.warning(
+                LOGGER.warning(
                     'Impossible to load module because module path: {} was not found!'.format(module_path))
             return None
         if os.path.isdir(module_path):
@@ -93,7 +95,7 @@ def import_module(module_path, name=None, skip_warnings=False, skip_errors=False
                 raise ValueError('Cannot find module path: "{}"'.format(module_path))
         return imp.load_source(name, os.path.realpath(module_path))
     except ImportError:
-        python.logger.error('Failed to load module: "{}"'.format(module_path))
+        LOGGER.error('Failed to load module: "{}"'.format(module_path))
         raise
 
 

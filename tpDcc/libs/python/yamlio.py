@@ -10,10 +10,11 @@ from __future__ import print_function, division, absolute_import
 
 import os
 import yaml
+import logging
 
 import yamlordereddictloader
 
-from tpDcc.libs import python
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 def write_to_file(data, filename, **kwargs):
@@ -31,10 +32,10 @@ def write_to_file(data, filename, **kwargs):
         with open(filename, 'w') as yaml_file:
             yaml.safe_dump(data, yaml_file, indent=indent, **kwargs)
     except IOError:
-        python.logger.error('Data not saved to file {}'.format(filename))
+        LOGGER.error('Data not saved to file {}'.format(filename))
         return None
 
-    python.logger.info('File correctly saved to: {}'.format(filename))
+    LOGGER.info('File correctly saved to: {}'.format(filename))
 
     return filename
 
@@ -55,7 +56,7 @@ def read_file(filename, maintain_order=False):
                 else:
                     data = yaml.safe_load(yaml_file)
         except Exception as err:
-            python.logger.warning('Could not read {0}'.format(filename))
+            LOGGER.warning('Could not read {0}'.format(filename))
             raise err
 
     return data

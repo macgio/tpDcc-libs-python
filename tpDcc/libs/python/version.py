@@ -6,9 +6,11 @@ Module that contains classes to handle version files
 """
 
 import getpass
+import logging
 
-from tpDcc.libs import python
 from tpDcc.libs.python import folder, path, fileio, sort, name as name_utils
+
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 class SemanticVersion(object):
@@ -243,7 +245,7 @@ class VersionFile(object):
         if file_name:
             self._save(file_name)
         else:
-            python.logger.warning('Could not save default version!')
+            LOGGER.warning('Could not save default version!')
 
         return file_name
 
@@ -268,7 +270,7 @@ class VersionFile(object):
         version_folder = self._get_version_folder()
         version_files = folder.get_files_and_folders(version_folder)
         if not version_files:
-            python.logger.warning('Impossible to get versions because no version exist!')
+            LOGGER.warning('Impossible to get versions because no version exist!')
             return None
 
         number_list = list()
@@ -285,7 +287,7 @@ class VersionFile(object):
             pass_files.append(f)
 
         if not pass_files:
-            python.logger.warning('No valid version files found in folder: {}'.format(version_folder))
+            LOGGER.warning('No valid version files found in folder: {}'.format(version_folder))
             return
 
         quick_sort = sort.QuickNumbersListSort(number_list)
@@ -310,7 +312,7 @@ class VersionFile(object):
         version_folder = self._get_version_folder()
         version_files = folder.get_files_and_folders(version_folder)
         if not version_files:
-            python.logger.warning('Impossible to get version numbers because no version exist!')
+            LOGGER.warning('Impossible to get version numbers because no version exist!')
             return None
 
         number_list = list()

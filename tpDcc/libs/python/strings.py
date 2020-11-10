@@ -429,7 +429,7 @@ def num_pad(num, length):
 
 def rst_to_html(rst):
     """
-    Converts given srst strin to HMLT
+    Converts given RST (reestructured text) string to HTML
     :param rst: str
     :return:
     """

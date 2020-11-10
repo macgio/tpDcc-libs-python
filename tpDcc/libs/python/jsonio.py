@@ -10,8 +10,10 @@ from __future__ import print_function, division, absolute_import
 
 import os
 import json
+import logging
+from collections import OrderedDict
 
-from tpDcc.libs import python
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 def write_to_file(data, filename, **kwargs):
@@ -29,15 +31,15 @@ def write_to_file(data, filename, **kwargs):
         with open(filename, 'w') as json_file:
             json.dump(data, json_file, indent=indent, **kwargs)
     except IOError:
-        python.logger.error('Data not saved to file {}'.format(filename))
+        LOGGER.error('Data not saved to file {}'.format(filename))
         return None
 
-    python.logger.info('File correctly saved to: {}'.format(filename))
+    LOGGER.info('File correctly saved to: {}'.format(filename))
 
     return filename
 
 
-def read_file(filename):
+def read_file(filename, as_ordered_dict=False):
 
     """
     Get data from JSON file
@@ -48,9 +50,12 @@ def read_file(filename):
     else:
         try:
             with open(filename, 'r') as json_file:
-                data = json.load(json_file)
+                if as_ordered_dict:
+                    data = json.load(json_file, object_pairs_hook=OrderedDict)
+                else:
+                    data = json.load(json_file)
         except Exception as err:
-            python.logger.warning('Could not read {0}'.format(filename))
+            LOGGER.warning('Could not read {0}'.format(filename))
             raise err
 
     return data

@@ -5,7 +5,6 @@
 Modules that contains utility functions related with Python
 """
 
-
 from __future__ import print_function, division, absolute_import
 
 import os
@@ -46,7 +45,8 @@ class RollbackImporter(object):
         Removes current loaded modules loaded after RollbackImporter was instantiated
         """
 
-        for mod_name in sys.modules.keys():
+        sys_modules_copy = sys.modules.copy()
+        for mod_name in sys_modules_copy:
             if mod_name not in self._prev_modules:
                 del sys.modules[mod_name]
 
@@ -101,6 +101,30 @@ class ObjectDict(dict):
             del self[item]
             return
         super(ObjectDict, self).__delattr__(item)
+
+
+class UniqueDict(dict):
+    """
+    Wrapper of a standard Python dict that ensures that dictionary keys are unique
+    """
+
+    def __setitem__(self, key, value):
+        if key not in self:
+            dict.__setitem__(self, key, value)
+        else:
+            raise KeyError("Key already exists")
+
+
+class UniqueOrderedDict(OrderedDict):
+    """
+    Wrapper of a standard Python dict that ensures that dictionary keys are unique
+    """
+
+    def __setitem__(self, key, value):
+        if key not in self:
+            OrderedDict.__setitem__(self, key, value)
+        else:
+            raise KeyError("Key already exists")
 
 
 def add_to_python_path(path, check=True, insert=True):
@@ -346,6 +370,9 @@ def force_tuple(var):
     :return: list
     """
 
+    if var is None:
+        return ()
+
     if type(var) is not tuple:
         var = tuple(var)
 
@@ -573,7 +600,13 @@ def get_instance_user_attributes(cls):
     """
 
     _def_attrs = dir(type('dummy', (object,), {}))
-    return [item for item in inspect.getmembers(cls) if item[0] not in _def_attrs]
+    _def_attrs.extend(['staticMetaObject'])
+
+    attributes = inspect.getmembers(cls, lambda a: not (inspect.isroutine(a)))
+    attributes = [
+        a for a in attributes if not (a[0].startswith('__') and a[0].endswith('__')) and a[0] not in _def_attrs]
+
+    return attributes
 
 
 def user_message(message, prefix='message'):
@@ -614,6 +647,37 @@ def is_number(s):
     if is_bool(s):
         return False
     return isinstance(s, int) or isinstance(s, float)
+
+
+def is_int(s):
+    """
+    Returns True if the given string is an integer, False otherwise
+    :param s: str
+    :return: bool
+    """
+
+    try:
+        a = float(s)
+        b = int(a)
+    except (TypeError, ValueError):
+        return False
+    else:
+        return a == b
+
+
+def is_float(s):
+    """
+    Returns True if the given string is a float, False otherwise
+    :param s: str
+    :return: bool
+    """
+
+    try:
+        a = float(s)
+    except (TypeError, ValueError):
+        return False
+    else:
+        return True
 
 
 def is_bool(s):
@@ -1030,3 +1094,14 @@ def order_list_numerically(list_to_order):
     """
 
     return sorted(list_to_order, key=lambda key: [int(c) if c.isdigit() else c for c in re.split('([0-9]+)', key)])
+
+
+def index_exists_in_list(items_list, index):
+    """
+    Returns whether or not given index exists in given list
+    :param items_list: list or tuple
+    :param index: int
+    :return: bool
+    """
+
+    return (0 <= index < len(items_list)) or (-len(items_list) <= index < 0)

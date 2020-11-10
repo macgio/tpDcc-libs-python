@@ -15,13 +15,14 @@ import stat
 import json
 import string
 import shutil
+import logging
 import getpass
 import datetime
 import subprocess
 from tempfile import mkstemp
 from shutil import move
 
-from tpDcc.libs import python
+LOGGER = logging.getLogger('tpDcc-libs-python')
 
 
 class FileManager(object):
@@ -992,7 +993,7 @@ def write_replace(file_path, data_to_write):
         try:
             file_handle.write(data_to_write)
         except Exception as exc:
-            python.logger.warning('Could not write: {}'.format(data_to_write))
+            LOGGER.warning('Could not write: {}'.format(data_to_write))
 
 
 def write_lines(file_path, lines, append=False):
